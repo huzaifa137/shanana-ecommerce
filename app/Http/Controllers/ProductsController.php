@@ -436,6 +436,13 @@ class ProductsController extends Controller
                 'message'    => 'Product added to cart.',
                 'cart_count' => $cartCount,
                 'product_id' => $product->id,
+                // Server-rendered mini-cart, fresh off the session we just
+                // wrote. The homepage's #offcanvasCart panel was previously
+                // rendered once at page load and never updated again, so it
+                // kept showing "Your cart is empty" (or stale items) until a
+                // full reload. cart-ajax.js swaps this straight into that
+                // panel so it's correct without a reload.
+                'cart_html'  => view('Ecommerce.partials.mini-cart')->render(),
             ]);
         }
 

@@ -3,10 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Order extends Model
 {
+    // Deleting an order only stamps `deleted_at`; the row and its items stay
+    // in the database (order_items cascade on a *hard* delete), so an admin
+    // mistake can be undone and sales records are never truly lost.
+    use SoftDeletes;
+
     protected $fillable = [
         'order_number', 'user_id', 'guest_name', 'guest_email', 'guest_phone',
         'total_amount', 'status', 'payment_method', 'shipping_info',

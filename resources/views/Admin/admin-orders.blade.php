@@ -35,12 +35,27 @@
                 <div class="card-header">
                     <h3 class="card-title">My Orders</h3>
                 </div>
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible fade show m-3" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="close" data-dismiss="alert" data-bs-dismiss="alert"
+                            aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                @endif
+                @if (session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show m-3" role="alert">
+                        {{ session('error') }}
+                        <button type="button" class="close" data-dismiss="alert" data-bs-dismiss="alert"
+                            aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                @endif
                 <div class="card-body p-0">
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover align-middle">
                             <thead class="table-primary">
                                 <tr>
-                                    <th>ID</th>
+                                    <th>#</th>
+                                    <th>Order No.</th>
                                     <th>Customer</th>
                                     <th>Total</th>
                                     <th>Status</th>
@@ -51,8 +66,9 @@
                             <tbody>
                                 @forelse($orders as $key => $order)
                                     <tr>
-                                        <td style="width: 1px;">{{ $key + 1 }}</td>
-                                        <td>{{ $order->user->first_name ?? 'Guest' }}</td>
+                                        <td style="width: 1px;">{{ $orders->firstItem() + $loop->index }}</td>
+                                        <td class="fw-bold text-nowrap">{{ $order->order_number ?? 'N/A' }}</td>
+                                        <td>{{ $order->customer_name ?: 'Guest' }}</td>
                                         <td>{{ number_format($order->total_amount) }} UGX</td>
                                         <td>
                                             <input type="text" class="form-control" value="{{ ucfirst($order->status) }}"
@@ -64,11 +80,20 @@
                                                 class="btn btn-sm btn-info text-white">
                                                 <i class="fas fa-eye me-1"></i> Details
                                             </a>
+                                            <form action="{{ route('admin.orders.destroy', $order->id) }}"
+                                                method="POST" class="d-inline"
+                                                onsubmit="return confirm('Delete order {{ $order->order_number ?? '#' . $order->id }}? It will be removed from the admin, customer and tracking views.');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger">
+                                                    <i class="fas fa-trash me-1"></i> Delete
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="6">
+                                        <td colspan="7">
                                             <div class="alert alert-warning text-center mb-0">
                                                 <i class="fas fa-exclamation-circle me-2"></i> No orders found.
                                             </div>

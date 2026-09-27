@@ -56,6 +56,20 @@
             });
         }
 
+        // The homepage's cart preview (#offcanvasCart) is only ever rendered
+        // server-side once, at page load, from whatever was in the session
+        // cart at that moment. Without this, opening it after an AJAX add
+        // still showed the old contents (e.g. "Your cart is empty") until a
+        // full page reload re-rendered it. addToCart() now returns a fresh
+        // server-rendered `cart_html` on every add, so just drop it in.
+        function updateMiniCart(html) {
+            if (typeof html === "undefined") return;
+            var body = document.querySelector("#offcanvasCart .offcanvas-body");
+            if (body) {
+                body.innerHTML = html;
+            }
+        }
+
         // Flip a successfully-submitted add-to-cart form into its
         // "In Cart" look, whichever of the card layouts it belongs to.
         function markAsAdded(form) {
@@ -140,6 +154,8 @@
                     if (typeof data.cart_count !== "undefined") {
                         updateCartCount(data.cart_count);
                     }
+
+                    updateMiniCart(data.cart_html);
 
                     notify("success", data.message || "Added to cart!");
                 })

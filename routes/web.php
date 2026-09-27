@@ -97,6 +97,7 @@ Route::controller(OrderController::class)->group(function () {
             Route::get('/admin-orders', 'adminOrders')->name('admin.orders');
             Route::get('/orders/{order}/invoice', 'showInvoice')->name('orders.invoice');
             Route::post('/orders/{order}/status', 'updateStatus')->name('admin.orders.updateStatus');
+            Route::delete('/orders/{order}', 'destroy')->name('admin.orders.destroy');
         });
     });
 

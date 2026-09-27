@@ -52,20 +52,26 @@ use App\Http\Controllers\Helper;
                         <h5 class="card-title text-primary mb-3">Shipping Information</h5>
                         {{-- shipping_info is cast to an array on the Order model,
                              so it arrives already decoded — json_decode() here
-                             was being handed an array instead of a JSON string. --}}
+                             was being handed an array instead of a JSON string.
+
+                             Checkout (OrderController::placeOrder) only ever
+                             stores name, phone, email, address, city and
+                             country — there is no "region" key, so it must
+                             not be read directly; every key is guarded with
+                             `?? 'N/A'` in case older orders are missing one. --}}
                         @php $shipping = (object) ($order->shipping_info ?? []); @endphp
                         <div class="row">
                             <div class="col-md-6">
                                 <ul class="list-unstyled mb-0">
-                                    <li><strong>Name:</strong> {{ $shipping->name }}</li>
-                                    <li><strong>Phone:</strong> {{ $shipping->phone }}</li>
-                                    <li><strong>Email:</strong> {{ $shipping->email }}</li>
+                                    <li><strong>Name:</strong> {{ $shipping->name ?? 'N/A' }}</li>
+                                    <li><strong>Phone:</strong> {{ $shipping->phone ?? 'N/A' }}</li>
+                                    <li><strong>Email:</strong> {{ $shipping->email ?? 'N/A' }}</li>
                                 </ul>
                             </div>
                             <div class="col-md-6">
                                 <ul class="list-unstyled mb-0">
-                                    <li><strong>Address:</strong> {{ $shipping->address }}, {{ $shipping->region }}</li>
-                                    <li><strong>Country:</strong> {{ $shipping->country }}</li>
+                                    <li><strong>Address:</strong> {{ $shipping->address ?? 'N/A' }}, {{ $shipping->city ?? 'N/A' }}</li>
+                                    <li><strong>Country:</strong> {{ $shipping->country ?? 'N/A' }}</li>
                                     <li><strong>Note:</strong> {{ $shipping->note ?? 'N/A' }}</li>
                                 </ul>
                             </div>

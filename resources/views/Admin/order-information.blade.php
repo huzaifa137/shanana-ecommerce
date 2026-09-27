@@ -33,7 +33,7 @@
                 <div class="card shadow-lg border-0 rounded-lg">
                     <div
                         class="card-header bg-primary text-white py-4 px-4 d-flex justify-content-between align-items-center">
-                        <h2 class="mb-0 text-white">Order #{{ $order->id }}</h2>
+                        <h2 class="mb-0 text-white">Order {{ $order->order_number ?? '#' . $order->id }}</h2>
                         <form id="update-status-form" action="{{ route('admin.orders.updateStatus', $order->id) }}"
                             method="POST">
                             @csrf
@@ -53,8 +53,9 @@
                     <div class="card-body p-4">
                         <div class="row mb-4">
                             <div class="col-md-6">
-                                <p class="mb-2"><strong>Customer:</strong> {{ $order->user->first_name ?? 'Guest' }}
-                                    {{ $order->user->last_name ?? '' }}</p>
+                                <p class="mb-2"><strong>Order Number:</strong> <span
+                                        class="fw-bold">{{ $order->order_number ?? 'N/A' }}</span></p>
+                                <p class="mb-2"><strong>Customer:</strong> {{ $order->customer_name ?: 'Guest' }}</p>
                                 <p class="mb-2"><strong>Total Amount:</strong> <span
                                         class="text-success fw-bold">{{ number_format($order->total_amount) }}
                                         UGX</span></p>
@@ -71,24 +72,30 @@
 
                         {{-- shipping_info is cast to an array on the Order model,
                              so it arrives already decoded — json_decode() here
-                             was being handed an array instead of a JSON string. --}}
+                             was being handed an array instead of a JSON string.
+
+                             Checkout (OrderController::placeOrder) only ever
+                             stores name, phone, email, address, city and
+                             country — there is no "region" or "postcode" key,
+                             so those must not be read directly; every key is
+                             guarded with `?? 'N/A'` in case older orders are
+                             missing one. --}}
                         @php $shipping = (object) ($order->shipping_info ?? []); @endphp
 
                         <div class="card bg-light p-3 mb-4 rounded">
                             <div class="row">
                                 <div class="col-md-6">
                                     <ul class="list-unstyled mb-2">
-                                        <li><strong>Name:</strong> {{ $shipping->name }}</li>
-                                        <li><strong>Phone:</strong> {{ $shipping->phone }}</li>
-                                        <li><strong>Email:</strong> {{ $shipping->email }}</li>
+                                        <li><strong>Name:</strong> {{ $shipping->name ?? 'N/A' }}</li>
+                                        <li><strong>Phone:</strong> {{ $shipping->phone ?? 'N/A' }}</li>
+                                        <li><strong>Email:</strong> {{ $shipping->email ?? 'N/A' }}</li>
                                     </ul>
                                 </div>
                                 <div class="col-md-6">
                                     <ul class="list-unstyled mb-2">
-                                        <li><strong>Address:</strong> {{ $shipping->address }}, {{ $shipping->region }}
+                                        <li><strong>Address:</strong> {{ $shipping->address ?? 'N/A' }}, {{ $shipping->city ?? 'N/A' }}
                                         </li>
-                                        <li><strong>Country:</strong> {{ $shipping->country }}</li>
-                                        <li><strong>Postcode:</strong> {{ $shipping->postcode }}</li>
+                                        <li><strong>Country:</strong> {{ $shipping->country ?? 'N/A' }}</li>
                                     </ul>
                                 </div>
                             </div>

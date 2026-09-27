@@ -206,6 +206,20 @@ class OrderController extends Controller
         return back()->with('success', 'Order status updated!');
     }
 
+    public function destroy(Order $order)
+    {
+        $number = $order->order_number ?? '#' . $order->id;
+
+        try {
+            $order->delete(); // soft delete — see SoftDeletes on the Order model
+        } catch (\Exception $e) {
+            report($e);
+            return redirect()->route('admin.orders')->with('error', "Could not delete order {$number}.");
+        }
+
+        return redirect()->route('admin.orders')->with('success', "Order {$number} deleted.");
+    }
+
     public function showOrderinformation($id)
     {
         $order = Order::with(['user', 'items.product'])->findOrFail($id);
