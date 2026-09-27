@@ -100,9 +100,13 @@
             var button = form.querySelector('button[type="submit"], a.modern-add-btn');
             var originalHtml = button ? button.innerHTML : "";
 
-            // Disable everything in the form (quantity input included) so a
-            // second click can't fire a duplicate request while this one is
-            // still pending.
+            // Snapshot FormData BEFORE disabling any fields.
+            // Disabled inputs are excluded from FormData serialisation, so if
+            // we disable first (to block double-clicks) the CSRF _token field
+            // disappears from the payload → Laravel returns 419 → "Request failed".
+            var formData = new FormData(form);
+
+            // Now it is safe to lock the form — the payload is already captured.
             form.querySelectorAll("input, button").forEach(function (el) {
                 el.disabled = true;
             });
@@ -116,7 +120,7 @@
 
             fetch(form.getAttribute("action"), {
                 method: "POST",
-                body: new FormData(form),
+                body: formData,
                 headers: {
                     "X-Requested-With": "XMLHttpRequest",
                     Accept: "application/json",

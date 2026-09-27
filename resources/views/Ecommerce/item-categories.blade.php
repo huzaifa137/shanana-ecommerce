@@ -128,7 +128,7 @@ use App\Http\Controllers\Helper;
                                                 <span class="text-primary fw-semibold" style="font-size: 14px;">
                                                     UGX {{ number_format($featuredProduct->sale_price) }}/=
                                                 </span>
-                                                <span class="text-muted text-decoration-line-through"
+                                                <span class="text-decoration-line-through" style="color:#E30048;"
                                                     style="font-size: 13px;">
                                                     UGX {{ number_format($featuredProduct->price) }}/=
                                                 </span>

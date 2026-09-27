@@ -1,0 +1,646 @@
+diff --git a/app/Http/Controllers/MasterController.php b/app/Http/Controllers/MasterController.php
+index 266ef9b..1c153a3 100644
+--- a/app/Http/Controllers/MasterController.php
++++ b/app/Http/Controllers/MasterController.php
+@@ -210,9 +210,9 @@ public function storeUserInformation(Request $request)
+         $validator = Validator::make($request->all(), [
+             'firstName' => 'required|string|max:255',
+             'lastName' => 'required|string|max:255',
+-            'mobile' => 'required|string|max:20',
++            'mobile' => 'required|string|max:20|unique:users,mobile',
+             'email' => [
+-                'required',
++                'nullable',
+                 'email',
+                 'unique:users,email',
+                 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
+@@ -243,7 +243,7 @@ public function storeUserInformation(Request $request)
+             'password' => Hash::make($password),
+         ]);
+ 
+-        $user = DB::table('users')->where('email', $request->email)->first();
++        $user = DB::table('users')->where('mobile', $request->input('mobile'))->first();
+         $userRole = $user->user_role;
+         $userId = $user->id;
+ 
+@@ -256,13 +256,15 @@ public function storeUserInformation(Request $request)
+             'title' => 'Shanana Beauty Products - User Account has been created successfully.',
+         ];
+ 
+-        try {
+-            Mail::send('emails.user-account-created', $data, function ($message) use ($data) {
+-                $message->to($data['email'])->subject($data['title']);
+-            });
+-        } catch (Exception $e) {
+-            DB::table('users')->where('email', $user->email)->delete();
+-            return back()->with('error', 'Email Not, Check Internet or re-register');
++        if (!empty($data['email'])) {
++            try {
++                Mail::send('emails.user-account-created', $data, function ($message) use ($data) {
++                    $message->to($data['email'])->subject($data['title']);
++                });
++            } catch (\Exception $e) {
++                // Welcome email failed — account is still created; non-fatal.
++                report($e);
++            }
+         }
+ 
+         if ($userRole != 1) {
+@@ -305,11 +307,7 @@ public function userloginCredentials(Request $request)
+     {
+ 
+         $validator = Validator::make($request->all(), [
+-            'email' => [
+-                'required',
+-                'email',
+-                'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
+-            ],
++            'phone'    => ['required', 'string', 'max:20'],
+             'password' => 'required',
+         ]);
+ 
+@@ -317,18 +315,18 @@ public function userloginCredentials(Request $request)
+             return response()->json(['errors' => $validator->errors()], 422);
+         }
+ 
+-        $userInfo = User::where('email', '=', $request->email)->first();
++        $userInfo = User::where('mobile', $request->phone)->first();
+ 
+         if (!$userInfo) {
+             return response()->json([
+                 'status' => false,
+-                'message' => 'Incorrect password or Email being entered',
++                'message' => 'Incorrect phone number or password.',
+             ], 401);
+ 
+         } else {
+             if (Hash::check($request->password, $userInfo->password)) {
+ 
+-                $user = DB::table('users')->where('email', $request->email)->first();
++                $user = DB::table('users')->where('mobile', $request->phone)->first();
+                 $userRole = $user->user_role;
+                 $userId = $user->id;
+ 
+@@ -381,7 +379,7 @@ public function updateProfile(Request $request)
+         $request->validate([
+             'firstName' => 'required|string|max:255',
+             'lastName' => 'required|string|max:255',
+-            'email' => 'required|email',
++            'email' => 'nullable|email',
+             'companyName' => 'required|string',
+             'address' => 'required|string',
+             'city' => 'required|string',
+@@ -435,23 +433,37 @@ public function createNewPassword($id)
+ 
+     public function generateForgotPasswordLink(Request $request)
+     {
+-        $email = $request->email;
++        $phone = $request->input('phone');
+ 
+-        $user = User::where('email', $email)->first();
++        $user = User::where('mobile', $phone)->first();
+ 
+         if (!$user) {
+             if ($request->ajax()) {
+                 return response()->json([
+                     'status' => false,
+-                    'message' => 'The email provided is not registered in the system.',
++                    'message' => 'No account is registered with that phone number.',
+                 ], 401);
+             }
+ 
+-            return back()->withInput()->with('fail', 'The email provided is not registered in the system.');
++            return back()->withInput()->with('fail', 'No account is registered with that phone number.');
+         }
+ 
++        // If the account has no email we cannot send a reset link.
++        if (empty($user->email)) {
++            if ($request->ajax()) {
++                return response()->json([
++                    'status' => false,
++                    'message' => 'This account has no email address. Please contact support to reset your password.',
++                ], 422);
++            }
++
++            return back()->withInput()->with('fail', 'This account has no email address. Please contact support to reset your password.');
++        }
++
++        $email = $user->email;
++
+         $username = DB::table('users')
+-            ->where('email', $email)
++            ->where('mobile', $phone)
+             ->value(DB::raw("CONCAT(first_name, ' ', last_name) AS fullname"));
+ 
+         $token = Str::random(60);
+@@ -478,11 +490,11 @@ public function generateForgotPasswordLink(Request $request)
+         if ($request->ajax()) {
+             return response()->json([
+                 'status' => true,
+-                'message' => 'Reset link sent successfully to: ' . $email,
++                'message' => 'A password reset link has been sent to your registered email address.',
+             ]);
+         }
+ 
+-        return back()->with('success', 'Link has been sent to your email: ' . $email);
++        return back()->with('success', 'A password reset link has been sent to your registered email address.');
+     }
+ 
+     public function store_new_password(Request $request)
+diff --git a/app/Http/Controllers/OrderController.php b/app/Http/Controllers/OrderController.php
+index 9fe1fb4..ad05333 100644
+--- a/app/Http/Controllers/OrderController.php
++++ b/app/Http/Controllers/OrderController.php
+@@ -32,7 +32,7 @@ public function placeOrder(Request $request)
+ 
+         $validated = $request->validate([
+             'full_name' => ['required', 'string', 'max:255'],
+-            'email'     => ['required', 'email', 'max:255'],
++            'email'     => ['nullable', 'email', 'max:255'],
+             'phone'     => ['required', 'string', 'max:30'],
+             'address'   => ['required', 'string', 'max:255'],
+             'city'      => ['required', 'string', 'max:255'],
+@@ -91,8 +91,12 @@ public function placeOrder(Request $request)
+                     $user = User::find($customerId);
+                     $user?->notify(new NewOrderNotification($order));
+                 } else {
+-                    Notification::route('mail', $order->guest_email)
+-                        ->notify(new NewOrderNotification($order));
++                    // Guest has no account; route notification to their email
++                    // when they provided one, otherwise skip the mail notification.
++                    if (!empty($order->guest_email)) {
++                        Notification::route('mail', $order->guest_email)
++                            ->notify(new NewOrderNotification($order));
++                    }
+                 }
+ 
+                 $admins = User::where('user_role', '!=', '1')->get(); // Adjust based on your role system
+@@ -106,7 +110,7 @@ public function placeOrder(Request $request)
+             return redirect()->back()->with(
+                 'success',
+                 "Order placed successfully! Your order number is {$order->order_number}. " .
+-                'Keep it (with the email you used) to track your order.'
++                'Keep it (with the phone number you used) to track your order.'
+             );
+ 
+         } catch (\Exception $e) {
+@@ -122,12 +126,12 @@ public function trackOrderForm(Request $request)
+     {
+         $order = null;
+ 
+-        if ($request->filled('order_number') && $request->filled('email')) {
+-            $order = $this->findTrackableOrder($request->input('order_number'), $request->input('email'));
++        if ($request->filled('order_number') && $request->filled('phone')) {
++            $order = $this->findTrackableOrder($request->input('order_number'), $request->input('phone'));
+ 
+             if (! $order) {
+                 return view('Ecommerce.track-order', ['order' => null])
+-                    ->with('error', 'We could not find an order with that order number and email combination.');
++                    ->with('error', 'We could not find an order with that order number and phone number combination.');
+             }
+         }
+ 
+@@ -141,12 +145,12 @@ public function trackOrder(Request $request)
+     {
+         $request->validate([
+             'order_number' => ['required', 'string'],
+-            'email'        => ['required', 'email'],
++            'phone'        => ['required', 'string'],
+         ]);
+ 
+         return redirect()->route('order.track', [
+             'order_number' => $request->input('order_number'),
+-            'email'        => $request->input('email'),
++            'phone'        => $request->input('phone'),
+         ]);
+     }
+ 
+@@ -155,14 +159,14 @@ public function trackOrder(Request $request)
+      * guest checkout or an order placed by a logged-in customer, so
+      * the same tracking form works for both.
+      */
+-    protected function findTrackableOrder(string $orderNumber, string $email)
++    protected function findTrackableOrder(string $orderNumber, string $phone)
+     {
+         return Order::with('items.product')
+             ->where('order_number', $orderNumber)
+-            ->where(function ($query) use ($email) {
+-                $query->where('guest_email', $email)
+-                    ->orWhereHas('user', function ($userQuery) use ($email) {
+-                        $userQuery->where('email', $email);
++            ->where(function ($query) use ($phone) {
++                $query->where('guest_phone', $phone)
++                    ->orWhereHas('user', function ($userQuery) use ($phone) {
++                        $userQuery->where('mobile', $phone);
+                     });
+             })
+             ->first();
+diff --git a/public/assets/js/cart-ajax.js b/public/assets/js/cart-ajax.js
+index 2bb886c..1d89534 100644
+--- a/public/assets/js/cart-ajax.js
++++ b/public/assets/js/cart-ajax.js
+@@ -100,9 +100,13 @@
+             var button = form.querySelector('button[type="submit"], a.modern-add-btn');
+             var originalHtml = button ? button.innerHTML : "";
+ 
+-            // Disable everything in the form (quantity input included) so a
+-            // second click can't fire a duplicate request while this one is
+-            // still pending.
++            // Snapshot FormData BEFORE disabling any fields.
++            // Disabled inputs are excluded from FormData serialisation, so if
++            // we disable first (to block double-clicks) the CSRF _token field
++            // disappears from the payload → Laravel returns 419 → "Request failed".
++            var formData = new FormData(form);
++
++            // Now it is safe to lock the form — the payload is already captured.
+             form.querySelectorAll("input, button").forEach(function (el) {
+                 el.disabled = true;
+             });
+@@ -116,7 +120,7 @@
+ 
+             fetch(form.getAttribute("action"), {
+                 method: "POST",
+-                body: new FormData(form),
++                body: formData,
+                 headers: {
+                     "X-Requested-With": "XMLHttpRequest",
+                     Accept: "application/json",
+diff --git a/resources/views/Ecommerce/item-categories.blade.php b/resources/views/Ecommerce/item-categories.blade.php
+index f87d2f1..86b4e31 100644
+--- a/resources/views/Ecommerce/item-categories.blade.php
++++ b/resources/views/Ecommerce/item-categories.blade.php
+@@ -128,7 +128,7 @@ class="img-fluid rounded border"
+                                                 <span class="text-primary fw-semibold" style="font-size: 14px;">
+                                                     UGX {{ number_format($featuredProduct->sale_price) }}/=
+                                                 </span>
+-                                                <span class="text-muted text-decoration-line-through"
++                                                <span class="text-decoration-line-through" style="color:#E30048;"
+                                                     style="font-size: 13px;">
+                                                     UGX {{ number_format($featuredProduct->price) }}/=
+                                                 </span>
+diff --git a/resources/views/Ecommerce/item-checkout.blade.php b/resources/views/Ecommerce/item-checkout.blade.php
+index d838cc6..0622a9f 100644
+--- a/resources/views/Ecommerce/item-checkout.blade.php
++++ b/resources/views/Ecommerce/item-checkout.blade.php
+@@ -107,9 +107,9 @@ class="img-fluid" style="max-width: 70px; height: auto;" alt="">
+                             required>
+                     </div>
+                     <div class="form-item">
+-                        <label class="form-label my-3">Email Address<sup>*</sup></label>
++                        <label class="form-label my-3">Email Address <span class="text-muted" style="font-size:.85em;">(optional)</span></label>
+                         <input type="email" name="email" class="form-control"
+-                            value="{{ old('email', $user->email ?? '') }}" required>
++                            value="{{ old('email', $user->email ?? '') }}">
+                     </div>
+                     <div class="form-item">
+                         <label class="form-label my-3">Mobile<sup>*</sup></label>
+diff --git a/resources/views/Ecommerce/item-shop.blade.php b/resources/views/Ecommerce/item-shop.blade.php
+index 450a67d..962c128 100644
+--- a/resources/views/Ecommerce/item-shop.blade.php
++++ b/resources/views/Ecommerce/item-shop.blade.php
+@@ -123,7 +123,7 @@ class="img-fluid rounded border" alt="{{ $featuredProduct->product_name }}"
+                                                 <span class="text-primary fw-semibold" style="font-size: 14px;">
+                                                     UGX {{ number_format($featuredProduct->sale_price) }}/=
+                                                 </span>
+-                                                <span class="text-muted text-decoration-line-through"
++                                                <span class="text-decoration-line-through" style="color:#E30048;"
+                                                     style="font-size: 13px;">
+                                                     UGX {{ number_format($featuredProduct->price) }}/=
+                                                 </span>
+diff --git a/resources/views/Ecommerce/partials/product_cards.blade.php b/resources/views/Ecommerce/partials/product_cards.blade.php
+index 231a524..2cbd5f8 100644
+--- a/resources/views/Ecommerce/partials/product_cards.blade.php
++++ b/resources/views/Ecommerce/partials/product_cards.blade.php
+@@ -247,7 +247,7 @@
+         }
+ 
+         .modern-price-old {
+-            color: #b7a5ad;
++            color: #E30048;
+             font-size: .72rem;
+         }
+ 
+diff --git a/resources/views/Ecommerce/product-item.blade.php b/resources/views/Ecommerce/product-item.blade.php
+index 1ef75ea..4995ac4 100644
+--- a/resources/views/Ecommerce/product-item.blade.php
++++ b/resources/views/Ecommerce/product-item.blade.php
+@@ -440,7 +440,7 @@ class="img-fluid rounded border" alt="{{ $featuredProduct->product_name }}"
+                                         <span class="text-primary fw-semibold" style="font-size: 14px;">
+                                             UGX {{ number_format($featuredProduct->sale_price) }}/=
+                                         </span>
+-                                        <span class="text-muted text-decoration-line-through"
++                                        <span class="text-decoration-line-through" style="color:#E30048;"
+                                             style="font-size: 13px;">
+                                             UGX {{ number_format($featuredProduct->price) }}/=
+                                         </span>
+diff --git a/resources/views/Ecommerce/track-order.blade.php b/resources/views/Ecommerce/track-order.blade.php
+index 4c81d59..66058a8 100644
+--- a/resources/views/Ecommerce/track-order.blade.php
++++ b/resources/views/Ecommerce/track-order.blade.php
+@@ -17,7 +17,7 @@
+             <div class="col-md-8 col-lg-6">
+                 <p class="text-muted mb-4">
+                     No account needed — enter the order number you were given at checkout together with the
+-                    email address you used to place the order.
++                    phone number you used to place the order.
+                 </p>
+ 
+                 @if (session('error') || ($errors->any()))
+@@ -38,9 +38,9 @@
+                             required>
+                     </div>
+                     <div class="form-item mb-4">
+-                        <label class="form-label">Email Address<sup>*</sup></label>
+-                        <input type="email" name="email" class="form-control"
+-                            value="{{ old('email', request('email')) }}" placeholder="you@example.com" required>
++                        <label class="form-label">Phone Number<sup>*</sup></label>
++                        <input type="tel" name="phone" class="form-control"
++                            value="{{ old('phone', request('phone')) }}" placeholder="e.g. 0712345678" required>
+                     </div>
+                     <button type="submit" class="btn btn-primary rounded-pill px-4">Track Order</button>
+                 </form>
+@@ -57,7 +57,7 @@
+                         </div>
+ 
+                         <p class="mb-1"><strong>Name:</strong> {{ $order->customer_name }}</p>
+-                        <p class="mb-1"><strong>Email:</strong> {{ $order->customer_email }}</p>
++                        <p class="mb-1"><strong>Phone:</strong> {{ $order->customer_phone }}</p>
+                         <p class="mb-3"><strong>Placed:</strong> {{ $order->created_at->format('d M Y, H:i') }}</p>
+ 
+                         <div class="table-responsive">
+diff --git a/resources/views/Ecommerce/user-forgot-password.blade.php b/resources/views/Ecommerce/user-forgot-password.blade.php
+index 6147d56..ef317bf 100644
+--- a/resources/views/Ecommerce/user-forgot-password.blade.php
++++ b/resources/views/Ecommerce/user-forgot-password.blade.php
+@@ -14,7 +14,7 @@
+         <div class="row justify-content-center">
+             <div class="col-md-6 col-lg-8">
+                 <h1 class="text-center">Forgot Password</h1>
+-                <p class="text-center">Please enter your registered email we send a link to reset your password</p>
++                <p class="text-center">Please enter your registered phone number. If your account has an email address, we'll send a reset link to it.</p>
+                 <form id="loginForm" action="{{ url('user-generate-forgot-password-link') }}"
+                     class="p-4 rounded shadow bg-white" method="POST">
+                     @csrf
+@@ -28,8 +28,8 @@ class="p-4 rounded shadow bg-white" method="POST">
+                     @endif
+ 
+                     <div class="mb-3">
+-                        <input type="email" name="email" id="loginEmail" class="form-control"
+-                            placeholder="Enter email">
++                        <input type="tel" name="phone" id="loginPhone" class="form-control"
++                            placeholder="Enter your phone number (e.g. 0712345678)">
+                     </div>
+ 
+                     <div class="d-grid">
+@@ -63,23 +63,23 @@ class="p-4 rounded shadow bg-white" method="POST">
+         $('#loginForm').on('submit', function(e) {
+             e.preventDefault();
+ 
+-            const email = $('#loginEmail').val().trim();
++            const phone = $('#loginPhone').val().trim();
+ 
+-            if (!email) {
++            if (!phone) {
+                 Swal.fire({
+                     icon: 'error',
+                     title: 'Required Field',
+-                    text: 'Please enter your email address.',
++                    text: 'Please enter your phone number.',
+                     confirmButtonText: 'OK'
+                 });
+                 return;
+             }
+ 
+-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
++            if (!/^[0-9+\s\-()]{7,20}$/.test(phone)) {
+                 Swal.fire({
+                     icon: 'error',
+-                    title: 'Invalid Email',
+-                    text: 'Please enter a valid email address.',
++                    title: 'Invalid Phone Number',
++                    text: 'Please enter a valid phone number.',
+                     confirmButtonText: 'OK'
+                 });
+                 return;
+@@ -106,7 +106,7 @@ class="p-4 rounded shadow bg-white" method="POST">
+                         type: "POST",
+                         url: $('#loginForm').attr('action'),
+                         data: {
+-                            email: email,
++                            phone: phone,
+                             _token: $('input[name="_token"]').val()
+                         },
+                         success: function(response) {
+diff --git a/resources/views/Ecommerce/user-login.blade.php b/resources/views/Ecommerce/user-login.blade.php
+index f20c3a3..56c59e6 100644
+--- a/resources/views/Ecommerce/user-login.blade.php
++++ b/resources/views/Ecommerce/user-login.blade.php
+@@ -26,7 +26,7 @@
+                     @endif
+ 
+                     <div class="mb-3">
+-                        <input type="email" id="loginEmail" class="form-control" placeholder="Enter email">
++                        <input type="tel" id="loginPhone" class="form-control" placeholder="Enter phone number (e.g. 0712345678)">
+                     </div>
+                     <div class="mb-3 position-relative">
+                         <input type="password" id="loginPassword" class="form-control" placeholder="Enter password">
+@@ -85,18 +85,18 @@ class="bi bi-check-circle"></i> Login</button>
+             loginBtn.prop('disabled', true).html(
+                 'Logging in... <i class="fas fa-spinner fa-spin"></i>');
+ 
+-            const email = $('#loginEmail').val().trim();
++            const phone = $('#loginPhone').val().trim();
+             const password = $('#loginPassword').val().trim();
+             let errors = [];
+ 
+-            if (!email) {
+-                $('#loginEmail').addClass('is-invalid');
+-                errors.push('Email is required.');
+-            } else if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+-                $('#loginEmail').addClass('is-invalid');
+-                errors.push('Enter a valid email address.');
++            if (!phone) {
++                $('#loginPhone').addClass('is-invalid');
++                errors.push('Phone number is required.');
++            } else if (!/^[0-9+\s\-()]{7,20}$/.test(phone)) {
++                $('#loginPhone').addClass('is-invalid');
++                errors.push('Enter a valid phone number.');
+             } else {
+-                $('#loginEmail').removeClass('is-invalid');
++                $('#loginPhone').removeClass('is-invalid');
+             }
+ 
+             if (!password) {
+@@ -120,7 +120,7 @@ class="bi bi-check-circle"></i> Login</button>
+                 type: 'POST',
+                 url: '/user-login-credentials',
+                 data: {
+-                    email: email,
++                    phone: phone,
+                     password: password,
+                     _token: $('meta[name="csrf-token"]').attr('content')
+                 },
+@@ -141,10 +141,10 @@ class="bi bi-check-circle"></i> Login</button>
+                 error: function(xhr) {
+                     loginBtn.prop('disabled', false).html('Login');
+ 
+-                    let message = 'Invalid email or password.';
++                    let message = 'Incorrect phone number or password.';
+ 
+                     if (xhr.status === 401) {
+-                        message = 'Invalid email or password.';
++                        message = 'Incorrect phone number or password.';
+                     } else if (xhr.responseJSON?.message) {
+                         message = xhr.responseJSON.message;
+                     }
+diff --git a/resources/views/Ecommerce/user-profile.blade.php b/resources/views/Ecommerce/user-profile.blade.php
+index c0460ec..0ec63f2 100644
+--- a/resources/views/Ecommerce/user-profile.blade.php
++++ b/resources/views/Ecommerce/user-profile.blade.php
+@@ -43,7 +43,7 @@
+                             </div>
+ 
+                             <div class="form-item">
+-                                <label class="form-label my-3" for="email">Email Address</label>
++                                <label class="form-label my-3" for="email">Email Address <span class="text-muted fw-normal" style="font-size:.85em;">(optional)</span></label>
+                                 <input type="email" class="form-control" id="email" name="email"
+                                     value="{{ old('email', $customer->email) }}">
+                             </div>
+@@ -386,7 +386,7 @@ class="form-control">
+                     name: 'Last Name'
+                 },
+                 {
+-                    id: 'email',
++                    // id: 'email',  // optional — not required
+                     name: 'Email'
+                 },
+                 {
+@@ -426,21 +426,12 @@ class="form-control">
+                 }
+             });
+ 
++            // Email is optional; validate format only when a value is entered.
+             const email = $('#email').val().trim();
+-            let emailError = '';
+-
+-            if (email) {
+-                if (!email.includes('@')) {
+-                    emailError = 'Email must include "@" symbol';
+-                } else if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+-                    emailError = 'Email must have a valid domain (e.g. example@domain.com)';
+-                }
+-            }
+-
+-            if (emailError) {
++            if (email && !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+                 isValid = false;
+                 $('#email').addClass('is-invalid');
+-                missingFields.push(emailError);
++                missingFields.push('Email must be a valid address (e.g. example@domain.com)');
+             }
+ 
+             const password = $('#passwordInput').val().trim();
+diff --git a/resources/views/Ecommerce/user-register.blade.php b/resources/views/Ecommerce/user-register.blade.php
+index 13fc723..b494057 100644
+--- a/resources/views/Ecommerce/user-register.blade.php
++++ b/resources/views/Ecommerce/user-register.blade.php
+@@ -33,7 +33,7 @@
+                         </div>
+ 
+                         <div class="form-item">
+-                            <label class="form-label my-3" for="email">Email Address</label>
++                            <label class="form-label my-3" for="email">Email Address <span class="text-muted fw-normal" style="font-size:.85em;">(optional — used for order updates)</span></label>
+                             <input type="email" class="form-control" id="email">
+                         </div>
+ 
+@@ -140,10 +140,6 @@
+                 id: 'lastName',
+                 name: 'Last Name'
+             },
+-            {
+-                id: 'email',
+-                name: 'Email'
+-            },
+             {
+                 id: 'mobile',
+                 name: 'Mobile'
+@@ -169,23 +165,16 @@
+                 }
+             });
+ 
++            // Email is optional; validate format only when a value is entered.
+             const email = $('#email').val().trim();
+-            let emailError = '';
+-
+             if (email) {
+-                if (!email.includes('@')) {
+-                    emailError = 'Email must include "@" symbol';
+-                } else if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+-                    emailError = 'Email must have a valid domain (e.g. example@domain.com)';
++                if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
++                    isValid = false;
++                    $('#email').addClass('is-invalid');
++                    missingFields.push('Email must be a valid address (e.g. example@domain.com)');
+                 }
+             }
+ 
+-            if (emailError) {
+-                isValid = false;
+-                $('#email').addClass('is-invalid');
+-                missingFields.push(emailError);
+-            }
+-
+             const password = $('#passwordInput').val().trim();
+             const confirmPassword = $('#confirmpasswordInput').val().trim();
+ 
+diff --git a/database/migrations/2026_09_28_000001_phone_based_auth_and_tracking.php b/database/migrations/2026_09_28_000001_phone_based_auth_and_tracking.php
+new file mode 100644
+index 0000000..70802d3
+--- /dev/null
++++ b/database/migrations/2026_09_28_000001_phone_based_auth_and_tracking.php
+@@ -0,0 +1,45 @@
++<?php
++
++use Illuminate\Database\Migrations\Migration;
++use Illuminate\Database\Schema\Blueprint;
++use Illuminate\Support\Facades\Schema;
++
++return new class extends Migration
++{
++    /**
++     * Switch authentication and order-tracking from email to phone.
++     *
++     * - users.mobile becomes required and unique (login key).
++     * - users.email becomes nullable (still stored when provided,
++     *   used for welcome/reset emails, but no longer the login key).
++     * - orders gets a composite index on (order_number, guest_phone)
++     *   to make phone-based tracking look-ups fast.
++     */
++    public function up(): void
++    {
++        Schema::table('users', function (Blueprint $table) {
++            // Remove the old unique constraint on email so it can be nullable.
++            $table->string('email')->nullable()->change();
++
++            // mobile is now the login key — must be unique and present.
++            $table->string('mobile')->nullable(false)->unique()->change();
++        });
++
++        Schema::table('orders', function (Blueprint $table) {
++            $table->index(['order_number', 'guest_phone'], 'orders_number_phone_index');
++        });
++    }
++
++    public function down(): void
++    {
++        Schema::table('orders', function (Blueprint $table) {
++            $table->dropIndex('orders_number_phone_index');
++        });
++
++        Schema::table('users', function (Blueprint $table) {
++            $table->string('email')->nullable(false)->change();
++            $table->string('mobile')->nullable()->change();
++            $table->dropUnique(['mobile']);
++        });
++    }
++};

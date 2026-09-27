@@ -42,7 +42,7 @@
                         <input type="email" name="email" class="form-control"
                             value="{{ old('email', request('email')) }}" placeholder="you@example.com" required>
                     </div>
-                    <button type="submit" class="btn btn-primary rounded-pill px-4">Track Order</button>
+                    <button type="submit" class="btn btn-primary rounded-pill px-4 text-white">Track Order</button>
                 </form>
             </div>
         </div>

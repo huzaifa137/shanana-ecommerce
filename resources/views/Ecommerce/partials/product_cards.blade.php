@@ -247,7 +247,7 @@
         }
 
         .modern-price-old {
-            color: #b7a5ad;
+            color: #E30048;
             font-size: .72rem;
         }
 
