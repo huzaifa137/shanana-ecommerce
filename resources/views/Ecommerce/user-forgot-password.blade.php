@@ -14,7 +14,7 @@
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-8">
                 <h1 class="text-center">Forgot Password</h1>
-                <p class="text-center">Please enter your registered email we send a link to reset your password</p>
+                <p class="text-center">Please enter your registered phone number. If your account has an email address, we'll send a reset link to it.</p>
                 <form id="loginForm" action="{{ url('user-generate-forgot-password-link') }}"
                     class="p-4 rounded shadow bg-white" method="POST">
                     @csrf
@@ -28,8 +28,8 @@
                     @endif
 
                     <div class="mb-3">
-                        <input type="email" name="email" id="loginEmail" class="form-control"
-                            placeholder="Enter email">
+                        <input type="tel" name="phone" id="loginPhone" class="form-control"
+                            placeholder="Enter your phone number (e.g. 0712345678)">
                     </div>
 
                     <div class="d-grid">
@@ -63,23 +63,23 @@
         $('#loginForm').on('submit', function(e) {
             e.preventDefault();
 
-            const email = $('#loginEmail').val().trim();
+            const phone = $('#loginPhone').val().trim();
 
-            if (!email) {
+            if (!phone) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Required Field',
-                    text: 'Please enter your email address.',
+                    text: 'Please enter your phone number.',
                     confirmButtonText: 'OK'
                 });
                 return;
             }
 
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            if (!/^[0-9+\s\-()]{7,20}$/.test(phone)) {
                 Swal.fire({
                     icon: 'error',
-                    title: 'Invalid Email',
-                    text: 'Please enter a valid email address.',
+                    title: 'Invalid Phone Number',
+                    text: 'Please enter a valid phone number.',
                     confirmButtonText: 'OK'
                 });
                 return;
@@ -106,7 +106,7 @@
                         type: "POST",
                         url: $('#loginForm').attr('action'),
                         data: {
-                            email: email,
+                            phone: phone,
                             _token: $('input[name="_token"]').val()
                         },
                         success: function(response) {

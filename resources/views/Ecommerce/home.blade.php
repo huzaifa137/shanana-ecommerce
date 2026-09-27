@@ -605,6 +605,9 @@ use App\Http\Controllers\Helper;
                             </a>
                         </li>
                         <li class="nav-item active">
+                            <a href="{{ route('order.track') }}" class="nav-link">Track Order</a>
+                        </li>
+                        <li class="nav-item active">
                             <a href="{{ url('/contact-us') }}" class="nav-link">Contact Us</a>
                         </li>
                         @if (!Session::has('LoggedCustomer') && !Session::has('LoggedAdmin'))
@@ -2204,4 +2207,27 @@ use App\Http\Controllers\Helper;
          so it doesn't get these from layouts/footer.blade.php). -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/assets/js/cart-ajax.js"></script>
+
+    <!-- Back to Top (this page has its own layout, so it doesn't inherit
+         the one from layouts/footer.blade.php like the other pages do). -->
+    <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top-home"
+        style="position:fixed; right:30px; bottom:30px; display:none; width:45px; height:45px;
+               align-items:center; justify-content:center; z-index:99;">
+        <i class="fa fa-arrow-up"></i>
+    </a>
+    <script>
+        (function() {
+            var btn = document.querySelector('.back-to-top-home');
+            window.addEventListener('scroll', function() {
+                btn.style.display = window.scrollY > 300 ? 'flex' : 'none';
+            });
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        })();
+    </script>
 </body>

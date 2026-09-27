@@ -241,7 +241,6 @@ class ProductsController extends Controller
         $request->validate([
             'product_id' => 'required|exists:products,id',
             'name'       => 'required|string|max:255',
-            'email'      => 'required|email|max:255',
             'rating'     => 'required|integer|min:1|max:5',
             'message'    => 'required|string',
             'date'       => 'required|date',
@@ -249,9 +248,11 @@ class ProductsController extends Controller
 
         $customer = User::where('id', Session('LoggedCustomer'))->first();
 
-        // Check for existing review
+        // Identify the customer by mobile — every account has one (unique,
+        // required), whereas email is now optional and would silently fail
+        // to catch duplicates for mobile-only accounts.
         $existingReview = ProductReview::where('product_id', $request->product_id)
-            ->where('reviewer_email', $customer->email)
+            ->where('reviewer_phone', $customer->mobile)
             ->first();
 
         if ($existingReview) {
@@ -264,6 +265,7 @@ class ProductsController extends Controller
             'product_id'     => $request->product_id,
             'reviewer_name'  => $request->name,
             'reviewer_email' => $customer->email,
+            'reviewer_phone' => $customer->mobile,
             'rating'         => $request->rating,
             'review_message' => $request->message,
             'review_date'    => $request->date,

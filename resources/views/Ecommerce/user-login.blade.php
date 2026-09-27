@@ -26,7 +26,7 @@
                     @endif
 
                     <div class="mb-3">
-                        <input type="email" id="loginEmail" class="form-control" placeholder="Enter email">
+                        <input type="tel" id="loginPhone" class="form-control" placeholder="Enter phone number (e.g. 0712345678)">
                     </div>
                     <div class="mb-3 position-relative">
                         <input type="password" id="loginPassword" class="form-control" placeholder="Enter password">
@@ -85,18 +85,18 @@
             loginBtn.prop('disabled', true).html(
                 'Logging in... <i class="fas fa-spinner fa-spin"></i>');
 
-            const email = $('#loginEmail').val().trim();
+            const phone = $('#loginPhone').val().trim();
             const password = $('#loginPassword').val().trim();
             let errors = [];
 
-            if (!email) {
-                $('#loginEmail').addClass('is-invalid');
-                errors.push('Email is required.');
-            } else if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-                $('#loginEmail').addClass('is-invalid');
-                errors.push('Enter a valid email address.');
+            if (!phone) {
+                $('#loginPhone').addClass('is-invalid');
+                errors.push('Phone number is required.');
+            } else if (!/^[0-9+\s\-()]{7,20}$/.test(phone)) {
+                $('#loginPhone').addClass('is-invalid');
+                errors.push('Enter a valid phone number.');
             } else {
-                $('#loginEmail').removeClass('is-invalid');
+                $('#loginPhone').removeClass('is-invalid');
             }
 
             if (!password) {
@@ -120,7 +120,7 @@
                 type: 'POST',
                 url: '/user-login-credentials',
                 data: {
-                    email: email,
+                    phone: phone,
                     password: password,
                     _token: $('meta[name="csrf-token"]').attr('content')
                 },
@@ -141,10 +141,10 @@
                 error: function(xhr) {
                     loginBtn.prop('disabled', false).html('Login');
 
-                    let message = 'Invalid email or password.';
+                    let message = 'Incorrect phone number or password.';
 
                     if (xhr.status === 401) {
-                        message = 'Invalid email or password.';
+                        message = 'Incorrect phone number or password.';
                     } else if (xhr.responseJSON?.message) {
                         message = xhr.responseJSON.message;
                     }

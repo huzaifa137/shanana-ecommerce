@@ -10,6 +10,7 @@ class ProductReview extends Model
         'product_id',
         'reviewer_name',
         'reviewer_email',
+        'reviewer_phone',
         'rating',
         'review_message',
         'review_date',

@@ -107,9 +107,9 @@
                             required>
                     </div>
                     <div class="form-item">
-                        <label class="form-label my-3">Email Address<sup>*</sup></label>
+                        <label class="form-label my-3">Email Address <span class="text-muted" style="font-size:.85em;">(optional)</span></label>
                         <input type="email" name="email" class="form-control"
-                            value="{{ old('email', $user->email ?? '') }}" required>
+                            value="{{ old('email', $user->email ?? '') }}">
                     </div>
                     <div class="form-item">
                         <label class="form-label my-3">Mobile<sup>*</sup></label>
@@ -198,8 +198,7 @@
                     icon: 'success',
                     title: 'Success!',
                     text: '{{ session('success') }}',
-                    confirmButtonColor: '#3085d6',
-                    timer: 3500
+                    confirmButtonColor: '#3085d6'
                 });
             @endif
 

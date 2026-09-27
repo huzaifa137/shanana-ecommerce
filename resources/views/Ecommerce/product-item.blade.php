@@ -117,7 +117,7 @@ use App\Http\Controllers\Helper;
 
                     </div>
 
-                    <div class="col-lg-12">
+                    <div class="col-12">
                         <nav>
                             <div class="nav nav-tabs mb-3">
                                 <button class="nav-link active border-white border-bottom-0" type="button"
@@ -264,7 +264,8 @@ use App\Http\Controllers\Helper;
                             </div>
                         </div>
                     </div>
-                    <form id="reviewForm" action="#" method="POST">
+                    <div class="col-12">
+                        <form id="reviewForm" action="#" method="POST">
                         @csrf
                         <h4 class="mb-5 fw-bold">Your experience matters — leave a review on this product</h4>
                         <div class="row g-4 border rounded bg-white p-4">
@@ -275,13 +276,6 @@ use App\Http\Controllers\Helper;
                                 <input type="text"
                                     class="form-control border-0 border-bottom border-primary bg-light px-2 py-2 shadow-sm"
                                     name="name" placeholder="John Doe" required>
-                            </div>
-
-                            <div class="col-lg-6">
-                                <label class="form-label">Enter your email *</label>
-                                <input type="email"
-                                    class="form-control border-0 border-bottom border-primary bg-light px-2 py-2 shadow-sm"
-                                    name="email" placeholder="john@example.com" required>
                             </div>
 
                             <div class="col-lg-6">
@@ -319,7 +313,7 @@ use App\Http\Controllers\Helper;
                             </div>
                         </div>
                     </form>
-
+                    </div>
 
                     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -43,7 +43,7 @@
                             </div>
 
                             <div class="form-item">
-                                <label class="form-label my-3" for="email">Email Address</label>
+                                <label class="form-label my-3" for="email">Email Address <span class="text-muted fw-normal" style="font-size:.85em;">(optional)</span></label>
                                 <input type="email" class="form-control" id="email" name="email"
                                     value="{{ old('email', $customer->email) }}">
                             </div>
@@ -386,7 +386,7 @@
                     name: 'Last Name'
                 },
                 {
-                    id: 'email',
+                    // id: 'email',  // optional — not required
                     name: 'Email'
                 },
                 {
@@ -426,21 +426,12 @@
                 }
             });
 
+            // Email is optional; validate format only when a value is entered.
             const email = $('#email').val().trim();
-            let emailError = '';
-
-            if (email) {
-                if (!email.includes('@')) {
-                    emailError = 'Email must include "@" symbol';
-                } else if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-                    emailError = 'Email must have a valid domain (e.g. example@domain.com)';
-                }
-            }
-
-            if (emailError) {
+            if (email && !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
                 isValid = false;
                 $('#email').addClass('is-invalid');
-                missingFields.push(emailError);
+                missingFields.push('Email must be a valid address (e.g. example@domain.com)');
             }
 
             const password = $('#passwordInput').val().trim();

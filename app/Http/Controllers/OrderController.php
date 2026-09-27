@@ -32,7 +32,7 @@ class OrderController extends Controller
 
         $validated = $request->validate([
             'full_name' => ['required', 'string', 'max:255'],
-            'email'     => ['required', 'email', 'max:255'],
+            'email'     => ['nullable', 'email', 'max:255'],
             'phone'     => ['required', 'string', 'max:30'],
             'address'   => ['required', 'string', 'max:255'],
             'city'      => ['required', 'string', 'max:255'],
@@ -91,8 +91,12 @@ class OrderController extends Controller
                     $user = User::find($customerId);
                     $user?->notify(new NewOrderNotification($order));
                 } else {
-                    Notification::route('mail', $order->guest_email)
-                        ->notify(new NewOrderNotification($order));
+                    // Guest has no account; route notification to their email
+                    // when they provided one, otherwise skip the mail notification.
+                    if (!empty($order->guest_email)) {
+                        Notification::route('mail', $order->guest_email)
+                            ->notify(new NewOrderNotification($order));
+                    }
                 }
 
                 $admins = User::where('user_role', '!=', '1')->get(); // Adjust based on your role system
@@ -106,7 +110,7 @@ class OrderController extends Controller
             return redirect()->back()->with(
                 'success',
                 "Order placed successfully! Your order number is {$order->order_number}. " .
-                'Keep it (with the email you used) to track your order.'
+                'Keep it (with the phone number you used) to track your order.'
             );
 
         } catch (\Exception $e) {
@@ -122,12 +126,12 @@ class OrderController extends Controller
     {
         $order = null;
 
-        if ($request->filled('order_number') && $request->filled('email')) {
-            $order = $this->findTrackableOrder($request->input('order_number'), $request->input('email'));
+        if ($request->filled('order_number') && $request->filled('phone')) {
+            $order = $this->findTrackableOrder($request->input('order_number'), $request->input('phone'));
 
             if (! $order) {
                 return view('Ecommerce.track-order', ['order' => null])
-                    ->with('error', 'We could not find an order with that order number and email combination.');
+                    ->with('error', 'We could not find an order with that order number and phone number combination.');
             }
         }
 
@@ -141,12 +145,12 @@ class OrderController extends Controller
     {
         $request->validate([
             'order_number' => ['required', 'string'],
-            'email'        => ['required', 'email'],
+            'phone'        => ['required', 'string'],
         ]);
 
         return redirect()->route('order.track', [
             'order_number' => $request->input('order_number'),
-            'email'        => $request->input('email'),
+            'phone'        => $request->input('phone'),
         ]);
     }
 
@@ -155,14 +159,14 @@ class OrderController extends Controller
      * guest checkout or an order placed by a logged-in customer, so
      * the same tracking form works for both.
      */
-    protected function findTrackableOrder(string $orderNumber, string $email)
+    protected function findTrackableOrder(string $orderNumber, string $phone)
     {
         return Order::with('items.product')
             ->where('order_number', $orderNumber)
-            ->where(function ($query) use ($email) {
-                $query->where('guest_email', $email)
-                    ->orWhereHas('user', function ($userQuery) use ($email) {
-                        $userQuery->where('email', $email);
+            ->where(function ($query) use ($phone) {
+                $query->where('guest_phone', $phone)
+                    ->orWhereHas('user', function ($userQuery) use ($phone) {
+                        $userQuery->where('mobile', $phone);
                     });
             })
             ->first();

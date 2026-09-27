@@ -17,7 +17,7 @@
             <div class="col-md-8 col-lg-6">
                 <p class="text-muted mb-4">
                     No account needed — enter the order number you were given at checkout together with the
-                    email address you used to place the order.
+                    phone number you used to place the order.
                 </p>
 
                 @if (session('error') || ($errors->any()))
@@ -38,9 +38,9 @@
                             required>
                     </div>
                     <div class="form-item mb-4">
-                        <label class="form-label">Email Address<sup>*</sup></label>
-                        <input type="email" name="email" class="form-control"
-                            value="{{ old('email', request('email')) }}" placeholder="you@example.com" required>
+                        <label class="form-label">Phone Number<sup>*</sup></label>
+                        <input type="tel" name="phone" class="form-control"
+                            value="{{ old('phone', request('phone')) }}" placeholder="e.g. 0712345678" required>
                     </div>
                     <button type="submit" class="btn btn-primary rounded-pill px-4 text-white">Track Order</button>
                 </form>
@@ -57,7 +57,7 @@
                         </div>
 
                         <p class="mb-1"><strong>Name:</strong> {{ $order->customer_name }}</p>
-                        <p class="mb-1"><strong>Email:</strong> {{ $order->customer_email }}</p>
+                        <p class="mb-1"><strong>Phone:</strong> {{ $order->customer_phone }}</p>
                         <p class="mb-3"><strong>Placed:</strong> {{ $order->created_at->format('d M Y, H:i') }}</p>
 
                         <div class="table-responsive">

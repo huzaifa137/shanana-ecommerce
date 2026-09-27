@@ -210,9 +210,9 @@ class MasterController extends Controller
         $validator = Validator::make($request->all(), [
             'firstName' => 'required|string|max:255',
             'lastName' => 'required|string|max:255',
-            'mobile' => 'required|string|max:20',
+            'mobile' => 'required|string|max:20|unique:users,mobile',
             'email' => [
-                'required',
+                'nullable',
                 'email',
                 'unique:users,email',
                 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
@@ -243,7 +243,7 @@ class MasterController extends Controller
             'password' => Hash::make($password),
         ]);
 
-        $user = DB::table('users')->where('email', $request->email)->first();
+        $user = DB::table('users')->where('mobile', $request->input('mobile'))->first();
         $userRole = $user->user_role;
         $userId = $user->id;
 
@@ -256,13 +256,15 @@ class MasterController extends Controller
             'title' => 'Shanana Beauty Products - User Account has been created successfully.',
         ];
 
-        try {
-            Mail::send('emails.user-account-created', $data, function ($message) use ($data) {
-                $message->to($data['email'])->subject($data['title']);
-            });
-        } catch (Exception $e) {
-            DB::table('users')->where('email', $user->email)->delete();
-            return back()->with('error', 'Email Not, Check Internet or re-register');
+        if (!empty($data['email'])) {
+            try {
+                Mail::send('emails.user-account-created', $data, function ($message) use ($data) {
+                    $message->to($data['email'])->subject($data['title']);
+                });
+            } catch (\Exception $e) {
+                // Welcome email failed — account is still created; non-fatal.
+                report($e);
+            }
         }
 
         if ($userRole != 1) {
@@ -305,11 +307,7 @@ class MasterController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'email' => [
-                'required',
-                'email',
-                'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
-            ],
+            'phone'    => ['required', 'string', 'max:20'],
             'password' => 'required',
         ]);
 
@@ -317,18 +315,18 @@ class MasterController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $userInfo = User::where('email', '=', $request->email)->first();
+        $userInfo = User::where('mobile', $request->phone)->first();
 
         if (!$userInfo) {
             return response()->json([
                 'status' => false,
-                'message' => 'Incorrect password or Email being entered',
+                'message' => 'Incorrect phone number or password.',
             ], 401);
 
         } else {
             if (Hash::check($request->password, $userInfo->password)) {
 
-                $user = DB::table('users')->where('email', $request->email)->first();
+                $user = DB::table('users')->where('mobile', $request->phone)->first();
                 $userRole = $user->user_role;
                 $userId = $user->id;
 
@@ -381,7 +379,7 @@ class MasterController extends Controller
         $request->validate([
             'firstName' => 'required|string|max:255',
             'lastName' => 'required|string|max:255',
-            'email' => 'required|email',
+            'email' => 'nullable|email',
             'companyName' => 'required|string',
             'address' => 'required|string',
             'city' => 'required|string',
@@ -435,23 +433,37 @@ class MasterController extends Controller
 
     public function generateForgotPasswordLink(Request $request)
     {
-        $email = $request->email;
+        $phone = $request->input('phone');
 
-        $user = User::where('email', $email)->first();
+        $user = User::where('mobile', $phone)->first();
 
         if (!$user) {
             if ($request->ajax()) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'The email provided is not registered in the system.',
+                    'message' => 'No account is registered with that phone number.',
                 ], 401);
             }
 
-            return back()->withInput()->with('fail', 'The email provided is not registered in the system.');
+            return back()->withInput()->with('fail', 'No account is registered with that phone number.');
         }
 
+        // If the account has no email we cannot send a reset link.
+        if (empty($user->email)) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'This account has no email address. Please contact support to reset your password.',
+                ], 422);
+            }
+
+            return back()->withInput()->with('fail', 'This account has no email address. Please contact support to reset your password.');
+        }
+
+        $email = $user->email;
+
         $username = DB::table('users')
-            ->where('email', $email)
+            ->where('mobile', $phone)
             ->value(DB::raw("CONCAT(first_name, ' ', last_name) AS fullname"));
 
         $token = Str::random(60);
@@ -478,11 +490,11 @@ class MasterController extends Controller
         if ($request->ajax()) {
             return response()->json([
                 'status' => true,
-                'message' => 'Reset link sent successfully to: ' . $email,
+                'message' => 'A password reset link has been sent to your registered email address.',
             ]);
         }
 
-        return back()->with('success', 'Link has been sent to your email: ' . $email);
+        return back()->with('success', 'A password reset link has been sent to your registered email address.');
     }
 
     public function store_new_password(Request $request)

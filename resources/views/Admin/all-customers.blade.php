@@ -41,6 +41,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
+                                    <th>Mobile</th>
                                     <th>Email</th>
                                     <th>Country</th>
                                     <th>Joined</th>
@@ -52,7 +53,8 @@
                                     <tr>
                                         <td>{{ $index + $customers->firstItem() }}</td>
                                         <td>{{ $customer->first_name }} {{ $customer->last_name }}</td>
-                                        <td>{{ $customer->email }}</td>
+                                        <td>{{ $customer->mobile }}</td>
+                                        <td>{{ $customer->email ?? 'N/A' }}</td>
                                         <td>{{ $customer->country ?? 'N/A' }}</td>
                                         <td>{{ $customer->created_at->format('d M Y') }}</td>
                                         <td>
