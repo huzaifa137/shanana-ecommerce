@@ -11,19 +11,13 @@
     <meta name="author" content="">
     <meta name="keywords" content="">
     <meta name="description" content="">
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets1/css/vendor.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets1/style.css') }}">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <link rel="icon" href="/assets1/images/favicon.ico" type="image/png" sizes="32x32">
-
-
     <link
         href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:wght@600;700&display=swap"
         rel="stylesheet">
@@ -32,13 +26,11 @@
         integrity="sha512-Fo3rlrZj/kMVq6MBBSaI6zxjY3V+G5H3p0e1EQP+c5gk4IOfuTPV9z2p5skGm7EwPw63XrJYXs9JkYbM8Bz94g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-
 <?php
 use App\Http\Controllers\Helper;
 ?>
 
 <body>
-
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
         <defs>
             <symbol xmlns="http://www.w3.org/2000/svg" id="facebook" viewBox="0 0 24 24">
@@ -61,7 +53,6 @@ use App\Http\Controllers\Helper;
                 <path fill="currentColor"
                     d="M1.04 17.52q.1-.16.32-.02a21.308 21.308 0 0 0 10.88 2.9a21.524 21.524 0 0 0 7.74-1.46q.1-.04.29-.12t.27-.12a.356.356 0 0 1 .47.12q.17.24-.11.44q-.36.26-.92.6a14.99 14.99 0 0 1-3.84 1.58A16.175 16.175 0 0 1 12 22a16.017 16.017 0 0 1-5.9-1.09a16.246 16.246 0 0 1-4.98-3.07a.273.273 0 0 1-.12-.2a.215.215 0 0 1 .04-.12Zm6.02-5.7a4.036 4.036 0 0 1 .68-2.36A4.197 4.197 0 0 1 9.6 7.98a10.063 10.063 0 0 1 2.66-.66q.54-.06 1.76-.16v-.34a3.562 3.562 0 0 0-.28-1.72a1.5 1.5 0 0 0-1.32-.6h-.16a2.189 2.189 0 0 0-1.14.42a1.64 1.64 0 0 0-.62 1a.508.508 0 0 1-.4.46L7.8 6.1q-.34-.08-.34-.36a.587.587 0 0 1 .02-.14a3.834 3.834 0 0 1 1.67-2.64A6.268 6.268 0 0 1 12.26 2h.5a5.054 5.054 0 0 1 3.56 1.18a3.81 3.81 0 0 1 .37.43a3.875 3.875 0 0 1 .27.41a2.098 2.098 0 0 1 .18.52q.08.34.12.47a2.856 2.856 0 0 1 .06.56q.02.43.02.51v4.84a2.868 2.868 0 0 0 .15.95a2.475 2.475 0 0 0 .29.62q.14.19.46.61a.599.599 0 0 1 .12.32a.346.346 0 0 1-.16.28q-1.66 1.44-1.8 1.56a.557.557 0 0 1-.58.04q-.28-.24-.49-.46t-.3-.32a4.466 4.466 0 0 1-.29-.39q-.2-.29-.28-.39a4.91 4.91 0 0 1-2.2 1.52a6.038 6.038 0 0 1-1.68.2a3.505 3.505 0 0 1-2.53-.95a3.553 3.553 0 0 1-.99-2.69Zm3.44-.4a1.895 1.895 0 0 0 .39 1.25a1.294 1.294 0 0 0 1.05.47a1.022 1.022 0 0 0 .17-.02a1.022 1.022 0 0 1 .15-.02a2.033 2.033 0 0 0 1.3-1.08a3.13 3.13 0 0 0 .33-.83a3.8 3.8 0 0 0 .12-.73q.01-.28.01-.92v-.5a7.287 7.287 0 0 0-1.76.16a2.144 2.144 0 0 0-1.76 2.22Zm8.4 6.44a.626.626 0 0 1 .12-.16a3.14 3.14 0 0 1 .96-.46a6.52 6.52 0 0 1 1.48-.22a1.195 1.195 0 0 1 .38.02q.9.08 1.08.3a.655.655 0 0 1 .08.36v.14a4.56 4.56 0 0 1-.38 1.65a3.84 3.84 0 0 1-1.06 1.53a.302.302 0 0 1-.18.08a.177.177 0 0 1-.08-.02q-.12-.06-.06-.22a7.632 7.632 0 0 0 .74-2.42a.513.513 0 0 0-.08-.32q-.2-.24-1.12-.24q-.34 0-.8.04q-.5.06-.92.12a.232.232 0 0 1-.16-.04a.065.065 0 0 1-.02-.08a.153.153 0 0 1 .02-.06Z" />
             </symbol>
-
             <symbol xmlns="http://www.w3.org/2000/svg" id="menu" viewBox="0 0 24 24">
                 <path fill="currentColor"
                     d="M2 6a1 1 0 0 1 1-1h18a1 1 0 1 1 0 2H3a1 1 0 0 1-1-1m0 6.032a1 1 0 0 1 1-1h18a1 1 0 1 1 0 2H3a1 1 0 0 1-1-1m1 5.033a1 1 0 1 0 0 2h18a1 1 0 0 0 0-2z" />
@@ -113,7 +104,6 @@ use App\Http\Controllers\Helper;
                 <path fill="currentColor"
                     d="M7.953 3.788a.5.5 0 0 0-.906 0L6.08 5.85l-2.154.33a.5.5 0 0 0-.283.843l1.574 1.613l-.373 2.284a.5.5 0 0 0 .736.518l1.92-1.063l1.921 1.063a.5.5 0 0 0 .736-.519l-.373-2.283l1.574-1.613a.5.5 0 0 0-.283-.844L8.921 5.85l-.968-2.062Z" />
             </symbol>
-
             <symbol xmlns="http://www.w3.org/2000/svg" id="package" viewBox="0 0 48 48">
                 <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                     d="m24 13.264l7.288 4.21L24 21.681l-7.288-4.209Z" />
@@ -152,7 +142,6 @@ use App\Http\Controllers\Helper;
                 <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                     d="M18.93 15.818c-.562-.107-1.5-.349-3.135-.884c-2.304-.75-3.43-1.528-3.43-1.528s-.456-1.393 1.045-3.296s2.653-2.52 2.653-2.52s.911.778 3.43 3.485c1.26 1.313 1.796 2.09 2.01 2.465h.027" />
             </symbol>
-
             <symbol xmlns="http://www.w3.org/2000/svg" id="delivery" viewBox="0 0 32 32">
                 <path fill="currentColor"
                     d="m29.92 16.61l-3-7A1 1 0 0 0 26 9h-3V7a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v17a1 1 0 0 0 1 1h2.14a4 4 0 0 0 7.72 0h6.28a4 4 0 0 0 7.72 0H29a1 1 0 0 0 1-1v-7a1 1 0 0 0-.08-.39M23 11h2.34l2.14 5H23ZM9 26a2 2 0 1 1 2-2a2 2 0 0 1-2 2m10.14-3h-6.28a4 4 0 0 0-7.72 0H4V8h17v12.56A4 4 0 0 0 19.14 23M23 26a2 2 0 1 1 2-2a2 2 0 0 1-2 2m5-3h-1.14A4 4 0 0 0 23 20v-2h5Z" />
@@ -169,7 +158,6 @@ use App\Http\Controllers\Helper;
                         d="M20 9a1 1 0 0 1 1 1v1a8 8 0 0 1-8 8H9.414l.793.793a1 1 0 0 1-1.414 1.414l-2.496-2.496a.997.997 0 0 1-.287-.567L6 17.991a.996.996 0 0 1 .237-.638l.056-.06l2.5-2.5a1 1 0 0 1 1.414 1.414L9.414 17H13a6 6 0 0 0 6-6v-1a1 1 0 0 1 1-1m-4.793-6.207l2.5 2.5a1 1 0 0 1 0 1.414l-2.5 2.5a1 1 0 1 1-1.414-1.414L14.586 7H11a6 6 0 0 0-6 6v1a1 1 0 1 1-2 0v-1a8 8 0 0 1 8-8h3.586l-.793-.793a1 1 0 0 1 1.414-1.414" />
                 </g>
             </symbol>
-
             <symbol xmlns="http://www.w3.org/2000/svg" id="star-full" viewBox="0 0 24 24">
                 <path fill="currentColor"
                     d="m3.1 11.3l3.6 3.3l-1 4.6c-.1.6.1 1.2.6 1.5c.2.2.5.3.8.3c.2 0 .4 0 .6-.1c0 0 .1 0 .1-.1l4.1-2.3l4.1 2.3s.1 0 .1.1c.5.2 1.1.2 1.5-.1c.5-.3.7-.9.6-1.5l-1-4.6c.4-.3 1-.9 1.6-1.5l1.9-1.7l.1-.1c.4-.4.5-1 .3-1.5s-.6-.9-1.2-1h-.1l-4.7-.5l-1.9-4.3s0-.1-.1-.1c-.1-.7-.6-1-1.1-1c-.5 0-1 .3-1.3.8c0 0 0 .1-.1.1L8.7 8.2L4 8.7h-.1c-.5.1-1 .5-1.2 1c-.1.6 0 1.2.4 1.6" />
@@ -178,7 +166,6 @@ use App\Http\Controllers\Helper;
                 <path fill="currentColor"
                     d="m3.1 11.3l3.6 3.3l-1 4.6c-.1.6.1 1.2.6 1.5c.2.2.5.3.8.3c.2 0 .4 0 .6-.1c0 0 .1 0 .1-.1l4.1-2.3l4.1 2.3s.1 0 .1.1c.5.2 1.1.2 1.5-.1c.5-.3.7-.9.6-1.5l-1-4.6c.4-.3 1-.9 1.6-1.5l1.9-1.7l.1-.1c.4-.4.5-1 .3-1.5s-.6-.9-1.2-1h-.1l-4.7-.5l-1.9-4.3s0-.1-.1-.1c-.1-.7-.6-1-1.1-1c-.5 0-1 .3-1.3.8c0 0 0 .1-.1.1L8.7 8.2L4 8.7h-.1c-.5.1-1 .5-1.2 1c-.1.6 0 1.2.4 1.6m8.9 5V5.8l1.7 3.8c.1.3.5.5.8.6l4.2.5l-3.1 2.8c-.3.2-.4.6-.3 1c0 .2.5 2.2.8 4.1l-3.6-2.1c-.2-.2-.3-.2-.5-.2" />
             </symbol>
-
             <symbol xmlns="http://www.w3.org/2000/svg" id="user" viewBox="0 0 24 24">
                 <g fill="none" stroke="currentColor" stroke-width="1.5">
                     <circle cx="12" cy="9" r="3" />
@@ -203,7 +190,6 @@ use App\Http\Controllers\Helper;
                     <path stroke-linecap="round" stroke-linejoin="round" d="M8 13v4m8-4v4m-4-4v4" />
                 </g>
             </symbol>
-
             <symbol xmlns="http://www.w3.org/2000/svg" id="fruits" viewBox="0 0 48 48">
                 <g fill="currentColor" fill-rule="evenodd" clip-rule="evenodd">
                     <path d="M18.88 7.566a1 1 0 0 1 1 1v6.6a1 1 0 1 1-2 0v-6.6a1 1 0 0 1 1-1" />
@@ -333,17 +319,14 @@ use App\Http\Controllers\Helper;
             </symbol>
         </defs>
     </svg>
-
     <div class="preloader-wrapper">
         <div class="preloader">
         </div>
     </div>
-
     <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasCart">
         <div class="offcanvas-header justify-content-center">
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-
         <div class="offcanvas-body">
             <div class="order-md-last">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
@@ -352,12 +335,10 @@ use App\Http\Controllers\Helper;
                         {{ count(session('cart', [])) }}
                     </span>
                 </h4>
-
                 @php
                     $cart = session('cart', []);
                     $total = 0;
                 @endphp
-
                 @if (!empty($cart))
                     <ul class="list-group mb-3">
                         @foreach ($cart as $productId => $item)
@@ -367,7 +348,6 @@ use App\Http\Controllers\Helper;
                                 $price = $product->sale_price * $quantity;
                                 $total += $price;
                             @endphp
-
                             @if ($product)
                                 <li class="list-group-item d-flex justify-content-between lh-sm">
                                     <div>
@@ -378,13 +358,11 @@ use App\Http\Controllers\Helper;
                                 </li>
                             @endif
                         @endforeach
-
                         <li class="list-group-item d-flex justify-content-between">
                             <span>Total (UGX)</span>
                             <strong>Ugx {{ number_format($total) }}</strong>
                         </li>
                     </ul>
-
                     <a href="{{ route('item.cart') }}" class="w-100 btn btn-primary btn-lg">Continue to
                         cart</a>
                 @else
@@ -398,41 +376,32 @@ use App\Http\Controllers\Helper;
             </div>
         </div>
     </div>
-
     <header>
         <div class="container-fluid">
             <div class="row py-3 border-bottom">
-
                 <div
                     class="col-sm-4 col-lg-2 text-center text-sm-start d-flex gap-3 justify-content-center justify-content-md-start">
                     <div class="d-flex align-items-center my-3 my-sm-0">
                         <a href="{{ url('/') }}"
                             style="text-decoration: none; display: flex; align-items: center; gap: 10px; white-space: nowrap;">
-
                             <!-- Optional: Placeholder Icon (Leaf/Flower) to match the reference -->
                             <i class="fa-solid fa-leaf"
                                 style="color: #e30048; font-size: 20px; transform: rotate(-15deg); flex-shrink: 0;"></i>
-
                             <!-- Text Logo -->
                             <span
                                 style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 700; font-size: 18px; color: #e30048; letter-spacing: 0.5px; white-space: nowrap;">
                                 Shanana Beauty Products
                             </span>
-
                         </a>
                     </div>
-
-                    <button class="btn p-0 me-4 my-auto" type="button" data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasSearch" aria-controls="offcanvasSearch">
+                    <button id="searchToggleBtn" class="btn p-0 me-4 my-auto" type="button"
+                        aria-controls="offcanvasSearch">
                         <i class="bi bi-search fs-4"></i>
                     </button>
                 </div>
-
                 <div class="col-lg-8">
-
                     <link rel="stylesheet"
                         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-
                     <style>
                         #offcanvasSearch {
                             background-color: #f8f9fa;
@@ -459,7 +428,6 @@ use App\Http\Controllers\Helper;
                             border-bottom: 1px solid #dee2e6;
                         }
                     </style>
-
                     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasSearch">
                         <div class="offcanvas-header justify-content-between">
                             <h4 class="fw-bold text-uppercase fs-6" style="color: #ff85c1;">Search Products</h4>
@@ -474,8 +442,6 @@ use App\Http\Controllers\Helper;
                             </div>
                         </div>
                     </div>
-
-
                     <script>
                         document.getElementById('productSearchInput').addEventListener('input', function () {
                             let query = this.value;
@@ -483,7 +449,6 @@ use App\Http\Controllers\Helper;
                                 document.getElementById('searchResults').innerHTML = '';
                                 return;
                             }
-
                             fetch(`/search-products?query=${encodeURIComponent(query)}`)
                                 .then(res => res.json())
                                 .then(data => {
@@ -491,37 +456,60 @@ use App\Http\Controllers\Helper;
                                     if (data.length > 0) {
                                         data.forEach(product => {
                                             resultHTML += `
-                            <a href="/product-item/${product.id}" class="list-group-item list-group-item-action d-flex align-items-center gap-3">
-                                <img src="/storage/${product.featured_image_1}" alt="${product.product_name}" width="50" height="50" style="object-fit: cover;">
-                                <div>
-                                    <div class="fw-bold">${product.product_name}</div>
-                                    <div class="text-muted">Ugx${parseFloat(product.sale_price || product.price).toLocaleString()}</div>
-                                </div>
-                            </a>
-                        `;
+            <a href="/product-item/${product.id}" class="list-group-item list-group-item-action d-flex align-items-center gap-3">
+                <img src="/storage/${product.featured_image_1}" alt="${product.product_name}" width="50" height="50" style="object-fit: cover;">
+                <div>
+                    <div class="fw-bold">${product.product_name}</div>
+                    <div class="text-muted">Ugx${parseFloat(product.sale_price || product.price).toLocaleString()}</div>
+                </div>
+            </a>
+        `;
                                         });
                                     } else {
                                         resultHTML = `<div class="list-group-item text-muted">No matching products found</div>`;
                                     }
-
                                     document.getElementById('searchResults').innerHTML = resultHTML;
                                 });
                         });
-
-                         document.addEventListener('DOMContentLoaded', function () {
-        var searchToggleBtn = document.querySelector('[data-bs-target="#offcanvasSearch"]');
-        var offcanvasSearchEl = document.getElementById('offcanvasSearch');
-
-        if (searchToggleBtn && offcanvasSearchEl && window.bootstrap) {
-            searchToggleBtn.addEventListener('click', function (e) {
-                e.preventDefault();
-                var instance = bootstrap.Offcanvas.getOrCreateInstance(offcanvasSearchEl);
-                instance.toggle();
-            });
-        }
-    });
+                        // Manual offcanvas control (does not depend on bootstrap.bundle.js loading)
+                        (function () {
+                            var toggleBtn = document.getElementById('searchToggleBtn');
+                            var panel = document.getElementById('offcanvasSearch');
+                            var backdrop = null;
+                            function openPanel() {
+                                panel.classList.add('show');
+                                panel.style.visibility = 'visible';
+                                backdrop = document.createElement('div');
+                                backdrop.id = 'manualSearchBackdrop';
+                                backdrop.style.position = 'fixed';
+                                backdrop.style.inset = '0';
+                                backdrop.style.background = 'rgba(0,0,0,0.5)';
+                                backdrop.style.zIndex = '1040';
+                                document.body.appendChild(backdrop);
+                                backdrop.addEventListener('click', closePanel);
+                                document.body.style.overflow = 'hidden';
+                            }
+                            function closePanel() {
+                                panel.classList.remove('show');
+                                if (backdrop) {
+                                    backdrop.remove();
+                                    backdrop = null;
+                                }
+                                document.body.style.overflow = '';
+                            }
+                            toggleBtn.addEventListener('click', function (e) {
+                                e.preventDefault();
+                                if (panel.classList.contains('show')) {
+                                    closePanel();
+                                } else {
+                                    openPanel();
+                                }
+                            });
+                            panel.querySelectorAll('[data-bs-dismiss="offcanvas"]').forEach(function (btn) {
+                                btn.addEventListener('click', closePanel);
+                            });
+                        })();
                     </script>
-
                     <ul
                         class="navbar-nav list-unstyled d-flex flex-row gap-3 gap-lg-5 justify-content-center flex-wrap align-items-center mb-0 fw-bold text-uppercase text-dark">
                         <li class="nav-item active">
@@ -530,12 +518,11 @@ use App\Http\Controllers\Helper;
                         <li class="nav-item active">
                             <a href="{{ url('/item-shop') }}" class="nav-link">Shop</a>
                         </li>
-
                         @if (Session::has('LoggedCustomer'))
                                                 <?php
                             $addedProducts = Session::get('cart', []);
                             $cartCount = count($addedProducts);
-                                                                                                                                                                                                                                                                                                                                                                            ?>
+                                                                                                                                                                                                                                                                                                                                                                                                                            ?>
                                                 <li class="nav-item active">
                                                     @if ($cartCount > 0)
                                                         <a href="{{ url('/item-cart') }}" class="nav-link position-relative d-inline-block">
@@ -558,32 +545,26 @@ use App\Http\Controllers\Helper;
                                 <a href="{{ url('/item-cart') }}" class="nav-link">Cart</a>
                             </li>
                         @endif
-
                         <li class="nav-item active">
                             <a href="{{ url('/contact-us') }}" class="nav-link">Contact Us</a>
                         </li>
-
                         @if (!Session::has('LoggedCustomer') && !Session::has('LoggedAdmin'))
                             <li class="nav-item active">
                                 <a href="{{ url('/user-login') }}" class="nav-link">Login</a>
                             </li>
                             <li class="nav-item active">
                                 <a href="{{ url('user-register') }}" class="nav-item nav-link">Create Account</a>
-
                             </li>
                         @else
                             <li class="nav-item active">
                                 <a href="{{ url('/customer/dashboard') }}" class="nav-item nav-link">Dashboard</a>
                             </li>
                         @endif
-
                     </ul>
                 </div>
-
                 <div
                     class="col-sm-8 col-lg-2 d-flex gap-5 align-items-center justify-content-center justify-content-sm-end">
                     <ul class="d-flex justify-content-end list-unstyled m-0 align-items-center">
-
                         <li>
                             <a href="{{ url('user-login') }}" class="position-relative p-2 mx-1">
                                 <svg width="24" height="24">
@@ -591,7 +572,6 @@ use App\Http\Controllers\Helper;
                                 </svg>
                             </a>
                         </li>
-
                         <li>
                             <a href="#" class="position-relative p-2 mx-1">
                                 <svg width="24" height="24">
@@ -599,13 +579,11 @@ use App\Http\Controllers\Helper;
                                 </svg>
                             </a>
                         </li>
-
                         <li class="position-relative">
                             @php
                                 $addedProducts = Session::get('cart', []);
                                 $cartCount = count($addedProducts);
                             @endphp
-
                             <a href="#" class="position-relative p-2 mx-1" data-bs-toggle="offcanvas"
                                 data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
                                 <svg width="24" height="24">
@@ -614,28 +592,23 @@ use App\Http\Controllers\Helper;
                                 @if ($cartCount > 0)
                                     <span
                                         class="position-absolute top-0 start-75 translate-middle badge rounded-pill bg-danger cart-badge">
-
                                         {{ $cartCount }}
                                         <span class="visually-hidden">cart items</span>
                                     </span>
                                 @endif
                             </a>
                         </li>
-
                     </ul>
                 </div>
-
                 <style>
                     .cart-badge {
                         font-size: 0.7rem;
                         padding: 0.3em 0.5em;
                     }
                 </style>
-
             </div>
         </div>
     </header>
-
     <style>
         /* =========================================================
            SHANANA — NAVBAR
@@ -751,7 +724,6 @@ use App\Http\Controllers\Helper;
             }
         }
     </style>
-
     <style>
         :root {
             --sh-pink: #d94f7b;
@@ -1074,7 +1046,6 @@ use App\Http\Controllers\Helper;
         /* =========================================================
    SHANANA PREMIUM HERO
    ========================================================= */
-
         :root {
             --sh-pink: #d94f7b;
             --sh-pink-dark: #bd3d68;
@@ -1084,19 +1055,16 @@ use App\Http\Controllers\Helper;
             --sh-text: #30242a;
         }
 
-
         /* HERO */
         .sh-hero {
             /* Scales with viewport height so the whole banner is visible on a
        normal laptop screen at 100% zoom, instead of a fixed 620px that
        forced people to zoom out to see it all. */
             --sh-hero-h: clamp(440px, 76vh, 600px);
-
             position: relative;
             min-height: var(--sh-hero-h);
             padding: 0;
             overflow: hidden;
-
             /* Premium soft skincare pink */
             background:
                 linear-gradient(90deg,
@@ -1107,7 +1075,6 @@ use App\Http\Controllers\Helper;
                     rgba(252, 236, 239, 0) 100%);
         }
 
-
         /* Make the Bootstrap container fill the hero */
         .sh-hero>.container-lg {
             position: relative;
@@ -1115,219 +1082,152 @@ use App\Http\Controllers\Helper;
             z-index: 3;
         }
 
-
         /* Hero row */
         .sh-hero>.container-lg>.row {
             min-height: var(--sh-hero-h);
             position: relative;
         }
 
-
         /* Text area */
         .sh-hero .col-lg-6:first-child {
             position: relative;
             z-index: 5;
-
             display: flex;
             flex-direction: column;
             justify-content: center;
-
             padding-top: 4rem;
             padding-bottom: 4rem;
         }
-
 
         /* Eyebrow */
         .sh-eyebrow {
             display: inline-flex;
             align-items: center;
             gap: .5rem;
-
             width: fit-content;
-
             font-size: .75rem;
             font-weight: 700;
             letter-spacing: .14em;
             text-transform: uppercase;
-
             color: var(--sh-pink-dark);
             background: rgba(255, 255, 255, .65);
-
             padding: .45rem .9rem;
             border-radius: 50px;
-
             margin-bottom: 1.25rem;
-
             border: 1px solid rgba(217, 79, 123, .12);
         }
-
 
         /* Main heading */
         .sh-hero h1 {
             max-width: 620px;
-
             margin-bottom: 1.25rem;
-
             font-family: Georgia, "Times New Roman", serif;
-
             font-size: clamp(3rem, 5vw, 5.2rem);
             font-weight: 500;
             line-height: .98;
-
             letter-spacing: -.035em;
-
             color: var(--sh-text);
         }
-
 
         .sh-hero h1 span {
             color: var(--sh-pink);
         }
 
-
         /* Description */
         .sh-hero p.lead {
             max-width: 480px;
-
             margin-bottom: 2rem;
-
             color: #6d5a62;
-
             font-size: 1rem;
             line-height: 1.7;
         }
-
 
         /* Buttons */
         .sh-btn-primary {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-
             background: var(--sh-pink);
             border: 1px solid var(--sh-pink);
-
             color: #fff;
-
             font-weight: 700;
-
             padding: .85rem 1.8rem;
-
             border-radius: 50px;
-
             box-shadow: 0 12px 28px rgba(189, 61, 104, .20);
-
             transition:
                 transform .25s ease,
                 box-shadow .25s ease,
                 background .25s ease;
         }
 
-
         .sh-btn-primary:hover {
             background: var(--sh-pink-dark);
             border-color: var(--sh-pink-dark);
-
             color: #fff;
-
             transform: translateY(-2px);
-
             box-shadow: 0 16px 32px rgba(189, 61, 104, .28);
         }
-
 
         .sh-btn-outline {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-
             border: 1px solid rgba(189, 61, 104, .35);
-
             color: var(--sh-pink-dark);
-
             font-weight: 700;
-
             padding: .85rem 1.8rem;
-
             border-radius: 50px;
-
             background: rgba(255, 255, 255, .65);
-
             transition: all .25s ease;
         }
-
 
         .sh-btn-outline:hover {
             background: var(--sh-pink);
             border-color: var(--sh-pink);
-
             color: #fff;
-
             transform: translateY(-2px);
         }
-
 
         /* =========================================================
    HERO IMAGE
    ========================================================= */
-
         .sh-hero .col-lg-6:last-child {
             position: static;
         }
 
-
         /* Remove the old image-card appearance */
         .sh-hero-figure-wrap {
             position: absolute;
-
             top: 0;
             right: 0;
-
             /* Capped so it can never push wider than the hero on big monitors */
             width: min(60vw, 780px);
             max-width: none;
-
             height: 100%;
-
             margin: 0;
-
             z-index: 1;
-
             pointer-events: none;
         }
 
-
         .sh-hero-figure {
             position: relative;
-
             width: 100%;
             height: 100%;
-
             padding: 0;
-
             border-radius: 0;
-
             overflow: visible;
-
             box-shadow: none;
         }
-
 
         /* Main hero image */
         .sh-hero-figure img {
             position: absolute;
-
             inset: 0;
-
             width: 100%;
             height: 100%;
-
             object-fit: cover;
-
             object-position: center center;
-
             display: block;
-
             /* Fade image naturally into the pink background */
             -webkit-mask-image:
                 linear-gradient(to right,
@@ -1336,7 +1236,6 @@ use App\Http\Controllers\Helper;
                     rgba(0, 0, 0, .75) 20%,
                     #000 32%,
                     #000 100%);
-
             mask-image:
                 linear-gradient(to right,
                     transparent 0%,
@@ -1346,45 +1245,32 @@ use App\Http\Controllers\Helper;
                     #000 100%);
         }
 
-
         /* =========================================================
    TRUST ITEMS
    ========================================================= */
-
         .sh-hero .sh-trust-item {
             color: #5d4c54;
         }
 
-
         .sh-hero .sh-icon-circle {
             width: 38px;
             height: 38px;
-
             display: inline-flex;
             align-items: center;
             justify-content: center;
-
             flex-shrink: 0;
-
             color: var(--sh-pink);
-
             background: rgba(255, 255, 255, .72);
-
             border: 1px solid rgba(217, 79, 123, .12);
-
             border-radius: 50%;
         }
-
 
         /* =========================================================
    MOBILE
    ========================================================= */
-
         @media (max-width: 991px) {
-
             .sh-hero {
                 min-height: auto;
-
                 background:
                     linear-gradient(180deg,
                         #fcecef 0%,
@@ -1392,37 +1278,28 @@ use App\Http\Controllers\Helper;
                         #fff 100%);
             }
 
-
             .sh-hero>.container-lg,
             .sh-hero>.container-lg>.row {
                 min-height: auto;
             }
-
 
             .sh-hero .col-lg-6:first-child {
                 padding-top: 4rem;
                 padding-bottom: 2rem;
             }
 
-
             .sh-hero h1 {
                 font-size: clamp(2.8rem, 10vw, 4rem);
             }
 
-
             .sh-hero-figure-wrap {
                 position: relative;
-
                 top: auto;
                 right: auto;
-
                 width: calc(100% + 3rem);
-
                 height: 430px;
-
                 margin-left: -1.5rem;
             }
-
 
             .sh-hero-figure img {
                 -webkit-mask-image:
@@ -1431,42 +1308,34 @@ use App\Http\Controllers\Helper;
                         rgba(0, 0, 0, .65) 10%,
                         #000 25%,
                         #000 100%);
-
                 mask-image:
                     linear-gradient(to bottom,
                         transparent 0%,
                         rgba(0, 0, 0, .65) 10%,
                         #000 25%,
                         #000 100%);
-
                 object-position: center top;
             }
         }
 
-
         @media (max-width: 575px) {
-
             .sh-hero .col-lg-6:first-child {
                 padding-top: 3rem;
             }
-
 
             .sh-hero h1 {
                 font-size: 2.7rem;
             }
 
-
             .sh-hero p.lead {
                 font-size: .95rem;
             }
-
 
             .sh-hero-figure-wrap {
                 height: 360px;
             }
         }
     </style>
-
     <!-- HERO -->
     <section class="sh-hero">
         <div class="container-lg">
@@ -1485,7 +1354,6 @@ use App\Http\Controllers\Helper;
                         Shanana brings you skincare, beauty and bedroom must-haves that are gentle,
                         effective and made to make you feel confident every day.
                     </p>
-
                     <div class="d-flex flex-wrap gap-3 mb-5">
                         <a href="{{ route('item.shop') }}" class="sh-btn-primary">
                             Shop Now <svg width="16" height="16" style="fill:#fff; margin-left:4px;">
@@ -1494,7 +1362,6 @@ use App\Http\Controllers\Helper;
                         </a>
                         <a href="{{ url('/contact-us') }}" class="sh-btn-outline">Talk to Us</a>
                     </div>
-
                     <div class="row row-cols-2 row-cols-md-4 g-3">
                         <div class="col">
                             <div class="sh-trust-item">
@@ -1530,7 +1397,6 @@ use App\Http\Controllers\Helper;
                         </div>
                     </div>
                 </div>
-
                 <div class="col-lg-6">
                     <div class="sh-hero-figure-wrap">
                         <div class="sh-hero-figure">
@@ -1541,7 +1407,6 @@ use App\Http\Controllers\Helper;
             </div>
         </div>
     </section>
-
     @if (session('success'))
         <div class="container-lg mt-4">
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -1550,7 +1415,6 @@ use App\Http\Controllers\Helper;
             </div>
         </div>
     @endif
-
     <!-- SHOP BY CATEGORY -->
     <section class="py-5" style="overflow-x:hidden;">
         <div class="container-lg">
@@ -1564,7 +1428,6 @@ use App\Http\Controllers\Helper;
                     <button class="sh-swiper-nav category-carousel-next">&#10095;</button>
                 </div>
             </div>
-
             <div class="sh-category-strip">
                 <div class="category-carousel swiper">
                     <div class="swiper-wrapper">
@@ -1587,7 +1450,6 @@ use App\Http\Controllers\Helper;
             </div>
         </div>
     </section>
-
     <!-- BEST SELLING PRODUCTS -->
     <section class="sh-products-band py-5" style="overflow-x:hidden;">
         <div class="container-lg">
@@ -1602,12 +1464,10 @@ use App\Http\Controllers\Helper;
                     </svg>
                 </a>
             </div>
-
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xxl-4 g-4"
                 id="bestSelling-container">
                 @include('Ecommerce.partials.product_cards', ['products' => $bestSellingProducts])
             </div>
-
             @if ($bestSellingProducts->count())
                 <div class="text-center mt-4">
                     <button class="btn sh-btn-outline load-more-btn" data-type="bestSelling" data-offset="3"
@@ -1618,7 +1478,6 @@ use App\Http\Controllers\Helper;
             @endif
         </div>
     </section>
-
     <!-- FEATURED PRODUCTS -->
     <section id="featured-products" class="sh-products-band alt py-5" style="overflow-x:hidden;">
         <div class="container-lg">
@@ -1633,12 +1492,10 @@ use App\Http\Controllers\Helper;
                     </svg>
                 </a>
             </div>
-
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xxl-4 g-4"
                 id="featured-container">
                 @include('Ecommerce.partials.product_cards', ['products' => $featuredProducts])
             </div>
-
             @if ($featuredProducts->count())
                 <div class="text-center mt-4">
                     <button class="btn sh-btn-outline load-more-btn" data-type="featured" data-offset="3"
@@ -1649,7 +1506,6 @@ use App\Http\Controllers\Helper;
             @endif
         </div>
     </section>
-
     <!-- POPULAR PRODUCTS -->
     <section id="popular-products" class="sh-products-band py-5" style="overflow-x:hidden;">
         <div class="container-lg">
@@ -1664,12 +1520,10 @@ use App\Http\Controllers\Helper;
                     </svg>
                 </a>
             </div>
-
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xxl-4 g-4"
                 id="popular-container">
                 @include('Ecommerce.partials.product_cards', ['products' => $popularProducts])
             </div>
-
             @if ($popularProducts->count())
                 <div class="text-center mt-4">
                     <button class="btn sh-btn-outline load-more-btn" data-type="popular" data-offset="3"
@@ -1680,7 +1534,6 @@ use App\Http\Controllers\Helper;
             @endif
         </div>
     </section>
-
     <!-- JUST ARRIVED -->
     <section id="latest-products" class="sh-products-band alt py-5" style="overflow-x:hidden;">
         <div class="container-lg">
@@ -1695,11 +1548,9 @@ use App\Http\Controllers\Helper;
                     </svg>
                 </a>
             </div>
-
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xxl-4 g-4" id="new-container">
                 @include('Ecommerce.partials.product_cards', ['products' => $newProducts])
             </div>
-
             @if ($newProducts->count())
                 <div class="text-center mt-4">
                     <button class="btn sh-btn-outline load-more-btn" data-type="new" data-offset="3"
@@ -1763,7 +1614,6 @@ use App\Http\Controllers\Helper;
             'Xander',
             'Yara',
         ];
-
         $countries = [
             'Europe' => [
                 'Germany',
@@ -1803,9 +1653,7 @@ use App\Http\Controllers\Helper;
                 'Ecuador',
             ],
         ];
-
         $allCountries = array_merge(...array_values($countries));
-
         $salesData = $popupProducts
             ->map(function ($product) use ($randomNames, $allCountries) {
                 return [
@@ -1818,17 +1666,14 @@ use App\Http\Controllers\Helper;
             })
             ->toArray();
     @endphp
-
     <div id="sales-popup" class="toast show align-items-center border shadow position-fixed bottom-0 start-0 m-3"
         role="alert" aria-live="assertive" aria-atomic="true"
         style="min-width: 300px; display:none; z-index: 1050; background-color: #FFF; position: relative;">
-
         <!-- Close Button -->
         <button id="sales-popup-close" aria-label="Close popup"
             style="position: absolute; top: 5px; right: 8px; background: transparent; border: none; font-weight: bold; font-size: 16px; cursor: pointer;">
             &times;
         </button>
-
         <div class="d-flex">
             <img id="sales-popup-image" src="" alt="Product Image" class="rounded m-2"
                 style="width: 50px; height: 50px; object-fit: cover;">
@@ -1841,13 +1686,11 @@ use App\Http\Controllers\Helper;
             </div>
         </div>
     </div>
-
     <script>
         @if (session()->has('reset_popup'))
             localStorage.removeItem('salesPopupClosedAt');
             @php session()->forget('reset_popup'); @endphp
         @endif
-
         const salesData = @json($salesData);
         let currentIndex = 0;
         const popup = document.getElementById('sales-popup');
@@ -1857,7 +1700,6 @@ use App\Http\Controllers\Helper;
         const deliveryEl = document.getElementById('sales-popup-delivery');
         const countryEl = document.getElementById('sales-popup-country');
         const closeBtn = document.getElementById('sales-popup-close');
-
         function showPopup(index) {
             const sale = salesData[index];
             img.src = sale.image;
@@ -1867,24 +1709,20 @@ use App\Http\Controllers\Helper;
             countryEl.textContent = sale.country;
             popup.style.display = 'flex';
         }
-
         function cycleSales() {
             showPopup(currentIndex);
             currentIndex = (currentIndex + 1) % salesData.length;
         }
-
         let interval;
         const closedAt = localStorage.getItem('salesPopupClosedAt');
         const now = Date.now();
         const twelveHours = 12 * 60 * 60 * 1000; // 12 hours in milliseconds
-
         if (!closedAt || now - closedAt > twelveHours) {
             cycleSales();
             interval = setInterval(cycleSales, 5000);
         } else {
             popup.style.display = 'none';
         }
-
         closeBtn.addEventListener('click', () => {
             popup.style.display = 'none';
             localStorage.setItem('salesPopupClosedAt', Date.now());
@@ -1897,7 +1735,6 @@ use App\Http\Controllers\Helper;
                 <div class="sh-section-eyebrow mb-1">Testimonials</div>
                 <h2 class="sh-section-title">What Our Customers Say</h2>
             </div>
-
             <div class="row g-4">
                 @php
                     $shananaTestimonials = [
@@ -1907,7 +1744,6 @@ use App\Http\Controllers\Helper;
                         ['name' => 'Farida S.', 'meta' => 'Jinja, verified buyer', 'quote' => 'Delivery was fast and the packaging felt premium. Will definitely be shopping again.'],
                     ];
                 @endphp
-
                 @foreach ($shananaTestimonials as $t)
                     <div class="col-md-6 col-lg-3">
                         <div class="h-100 p-4 bg-white rounded-4 shadow-sm">
@@ -1935,29 +1771,24 @@ use App\Http\Controllers\Helper;
             </div>
         </div>
     </section>
-
     <footer class="py-5">
         <div class="container-lg">
             <div class="row">
-
                 <!-- Logo & Social Media -->
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="footer-menu">
-
                         <!-- Text Logo (Replaces the image) -->
                         <div
                             style="display: flex; align-items: center; gap: 10px; white-space: nowrap; margin-bottom: 10px;">
                             <!-- Placeholder Icon (Leaf/Flower) -->
                             <i class="fa-solid fa-leaf"
                                 style="color: #d76a85; font-size: 24px; transform: rotate(-15deg); flex-shrink: 0;"></i>
-
                             <!-- Text -->
                             <span
                                 style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 700; font-size: 22px; color: #d76a85; letter-spacing: 0.5px; white-space: nowrap;">
                                 Shanana Beauty Products
                             </span>
                         </div>
-
                         <!-- Social Links -->
                         <div class="social-links mt-3">
                             <ul class="d-flex list-unstyled gap-2">
@@ -2020,7 +1851,6 @@ use App\Http\Controllers\Helper;
                         </ul>
                     </div>
                 </div>
-
                 <!-- Quick Access Links -->
                 <div class="col-md-2 col-sm-6">
                     <div class="footer-menu">
@@ -2041,7 +1871,6 @@ use App\Http\Controllers\Helper;
                         </ul>
                     </div>
                 </div>
-
                 <!-- Customer Support -->
                 <div class="col-md-2 col-sm-6">
                     <div class="footer-menu">
@@ -2061,7 +1890,6 @@ use App\Http\Controllers\Helper;
                         </ul>
                     </div>
                 </div>
-
                 <!-- Newsletter Subscription -->
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="footer-menu">
@@ -2075,12 +1903,9 @@ use App\Http\Controllers\Helper;
                         </form>
                     </div>
                 </div>
-
             </div>
         </div>
     </footer>
-
-
     <div id="footer-bottom">
         <div class="container-lg">
             <div class="row">
@@ -2097,7 +1922,6 @@ use App\Http\Controllers\Helper;
             </div>
         </div>
     </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.change-qty').forEach(btn => {
@@ -2114,7 +1938,6 @@ use App\Http\Controllers\Helper;
             });
         });
     </script>
-
     <script>
         document.querySelectorAll('.load-more-btn').forEach(btn => {
             btn.addEventListener('click', function () {
@@ -2122,10 +1945,8 @@ use App\Http\Controllers\Helper;
                 const offset = parseInt(this.getAttribute('data-offset'));
                 const containerId = this.getAttribute('data-target');
                 const container = document.getElementById(containerId);
-
                 this.disabled = true;
                 this.textContent = 'Loading...';
-
                 fetch(`/load-more-products/${type}?offset=${offset}`)
                     .then(response => {
                         if (!response.ok) {
@@ -2157,10 +1978,8 @@ use App\Http\Controllers\Helper;
                     });
             });
         });
-
         // Add this inside your <script> tags at the bottom of the page, 
         // or update your existing Swiper initialization.
-
         document.addEventListener('DOMContentLoaded', function () {
             // Initialize Category Carousel
             if (document.querySelector('.category-carousel')) {
@@ -2197,18 +2016,13 @@ use App\Http\Controllers\Helper;
                 });
             }
         });
-        
     </script>
-
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
     </script>
-
     <script src="/assets1/js/jquery-1.11.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
-        </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/assets1/js/plugins.js"></script>
     <script src="/assets1/js/script.js"></script>
 </body>
