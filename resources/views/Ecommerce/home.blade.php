@@ -545,7 +545,7 @@ use App\Http\Controllers\Helper;
                                                 <?php
                             $addedProducts = Session::get('cart', []);
                             $cartCount = count($addedProducts);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ?>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ?>
                                                 <li class="nav-item active">
                                                     @if ($cartCount > 0)
                                                         <a href="{{ url('/item-cart') }}" class="nav-link position-relative d-inline-block">
@@ -589,15 +589,19 @@ use App\Http\Controllers\Helper;
                     class="col-sm-8 col-lg-2 d-flex gap-5 align-items-center justify-content-center justify-content-sm-end">
                     <ul class="d-flex justify-content-end list-unstyled m-0 align-items-center">
                         <li>
-                            <a href="{{ url('user-login') }}" class="position-relative p-2 mx-1">
-                                <svg width="24" height="24">
+                            <a href="{{ url('user-login') }}" class="position-relative p-2 mx-1"
+                                style="width:40px; height:40px; display:inline-flex; align-items:center; justify-content:center; border-radius:50%; color:#30242a; text-decoration:none;">
+                                <svg width="24" height="24" viewBox="0 0 24 24"
+                                    style="color:#30242a; fill:none; stroke:#30242a; stroke-width:1.5; display:block;">
                                     <use xlink:href="#user"></use>
                                 </svg>
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="position-relative p-2 mx-1">
-                                <svg width="24" height="24">
+                            <a href="#" class="position-relative p-2 mx-1"
+                                style="width:40px; height:40px; display:inline-flex; align-items:center; justify-content:center; border-radius:50%; color:#30242a; text-decoration:none;">
+                                <svg width="24" height="24" viewBox="0 0 24 24"
+                                    style="color:#30242a; fill:none; stroke:#30242a; stroke-width:1.5; display:block;">
                                     <use xlink:href="#wishlist"></use>
                                 </svg>
                             </a>
@@ -608,13 +612,16 @@ use App\Http\Controllers\Helper;
                                 $cartCount = count($addedProducts);
                             @endphp
                             <a href="#" class="position-relative p-2 mx-1" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
-                                <svg width="24" height="24">
+                                data-bs-target="#offcanvasCart" aria-controls="offcanvasCart"
+                                style="width:40px; height:40px; display:inline-flex; align-items:center; justify-content:center; border-radius:50%; color:#30242a; text-decoration:none;">
+                                <svg width="24" height="24" viewBox="0 0 24 24"
+                                    style="color:#30242a; fill:none; stroke:#30242a; stroke-width:1.5; display:block;">
                                     <use xlink:href="#shopping-bag"></use>
                                 </svg>
                                 @if ($cartCount > 0)
                                     <span
-                                        class="position-absolute top-0 start-75 translate-middle badge rounded-pill bg-danger cart-badge">
+                                        class="position-absolute top-0 start-75 translate-middle badge rounded-pill bg-danger cart-badge"
+                                        style="font-size:0.7rem; padding:0.3em 0.5em;">
                                         {{ $cartCount }}
                                         <span class="visually-hidden">cart items</span>
                                     </span>
@@ -1814,6 +1821,29 @@ use App\Http\Controllers\Helper;
         footer .nav-link:active {
             color: #b83c63;
             /* slightly darker on hover */
+        }
+
+        /* Trust icon circles: let the icon's own fill/stroke="currentColor" resolve
+   from the inherited `color` value. Do NOT force fill/stroke on the <svg>
+   element, or icons that use fill="none" + stroke="currentColor" will break. */
+        .sh-icon-circle svg {
+            color: var(--sh-pink);
+            fill: currentColor;
+            /* needed for fill="currentColor" icons */
+            stroke: currentColor;
+            /* needed for stroke="currentColor" icons */
+        }
+
+        /* But make sure paths inside symbols that explicitly say fill="none"
+   are NOT overridden by the parent fill. */
+        .sh-icon-circle svg path[fill="none"] {
+            fill: none;
+        }
+
+        /* Sparkle icon in the eyebrow */
+        .sh-eyebrow svg {
+            color: var(--sh-pink);
+            fill: currentColor;
         }
     </style>
     <footer class="py-5">

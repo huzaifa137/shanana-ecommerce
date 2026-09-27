@@ -16,18 +16,17 @@
 <div class="container-fluid ">
     <div class="container py-5">
         <h1 class="mb-4">Billing details</h1>
+        @if (! $user)
+            <div class="alert alert-info">
+                Checking out as a guest — no account needed. Just fill in your details below and
+                we'll use them to process (and let you track) your order. Already have an account?
+                <a href="{{ route('user.login') }}">Log in</a> to check out faster next time.
+            </div>
+        @endif
+
         <form action="{{ route('order.place') }}" method="POST">
             @csrf
             <div class="row g-5">
-
-                <input type="hidden" name="name" value="{{ $user->first_name }} {{ $user->last_name }}">
-                <input type="hidden" name="phone" value="{{ $user->mobile }}">
-                <input type="hidden" name="address" value="{{ $user->address }}">
-                <input type="hidden" name="region" value="{{ $user->city }}">
-                <input type="hidden" name="note" value="{{ old('order_notes') }}">
-                <input type="hidden" name="email" value="{{ $user->email }}">
-                <input type="hidden" name="country" value="{{ $user->country }}">
-                <input type="hidden" name="postcode" value="{{ $user->postcode }}">
 
                 <div class="col-md-12 col-lg-12 col-xl-12">
                     <div class="table-responsive">

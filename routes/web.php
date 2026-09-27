@@ -23,9 +23,10 @@ Route::controller(MasterController::class)->group(function () {
         Route::get('/user-register', 'userRegister')->name('user.register');
         Route::get('/user-profile', 'userProfile')->name('user.profile');
 
-        Route::post('/calculate-shipping', 'calculateShippingRate')->name('calculate.shipping');
-
     });
+
+    // Part of checkout, so a guest must be able to reach it too.
+    Route::post('/calculate-shipping', 'calculateShippingRate')->name('calculate.shipping');
 
     Route::post('user-store-new-password', 'store_new_password')->name('user-store-new-password');
     Route::post('/store-user-information', 'storeUserInformation')->name('store.user.information');
@@ -71,9 +72,18 @@ Route::controller(CustomerController::class)->group(function () {
 
 Route::controller(OrderController::class)->group(function () {
 
-    Route::group(['middleware' => ['CustomerAuth']], function () {
-        Route::post('/place-order', 'placeOrder')->name('order.place');
+    // Checkout works for a guest as well as a logged-in customer: when a
+    // `LoggedCustomer` session exists the order is linked to that account,
+    // otherwise it's stored with the guest details submitted on the form.
+    Route::post('/place-order', 'placeOrder')->name('order.place');
 
+    // Public order tracking — a guest (or a customer who'd rather not log
+    // in) can look an order up with just its order number and the email
+    // it was placed with.
+    Route::get('/track-order', 'trackOrderForm')->name('order.track');
+    Route::post('/track-order', 'trackOrder')->name('order.track.submit');
+
+    Route::group(['middleware' => ['CustomerAuth']], function () {
         Route::group(['prefix' => '/customer'], function () {
             Route::get('/orders', 'myOrders')->name('customer.orders');
             Route::get('/my-orders/{order}', 'showOrders')->name('customer.order.view');
@@ -132,14 +142,13 @@ Route::controller(ProductsController::class)->group(function () {
 
     });
 
-    Route::group(['middleware' => ['AdminOrCustomerAuth']], function () {
-
-        Route::post('/shop/add-to-cart/{id}', 'addToCart')->name('shop.add.cart');
-        Route::get('/shop/cart/remove/{id}', 'removeFromCart')->name('shop.cart.remove');
-        Route::post('/cart/update-quantity', 'updateQuantity')->name('shop.cart.updateQuantity');
-        Route::get('/exchange-rates', 'getExchangeRates')->name('exchange.rates');
-
-    });
+    // Cart actions never require an account — a guest must be able to
+    // add/remove/update items in their own session-backed cart before
+    // (and without ever) creating one.
+    Route::post('/shop/add-to-cart/{id}', 'addToCart')->name('shop.add.cart');
+    Route::get('/shop/cart/remove/{id}', 'removeFromCart')->name('shop.cart.remove');
+    Route::post('/cart/update-quantity', 'updateQuantity')->name('shop.cart.updateQuantity');
+    Route::get('/exchange-rates', 'getExchangeRates')->name('exchange.rates');
 
     Route::group(['middleware' => ['CustomerAuth']], function () {
         Route::post('/customer-store-review', 'customerStoreReview')->name('customer.store.review');
