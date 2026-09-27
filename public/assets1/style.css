@@ -13,6 +13,14 @@ This is main CSS file that contains custom style rules used in this template
 /*--------------------------------------------------------------
 /** VARIABLES
 --------------------------------------------------------------*/
+a,
+a:link,
+a:visited,
+a:hover,
+a:active,
+a:focus {
+  text-decoration: none;
+}
 body {
   --heading-font        : "Inter", sans-serif;
   --bs-link-color: #333;

@@ -394,8 +394,9 @@ use App\Http\Controllers\Helper;
                             </span>
                         </a>
                     </div>
-                    <button id="searchToggleBtn" class="btn p-0 me-4 my-auto" type="button"
-                        aria-controls="offcanvasSearch">
+                    <button id="searchToggleBtn" class="btn p-0 me-4 my-auto" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasSearch" aria-controls="offcanvasSearch" aria-expanded="false"
+                        style="position: relative; z-index: 2; pointer-events: auto;">
                         <i class="bi bi-search fs-4"></i>
                     </button>
                 </div>
@@ -471,11 +472,20 @@ use App\Http\Controllers\Helper;
                                     document.getElementById('searchResults').innerHTML = resultHTML;
                                 });
                         });
-                        // Manual offcanvas control (does not depend on bootstrap.bundle.js loading)
+                        // Search offcanvas toggle.
+                        // Primary path: native Bootstrap `data-bs-toggle="offcanvas"` on the button
+                        // (bootstrap.bundle.min.js binds this via a delegated click listener on
+                        // `document`, so it works regardless of load order/timing).
+                        // Fallback path: if the Bootstrap bundle failed to load (e.g. CDN blocked),
+                        // this delegated handler opens/closes the panel manually. It checks
+                        // `window.bootstrap` at click time (not at parse time) so it never double-fires
+                        // alongside the native handler once Bootstrap is available.
                         (function () {
-                            var toggleBtn = document.getElementById('searchToggleBtn');
                             var panel = document.getElementById('offcanvasSearch');
                             var backdrop = null;
+                            function isBootstrapAvailable() {
+                                return typeof window.bootstrap !== 'undefined' && window.bootstrap.Offcanvas;
+                            }
                             function openPanel() {
                                 panel.classList.add('show');
                                 panel.style.visibility = 'visible';
@@ -491,22 +501,35 @@ use App\Http\Controllers\Helper;
                             }
                             function closePanel() {
                                 panel.classList.remove('show');
+                                panel.style.visibility = '';
                                 if (backdrop) {
                                     backdrop.remove();
                                     backdrop = null;
                                 }
                                 document.body.style.overflow = '';
                             }
-                            toggleBtn.addEventListener('click', function (e) {
-                                e.preventDefault();
-                                if (panel.classList.contains('show')) {
+                            document.addEventListener('click', function (e) {
+                                if (isBootstrapAvailable()) {
+                                    return; // let Bootstrap's own offcanvas handling take over
+                                }
+                                var toggle = e.target.closest('#searchToggleBtn');
+                                var dismiss = e.target.closest('[data-bs-dismiss="offcanvas"]');
+                                if (toggle) {
+                                    e.preventDefault();
+                                    if (panel.classList.contains('show')) {
+                                        closePanel();
+                                    } else {
+                                        openPanel();
+                                    }
+                                } else if (dismiss && panel.contains(dismiss)) {
+                                    e.preventDefault();
                                     closePanel();
-                                } else {
-                                    openPanel();
                                 }
                             });
-                            panel.querySelectorAll('[data-bs-dismiss="offcanvas"]').forEach(function (btn) {
-                                btn.addEventListener('click', closePanel);
+                            document.addEventListener('keydown', function (e) {
+                                if (e.key === 'Escape' && !isBootstrapAvailable() && panel.classList.contains('show')) {
+                                    closePanel();
+                                }
                             });
                         })();
                     </script>
@@ -522,7 +545,7 @@ use App\Http\Controllers\Helper;
                                                 <?php
                             $addedProducts = Session::get('cart', []);
                             $cartCount = count($addedProducts);
-                                                                                                                                                                                                                                                                                                                                                                                                                            ?>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ?>
                                                 <li class="nav-item active">
                                                     @if ($cartCount > 0)
                                                         <a href="{{ url('/item-cart') }}" class="nav-link position-relative d-inline-block">
@@ -1458,7 +1481,9 @@ use App\Http\Controllers\Helper;
                     <div class="sh-section-eyebrow mb-1">Best Sellers</div>
                     <h2 class="sh-section-title mb-0">Loved by Our Customers</h2>
                 </div>
-                <a href="{{ url('/product-options/1') }}" class="sh-view-all">View All
+                <a href="{{ url('/product-options/1') }}" class="sh-view-all"
+                    style="text-decoration: none; background-color: #D94F7B; color: #FFF; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 18px; border-radius: 50px;">
+                    View All
                     <svg width="14" height="14" style="fill:currentColor;">
                         <use xlink:href="#arrow-right"></use>
                     </svg>
@@ -1486,7 +1511,9 @@ use App\Http\Controllers\Helper;
                     <div class="sh-section-eyebrow mb-1">Curated For You</div>
                     <h2 class="sh-section-title mb-0">Featured Products</h2>
                 </div>
-                <a href="{{ url('/product-options/2') }}" class="sh-view-all">View All
+                <a href="{{ url('/product-options/2') }}" class="sh-view-all"
+                    style="text-decoration: none; background-color: #D94F7B; color: #FFF; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 18px; border-radius: 50px;">
+                    View All
                     <svg width="14" height="14" style="fill:currentColor;">
                         <use xlink:href="#arrow-right"></use>
                     </svg>
@@ -1514,7 +1541,9 @@ use App\Http\Controllers\Helper;
                     <div class="sh-section-eyebrow mb-1">Trending</div>
                     <h2 class="sh-section-title mb-0">Most Popular Products</h2>
                 </div>
-                <a href="{{ url('/product-options/3') }}" class="sh-view-all">View All
+                <a href="{{ url('/product-options/3') }}" class="sh-view-all"
+                    style="text-decoration: none; background-color: #D94F7B; color: #FFF; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 18px; border-radius: 50px;">
+                    View All
                     <svg width="14" height="14" style="fill:currentColor;">
                         <use xlink:href="#arrow-right"></use>
                     </svg>
@@ -1542,7 +1571,9 @@ use App\Http\Controllers\Helper;
                     <div class="sh-section-eyebrow mb-1">New In</div>
                     <h2 class="sh-section-title mb-0">Just Arrived</h2>
                 </div>
-                <a href="{{ url('/product-options/4') }}" class="sh-view-all">View All
+                <a href="{{ url('/product-options/4') }}" class="sh-view-all"
+                    style="text-decoration: none; background-color: #D94F7B; color: #FFF; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 18px; border-radius: 50px;">
+                    View All
                     <svg width="14" height="14" style="fill:currentColor;">
                         <use xlink:href="#arrow-right"></use>
                     </svg>
@@ -1771,6 +1802,20 @@ use App\Http\Controllers\Helper;
             </div>
         </div>
     </section>
+    <style>
+        footer .nav-link,
+        footer .nav-link:link,
+        footer .nav-link:visited {
+            color: #D94F7B;
+        }
+
+        footer .nav-link:hover,
+        footer .nav-link:focus,
+        footer .nav-link:active {
+            color: #b83c63;
+            /* slightly darker on hover */
+        }
+    </style>
     <footer class="py-5">
         <div class="container-lg">
             <div class="row">
@@ -1858,16 +1903,16 @@ use App\Http\Controllers\Helper;
                         <ul class="menu-list list-unstyled">
                             <li class="menu-item"><a href="{{ route('item.shop') }}" class="nav-link">Shop
                                     All</a></li>
+                            <li class="menu-item"><a href="{{ route('customer.dashboard') }}"
+                                    class="nav-link">Dashboard</a></li>
                             <li class="menu-item"><a href="{{ url('product-options/1') }}" class="nav-link">Best
                                     Sellers</a></li>
-                            <li class="menu-item"><a href="{{ url('product-options/2') }}" class="nav-link">Featured
-                                    Products</a></li>
                             <li class="menu-item"><a href="{{ url('product-options/4') }}" class="nav-link">New
                                     Arrivals</a></li>
                             <li class="menu-item"><a href="{{ url('product-options/3') }}" class="nav-link">Most
-                                    Popular Productsr</a></li>
-                            <li class="menu-item"><a href="{{ route('customer.dashboard') }}"
-                                    class="nav-link">Dashboard</a></li>
+                                    Popular </a></li>
+                            <li class="menu-item"><a href="{{ url('product-options/2') }}" class="nav-link">Featured
+                                    Products</a></li>
                         </ul>
                     </div>
                 </div>
