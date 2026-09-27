@@ -25,7 +25,7 @@
 
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:wght@600;700&display=swap"
         rel="stylesheet">
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
@@ -406,8 +406,19 @@ use App\Http\Controllers\Helper;
                 <div
                     class="col-sm-4 col-lg-2 text-center text-sm-start d-flex gap-3 justify-content-center justify-content-md-start">
                     <div class="d-flex align-items-center my-3 my-sm-0">
-                        <a href="{{ url('/') }}">
-                            <img src="/assets1/images/ShananaLogo.png" alt="logo" class="img-fluid">
+                        <a href="{{ url('/') }}"
+                            style="text-decoration: none; display: flex; align-items: center; gap: 10px; white-space: nowrap;">
+
+                            <!-- Optional: Placeholder Icon (Leaf/Flower) to match the reference -->
+                            <i class="fa-solid fa-leaf"
+                                style="color: #e30048; font-size: 20px; transform: rotate(-15deg); flex-shrink: 0;"></i>
+
+                            <!-- Text Logo -->
+                            <span
+                                style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 700; font-size: 18px; color: #e30048; letter-spacing: 0.5px; white-space: nowrap;">
+                                Shanana Beauty Products
+                            </span>
+
                         </a>
                     </div>
 
@@ -496,6 +507,19 @@ use App\Http\Controllers\Helper;
                                     document.getElementById('searchResults').innerHTML = resultHTML;
                                 });
                         });
+
+                         document.addEventListener('DOMContentLoaded', function () {
+        var searchToggleBtn = document.querySelector('[data-bs-target="#offcanvasSearch"]');
+        var offcanvasSearchEl = document.getElementById('offcanvasSearch');
+
+        if (searchToggleBtn && offcanvasSearchEl && window.bootstrap) {
+            searchToggleBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                var instance = bootstrap.Offcanvas.getOrCreateInstance(offcanvasSearchEl);
+                instance.toggle();
+            });
+        }
+    });
                     </script>
 
                     <ul
@@ -511,7 +535,7 @@ use App\Http\Controllers\Helper;
                                                 <?php
                             $addedProducts = Session::get('cart', []);
                             $cartCount = count($addedProducts);
-                                                                                                                                                                                                                                                                                                                                                    ?>
+                                                                                                                                                                                                                                                                                                                                                                            ?>
                                                 <li class="nav-item active">
                                                     @if ($cartCount > 0)
                                                         <a href="{{ url('/item-cart') }}" class="nav-link position-relative d-inline-block">
@@ -613,14 +637,130 @@ use App\Http\Controllers\Helper;
     </header>
 
     <style>
-:root {
-    --sh-pink: #d94f7b;
-    --sh-pink-dark: #bd3d68;
-    --sh-pink-light: #fbe4eb;
-    --sh-rose: #f8dce5;
-    --sh-cream: #fcecef;
-    --sh-text: #30242a;
-}
+        /* =========================================================
+           SHANANA — NAVBAR
+           ========================================================= */
+        :root {
+            --sh-pink: #d94f7b;
+            --sh-pink-dark: #bd3d68;
+            --sh-pink-light: #fbe4eb;
+            --sh-text: #30242a;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1030;
+            background: #fff;
+        }
+
+        header .row.border-bottom {
+            border-bottom: 1px solid #f3dbe6 !important;
+            box-shadow: 0 4px 24px rgba(70, 35, 48, .06);
+            padding-top: .65rem !important;
+            padding-bottom: .65rem !important;
+        }
+
+        header img.img-fluid {
+            max-height: 42px;
+            width: auto;
+        }
+
+        /* Search toggle */
+        header .col-sm-4>.btn {
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: var(--sh-text);
+            transition: background .25s ease, color .25s ease;
+        }
+
+        header .col-sm-4>.btn:hover {
+            background: var(--sh-pink-light);
+            color: var(--sh-pink-dark);
+        }
+
+        /* Nav links */
+        .navbar-nav.list-unstyled {
+            gap: 2rem !important;
+        }
+
+        .navbar-nav .nav-link {
+            position: relative;
+            display: inline-block;
+            padding: .35rem .05rem !important;
+            font-size: .8rem;
+            font-weight: 700;
+            letter-spacing: .06em;
+            color: var(--sh-text) !important;
+            transition: color .25s ease;
+        }
+
+        .navbar-nav .nav-link::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -3px;
+            width: 0;
+            height: 2px;
+            border-radius: 2px;
+            background: var(--sh-pink);
+            transition: width .25s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--sh-pink-dark) !important;
+        }
+
+        .navbar-nav .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Right-hand icon cluster */
+        header .col-lg-2 ul.d-flex li a {
+            width: 40px;
+            height: 40px;
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: var(--sh-text);
+            transition: background .25s ease, color .25s ease, transform .2s ease;
+        }
+
+        header .col-lg-2 ul.d-flex li a svg {
+            fill: currentColor;
+        }
+
+        header .col-lg-2 ul.d-flex li a:hover {
+            background: var(--sh-pink-light);
+            color: var(--sh-pink-dark);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 991px) {
+            .navbar-nav.list-unstyled {
+                gap: 1rem !important;
+            }
+
+            .navbar-nav .nav-link {
+                font-size: .74rem;
+            }
+        }
+    </style>
+
+    <style>
+        :root {
+            --sh-pink: #d94f7b;
+            --sh-pink-dark: #bd3d68;
+            --sh-pink-light: #fbe4eb;
+            --sh-rose: #f8dce5;
+            --sh-cream: #fcecef;
+            --sh-text: #30242a;
+        }
 
         .sh-eyebrow {
             display: inline-flex;
@@ -719,38 +859,6 @@ use App\Http\Controllers\Helper;
             display: block;
         }
 
-        .sh-hero-badge {
-            position: absolute;
-            z-index: 2;
-            top: -18px;
-            right: -18px;
-            background: #fff;
-            border-radius: 50%;
-            width: 120px;
-            height: 120px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, .15);
-            border: 3px solid var(--sh-pink-light);
-        }
-
-        .sh-hero-badge strong {
-            color: var(--sh-pink);
-            font-size: 1.4rem;
-            line-height: 1;
-        }
-
-        .sh-hero-badge span {
-            font-size: .65rem;
-            color: #7a6570;
-            font-weight: 600;
-            text-transform: uppercase;
-            line-height: 1.2;
-        }
-
         .sh-trust-strip {
             border-top: 1px solid #f3dbe6;
             border-bottom: 1px solid #f3dbe6;
@@ -792,11 +900,25 @@ use App\Http\Controllers\Helper;
         }
 
         .sh-section-eyebrow {
+            position: relative;
+            display: inline-block;
+            padding-left: 1.4rem;
             color: var(--sh-pink-dark);
             font-weight: 700;
             letter-spacing: .08em;
             text-transform: uppercase;
             font-size: .78rem;
+        }
+
+        .sh-section-eyebrow::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 1.05rem;
+            height: 2px;
+            background: var(--sh-pink);
+            transform: translateY(-50%);
         }
 
         .sh-view-all {
@@ -806,10 +928,19 @@ use App\Http\Controllers\Helper;
             display: inline-flex;
             align-items: center;
             gap: .4rem;
+            padding: .5rem 0;
+        }
+
+        .sh-view-all svg {
+            transition: transform .25s ease;
         }
 
         .sh-view-all:hover {
             color: var(--sh-pink);
+        }
+
+        .sh-view-all:hover svg {
+            transform: translateX(4px);
         }
 
         .sh-category-strip {
@@ -879,6 +1010,10 @@ use App\Http\Controllers\Helper;
             background: var(--sh-cream);
         }
 
+        .sh-products-band+.sh-products-band {
+            border-top: 1px solid rgba(217, 79, 123, .08);
+        }
+
         /* Re-skin the shared product card partial to match the new palette */
         .sh-products-band .product-item {
             border: 1px solid #f6e2ea;
@@ -940,441 +1075,396 @@ use App\Http\Controllers\Helper;
    SHANANA PREMIUM HERO
    ========================================================= */
 
-:root {
-    --sh-pink: #d94f7b;
-    --sh-pink-dark: #bd3d68;
-    --sh-pink-light: #fbe4eb;
-    --sh-rose: #f8dce5;
-    --sh-hero-bg: #fcecef;
-    --sh-text: #30242a;
-}
+        :root {
+            --sh-pink: #d94f7b;
+            --sh-pink-dark: #bd3d68;
+            --sh-pink-light: #fbe4eb;
+            --sh-rose: #f8dce5;
+            --sh-hero-bg: #fcecef;
+            --sh-text: #30242a;
+        }
 
 
-/* HERO */
-.sh-hero {
-    position: relative;
-    min-height: 620px;
-    padding: 0;
-    overflow: hidden;
+        /* HERO */
+        .sh-hero {
+            /* Scales with viewport height so the whole banner is visible on a
+       normal laptop screen at 100% zoom, instead of a fixed 620px that
+       forced people to zoom out to see it all. */
+            --sh-hero-h: clamp(440px, 76vh, 600px);
 
-    /* Premium soft skincare pink */
-    background:
-        linear-gradient(
-            90deg,
-            #fcecef 0%,
-            #fcecef 38%,
-            rgba(252, 236, 239, .96) 50%,
-            rgba(252, 236, 239, .25) 70%,
-            rgba(252, 236, 239, 0) 100%
-        );
-}
+            position: relative;
+            min-height: var(--sh-hero-h);
+            padding: 0;
+            overflow: hidden;
 
-
-/* Make the Bootstrap container fill the hero */
-.sh-hero > .container-lg {
-    position: relative;
-    min-height: 620px;
-    z-index: 3;
-}
+            /* Premium soft skincare pink */
+            background:
+                linear-gradient(90deg,
+                    #fcecef 0%,
+                    #fcecef 38%,
+                    rgba(252, 236, 239, .96) 50%,
+                    rgba(252, 236, 239, .25) 70%,
+                    rgba(252, 236, 239, 0) 100%);
+        }
 
 
-/* Hero row */
-.sh-hero > .container-lg > .row {
-    min-height: 620px;
-    position: relative;
-}
+        /* Make the Bootstrap container fill the hero */
+        .sh-hero>.container-lg {
+            position: relative;
+            min-height: var(--sh-hero-h);
+            z-index: 3;
+        }
 
 
-/* Text area */
-.sh-hero .col-lg-6:first-child {
-    position: relative;
-    z-index: 5;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    padding-top: 4rem;
-    padding-bottom: 4rem;
-}
+        /* Hero row */
+        .sh-hero>.container-lg>.row {
+            min-height: var(--sh-hero-h);
+            position: relative;
+        }
 
 
-/* Eyebrow */
-.sh-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: .5rem;
+        /* Text area */
+        .sh-hero .col-lg-6:first-child {
+            position: relative;
+            z-index: 5;
 
-    width: fit-content;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
 
-    font-size: .75rem;
-    font-weight: 700;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-
-    color: var(--sh-pink-dark);
-    background: rgba(255,255,255,.65);
-
-    padding: .45rem .9rem;
-    border-radius: 50px;
-
-    margin-bottom: 1.25rem;
-
-    border: 1px solid rgba(217,79,123,.12);
-}
+            padding-top: 4rem;
+            padding-bottom: 4rem;
+        }
 
 
-/* Main heading */
-.sh-hero h1 {
-    max-width: 620px;
+        /* Eyebrow */
+        .sh-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
 
-    margin-bottom: 1.25rem;
+            width: fit-content;
 
-    font-family: Georgia, "Times New Roman", serif;
+            font-size: .75rem;
+            font-weight: 700;
+            letter-spacing: .14em;
+            text-transform: uppercase;
 
-    font-size: clamp(3rem, 5vw, 5.2rem);
-    font-weight: 500;
-    line-height: .98;
+            color: var(--sh-pink-dark);
+            background: rgba(255, 255, 255, .65);
 
-    letter-spacing: -.035em;
+            padding: .45rem .9rem;
+            border-radius: 50px;
 
-    color: var(--sh-text);
-}
+            margin-bottom: 1.25rem;
 
-
-.sh-hero h1 span {
-    color: var(--sh-pink);
-}
-
-
-/* Description */
-.sh-hero p.lead {
-    max-width: 480px;
-
-    margin-bottom: 2rem;
-
-    color: #6d5a62;
-
-    font-size: 1rem;
-    line-height: 1.7;
-}
+            border: 1px solid rgba(217, 79, 123, .12);
+        }
 
 
-/* Buttons */
-.sh-btn-primary {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+        /* Main heading */
+        .sh-hero h1 {
+            max-width: 620px;
 
-    background: var(--sh-pink);
-    border: 1px solid var(--sh-pink);
+            margin-bottom: 1.25rem;
 
-    color: #fff;
+            font-family: Georgia, "Times New Roman", serif;
 
-    font-weight: 700;
+            font-size: clamp(3rem, 5vw, 5.2rem);
+            font-weight: 500;
+            line-height: .98;
 
-    padding: .85rem 1.8rem;
+            letter-spacing: -.035em;
 
-    border-radius: 50px;
-
-    box-shadow: 0 12px 28px rgba(189,61,104,.20);
-
-    transition:
-        transform .25s ease,
-        box-shadow .25s ease,
-        background .25s ease;
-}
+            color: var(--sh-text);
+        }
 
 
-.sh-btn-primary:hover {
-    background: var(--sh-pink-dark);
-    border-color: var(--sh-pink-dark);
-
-    color: #fff;
-
-    transform: translateY(-2px);
-
-    box-shadow: 0 16px 32px rgba(189,61,104,.28);
-}
+        .sh-hero h1 span {
+            color: var(--sh-pink);
+        }
 
 
-.sh-btn-outline {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+        /* Description */
+        .sh-hero p.lead {
+            max-width: 480px;
 
-    border: 1px solid rgba(189,61,104,.35);
+            margin-bottom: 2rem;
 
-    color: var(--sh-pink-dark);
+            color: #6d5a62;
 
-    font-weight: 700;
-
-    padding: .85rem 1.8rem;
-
-    border-radius: 50px;
-
-    background: rgba(255,255,255,.65);
-
-    transition: all .25s ease;
-}
+            font-size: 1rem;
+            line-height: 1.7;
+        }
 
 
-.sh-btn-outline:hover {
-    background: var(--sh-pink);
-    border-color: var(--sh-pink);
+        /* Buttons */
+        .sh-btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
 
-    color: #fff;
+            background: var(--sh-pink);
+            border: 1px solid var(--sh-pink);
 
-    transform: translateY(-2px);
-}
+            color: #fff;
+
+            font-weight: 700;
+
+            padding: .85rem 1.8rem;
+
+            border-radius: 50px;
+
+            box-shadow: 0 12px 28px rgba(189, 61, 104, .20);
+
+            transition:
+                transform .25s ease,
+                box-shadow .25s ease,
+                background .25s ease;
+        }
 
 
-/* =========================================================
+        .sh-btn-primary:hover {
+            background: var(--sh-pink-dark);
+            border-color: var(--sh-pink-dark);
+
+            color: #fff;
+
+            transform: translateY(-2px);
+
+            box-shadow: 0 16px 32px rgba(189, 61, 104, .28);
+        }
+
+
+        .sh-btn-outline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 1px solid rgba(189, 61, 104, .35);
+
+            color: var(--sh-pink-dark);
+
+            font-weight: 700;
+
+            padding: .85rem 1.8rem;
+
+            border-radius: 50px;
+
+            background: rgba(255, 255, 255, .65);
+
+            transition: all .25s ease;
+        }
+
+
+        .sh-btn-outline:hover {
+            background: var(--sh-pink);
+            border-color: var(--sh-pink);
+
+            color: #fff;
+
+            transform: translateY(-2px);
+        }
+
+
+        /* =========================================================
    HERO IMAGE
    ========================================================= */
 
-.sh-hero .col-lg-6:last-child {
-    position: static;
-}
+        .sh-hero .col-lg-6:last-child {
+            position: static;
+        }
 
 
-/* Remove the old image-card appearance */
-.sh-hero-figure-wrap {
-    position: absolute;
+        /* Remove the old image-card appearance */
+        .sh-hero-figure-wrap {
+            position: absolute;
 
-    top: 0;
-    right: -10vw;
+            top: 0;
+            right: 0;
 
-    width: 68vw;
-    max-width: none;
+            /* Capped so it can never push wider than the hero on big monitors */
+            width: min(60vw, 780px);
+            max-width: none;
 
-    height: 100%;
+            height: 100%;
 
-    margin: 0;
+            margin: 0;
 
-    z-index: 1;
+            z-index: 1;
 
-    pointer-events: none;
-}
-
-
-.sh-hero-figure {
-    position: relative;
-
-    width: 100%;
-    height: 100%;
-
-    padding: 0;
-
-    border-radius: 0;
-
-    overflow: visible;
-
-    box-shadow: none;
-}
+            pointer-events: none;
+        }
 
 
-/* Main hero image */
-.sh-hero-figure img {
-    position: absolute;
+        .sh-hero-figure {
+            position: relative;
 
-    inset: 0;
+            width: 100%;
+            height: 100%;
 
-    width: 100%;
-    height: 100%;
+            padding: 0;
 
-    object-fit: cover;
+            border-radius: 0;
 
-    object-position: center center;
+            overflow: visible;
 
-    display: block;
-
-    /* Fade image naturally into the pink background */
-    -webkit-mask-image:
-        linear-gradient(
-            to right,
-            transparent 0%,
-            rgba(0,0,0,.15) 8%,
-            rgba(0,0,0,.75) 20%,
-            #000 32%,
-            #000 100%
-        );
-
-    mask-image:
-        linear-gradient(
-            to right,
-            transparent 0%,
-            rgba(0,0,0,.15) 8%,
-            rgba(0,0,0,.75) 20%,
-            #000 32%,
-            #000 100%
-        );
-}
+            box-shadow: none;
+        }
 
 
-/* Remove the old floating card */
-.sh-hero-badge {
-    top: 12%;
-    right: 10%;
+        /* Main hero image */
+        .sh-hero-figure img {
+            position: absolute;
 
-    width: 115px;
-    height: 115px;
+            inset: 0;
 
-    background: rgba(255,255,255,.90);
+            width: 100%;
+            height: 100%;
 
-    border: 1px solid rgba(255,255,255,.8);
+            object-fit: cover;
 
-    box-shadow: 0 15px 35px rgba(70,30,45,.12);
+            object-position: center center;
 
-    backdrop-filter: blur(8px);
-}
+            display: block;
+
+            /* Fade image naturally into the pink background */
+            -webkit-mask-image:
+                linear-gradient(to right,
+                    transparent 0%,
+                    rgba(0, 0, 0, .15) 8%,
+                    rgba(0, 0, 0, .75) 20%,
+                    #000 32%,
+                    #000 100%);
+
+            mask-image:
+                linear-gradient(to right,
+                    transparent 0%,
+                    rgba(0, 0, 0, .15) 8%,
+                    rgba(0, 0, 0, .75) 20%,
+                    #000 32%,
+                    #000 100%);
+        }
 
 
-.sh-hero-badge strong {
-    color: var(--sh-pink);
-
-    font-size: 1.45rem;
-}
-
-
-.sh-hero-badge span {
-    color: #6d5a62;
-}
-
-
-/* =========================================================
+        /* =========================================================
    TRUST ITEMS
    ========================================================= */
 
-.sh-hero .sh-trust-item {
-    color: #5d4c54;
-}
+        .sh-hero .sh-trust-item {
+            color: #5d4c54;
+        }
 
 
-.sh-hero .sh-icon-circle {
-    width: 38px;
-    height: 38px;
+        .sh-hero .sh-icon-circle {
+            width: 38px;
+            height: 38px;
 
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
 
-    flex-shrink: 0;
+            flex-shrink: 0;
 
-    color: var(--sh-pink);
+            color: var(--sh-pink);
 
-    background: rgba(255,255,255,.72);
+            background: rgba(255, 255, 255, .72);
 
-    border: 1px solid rgba(217,79,123,.12);
+            border: 1px solid rgba(217, 79, 123, .12);
 
-    border-radius: 50%;
-}
+            border-radius: 50%;
+        }
 
 
-/* =========================================================
+        /* =========================================================
    MOBILE
    ========================================================= */
 
-@media (max-width: 991px) {
+        @media (max-width: 991px) {
 
-    .sh-hero {
-        min-height: auto;
+            .sh-hero {
+                min-height: auto;
 
-        background:
-            linear-gradient(
-                180deg,
-                #fcecef 0%,
-                #fcecef 65%,
-                #fff 100%
-            );
-    }
+                background:
+                    linear-gradient(180deg,
+                        #fcecef 0%,
+                        #fcecef 65%,
+                        #fff 100%);
+            }
 
 
-    .sh-hero > .container-lg,
-    .sh-hero > .container-lg > .row {
-        min-height: auto;
-    }
+            .sh-hero>.container-lg,
+            .sh-hero>.container-lg>.row {
+                min-height: auto;
+            }
 
 
-    .sh-hero .col-lg-6:first-child {
-        padding-top: 4rem;
-        padding-bottom: 2rem;
-    }
+            .sh-hero .col-lg-6:first-child {
+                padding-top: 4rem;
+                padding-bottom: 2rem;
+            }
 
 
-    .sh-hero h1 {
-        font-size: clamp(2.8rem, 10vw, 4rem);
-    }
+            .sh-hero h1 {
+                font-size: clamp(2.8rem, 10vw, 4rem);
+            }
 
 
-    .sh-hero-figure-wrap {
-        position: relative;
+            .sh-hero-figure-wrap {
+                position: relative;
 
-        top: auto;
-        right: auto;
+                top: auto;
+                right: auto;
 
-        width: calc(100% + 3rem);
+                width: calc(100% + 3rem);
 
-        height: 430px;
+                height: 430px;
 
-        margin-left: -1.5rem;
-    }
-
-
-    .sh-hero-figure img {
-        -webkit-mask-image:
-            linear-gradient(
-                to bottom,
-                transparent 0%,
-                rgba(0,0,0,.65) 10%,
-                #000 25%,
-                #000 100%
-            );
-
-        mask-image:
-            linear-gradient(
-                to bottom,
-                transparent 0%,
-                rgba(0,0,0,.65) 10%,
-                #000 25%,
-                #000 100%
-            );
-
-        object-position: center top;
-    }
+                margin-left: -1.5rem;
+            }
 
 
-    .sh-hero-badge {
-        top: 8%;
-        right: 8%;
+            .sh-hero-figure img {
+                -webkit-mask-image:
+                    linear-gradient(to bottom,
+                        transparent 0%,
+                        rgba(0, 0, 0, .65) 10%,
+                        #000 25%,
+                        #000 100%);
 
-        width: 95px;
-        height: 95px;
-    }
-}
+                mask-image:
+                    linear-gradient(to bottom,
+                        transparent 0%,
+                        rgba(0, 0, 0, .65) 10%,
+                        #000 25%,
+                        #000 100%);
 
-
-@media (max-width: 575px) {
-
-    .sh-hero .col-lg-6:first-child {
-        padding-top: 3rem;
-    }
-
-
-    .sh-hero h1 {
-        font-size: 2.7rem;
-    }
+                object-position: center top;
+            }
+        }
 
 
-    .sh-hero p.lead {
-        font-size: .95rem;
-    }
+        @media (max-width: 575px) {
+
+            .sh-hero .col-lg-6:first-child {
+                padding-top: 3rem;
+            }
 
 
-    .sh-hero-figure-wrap {
-        height: 360px;
-    }
-}
+            .sh-hero h1 {
+                font-size: 2.7rem;
+            }
+
+
+            .sh-hero p.lead {
+                font-size: .95rem;
+            }
+
+
+            .sh-hero-figure-wrap {
+                height: 360px;
+            }
+        }
     </style>
 
     <!-- HERO -->
@@ -1383,7 +1473,11 @@ use App\Http\Controllers\Helper;
             <div class="row align-items-center gy-5">
                 <div class="col-lg-6">
                     <span class="sh-eyebrow">
-                        <svg width="14" height="14"><use xlink:href="#fresh"></use></svg>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2l1.7 7.3L21 11l-7.3 1.7L12 20l-1.7-7.3L3 11l7.3-1.7L12 2z" />
+                            <path d="M19 15l.8 3.2L23 19l-3.2.8L19 23l-.8-3.2L15 19l3.2-.8L19 15z" />
+                            <path d="M5 2l.6 2.4L8 5l-2.4.6L5 8l-.6-2.4L2 5l2.4-.6L5 2z" />
+                        </svg>
                         Beauty & Bedroom Essentials
                     </span>
                     <h1 class="display-4 mb-3">Reveal Your <span>Natural Glow</span></h1>
@@ -1394,7 +1488,9 @@ use App\Http\Controllers\Helper;
 
                     <div class="d-flex flex-wrap gap-3 mb-5">
                         <a href="{{ route('item.shop') }}" class="sh-btn-primary">
-                            Shop Now <svg width="16" height="16" style="fill:#fff; margin-left:4px;"><use xlink:href="#arrow-right"></use></svg>
+                            Shop Now <svg width="16" height="16" style="fill:#fff; margin-left:4px;">
+                                <use xlink:href="#arrow-right"></use>
+                            </svg>
                         </a>
                         <a href="{{ url('/contact-us') }}" class="sh-btn-outline">Talk to Us</a>
                     </div>
@@ -1402,25 +1498,33 @@ use App\Http\Controllers\Helper;
                     <div class="row row-cols-2 row-cols-md-4 g-3">
                         <div class="col">
                             <div class="sh-trust-item">
-                                <span class="sh-icon-circle"><svg width="20" height="20"><use xlink:href="#organic"></use></svg></span>
+                                <span class="sh-icon-circle"><svg width="20" height="20">
+                                        <use xlink:href="#organic"></use>
+                                    </svg></span>
                                 <small>100% Genuine</small>
                             </div>
                         </div>
                         <div class="col">
                             <div class="sh-trust-item">
-                                <span class="sh-icon-circle"><svg width="20" height="20"><use xlink:href="#delivery"></use></svg></span>
+                                <span class="sh-icon-circle"><svg width="20" height="20">
+                                        <use xlink:href="#delivery"></use>
+                                    </svg></span>
                                 <small>Fast Delivery</small>
                             </div>
                         </div>
                         <div class="col">
                             <div class="sh-trust-item">
-                                <span class="sh-icon-circle"><svg width="20" height="20"><use xlink:href="#secure"></use></svg></span>
+                                <span class="sh-icon-circle"><svg width="20" height="20">
+                                        <use xlink:href="#secure"></use>
+                                    </svg></span>
                                 <small>Secure Checkout</small>
                             </div>
                         </div>
                         <div class="col">
                             <div class="sh-trust-item">
-                                <span class="sh-icon-circle"><svg width="20" height="20"><use xlink:href="#package"></use></svg></span>
+                                <span class="sh-icon-circle"><svg width="20" height="20">
+                                        <use xlink:href="#package"></use>
+                                    </svg></span>
                                 <small>Easy Returns</small>
                             </div>
                         </div>
@@ -1430,11 +1534,7 @@ use App\Http\Controllers\Helper;
                 <div class="col-lg-6">
                     <div class="sh-hero-figure-wrap">
                         <div class="sh-hero-figure">
-                            <img src="/assets1/images/banner-12.png" alt="Shanana Beauty">
-                            <div class="sh-hero-badge">
-                                <strong>20%</strong>
-                                <span>Off First<br>Order</span>
-                            </div>
+                            <img src="/assets1/images/banner-3.png" alt="Shanana Beauty">
                         </div>
                     </div>
                 </div>
@@ -1469,8 +1569,8 @@ use App\Http\Controllers\Helper;
                 <div class="category-carousel swiper">
                     <div class="swiper-wrapper">
                         @forelse ($categories as $category)
-                            <a href="{{ url('/item-categories/' . $category->id) }}"
-                                class="swiper-slide sh-category-card" style="max-width: 150px;">
+                            <!-- Removed inline max-width, added 'col' class for even distribution -->
+                            <a href="{{ url('/item-categories/' . $category->id) }}" class="swiper-slide sh-category-card">
                                 <div class="sh-category-thumb">
                                     <img src="{{ asset('storage/' . $category->featured_image) }}"
                                         alt="{{ $category->name }}">
@@ -1497,11 +1597,13 @@ use App\Http\Controllers\Helper;
                     <h2 class="sh-section-title mb-0">Loved by Our Customers</h2>
                 </div>
                 <a href="{{ url('/product-options/1') }}" class="sh-view-all">View All
-                    <svg width="14" height="14" style="fill:currentColor;"><use xlink:href="#arrow-right"></use></svg>
+                    <svg width="14" height="14" style="fill:currentColor;">
+                        <use xlink:href="#arrow-right"></use>
+                    </svg>
                 </a>
             </div>
 
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xxl-5 g-4"
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xxl-4 g-4"
                 id="bestSelling-container">
                 @include('Ecommerce.partials.product_cards', ['products' => $bestSellingProducts])
             </div>
@@ -1526,11 +1628,13 @@ use App\Http\Controllers\Helper;
                     <h2 class="sh-section-title mb-0">Featured Products</h2>
                 </div>
                 <a href="{{ url('/product-options/2') }}" class="sh-view-all">View All
-                    <svg width="14" height="14" style="fill:currentColor;"><use xlink:href="#arrow-right"></use></svg>
+                    <svg width="14" height="14" style="fill:currentColor;">
+                        <use xlink:href="#arrow-right"></use>
+                    </svg>
                 </a>
             </div>
 
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xxl-5 g-4"
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xxl-4 g-4"
                 id="featured-container">
                 @include('Ecommerce.partials.product_cards', ['products' => $featuredProducts])
             </div>
@@ -1555,11 +1659,13 @@ use App\Http\Controllers\Helper;
                     <h2 class="sh-section-title mb-0">Most Popular Products</h2>
                 </div>
                 <a href="{{ url('/product-options/3') }}" class="sh-view-all">View All
-                    <svg width="14" height="14" style="fill:currentColor;"><use xlink:href="#arrow-right"></use></svg>
+                    <svg width="14" height="14" style="fill:currentColor;">
+                        <use xlink:href="#arrow-right"></use>
+                    </svg>
                 </a>
             </div>
 
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xxl-5 g-4"
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xxl-4 g-4"
                 id="popular-container">
                 @include('Ecommerce.partials.product_cards', ['products' => $popularProducts])
             </div>
@@ -1584,12 +1690,13 @@ use App\Http\Controllers\Helper;
                     <h2 class="sh-section-title mb-0">Just Arrived</h2>
                 </div>
                 <a href="{{ url('/product-options/4') }}" class="sh-view-all">View All
-                    <svg width="14" height="14" style="fill:currentColor;"><use xlink:href="#arrow-right"></use></svg>
+                    <svg width="14" height="14" style="fill:currentColor;">
+                        <use xlink:href="#arrow-right"></use>
+                    </svg>
                 </a>
             </div>
 
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xxl-5 g-4"
-                id="new-container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xxl-4 g-4" id="new-container">
                 @include('Ecommerce.partials.product_cards', ['products' => $newProducts])
             </div>
 
@@ -1806,7 +1913,9 @@ use App\Http\Controllers\Helper;
                         <div class="h-100 p-4 bg-white rounded-4 shadow-sm">
                             <div class="mb-2">
                                 @for ($i = 0; $i < 5; $i++)
-                                    <svg width="16" height="16" class="text-warning"><use xlink:href="#star-full"></use></svg>
+                                    <svg width="16" height="16" class="text-warning">
+                                        <use xlink:href="#star-full"></use>
+                                    </svg>
                                 @endfor
                             </div>
                             <p class="text-secondary mb-4">&ldquo;{{ $t['quote'] }}&rdquo;</p>
@@ -1834,7 +1943,22 @@ use App\Http\Controllers\Helper;
                 <!-- Logo & Social Media -->
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="footer-menu">
-                        <img src="/assets1/images/ShananaLogo.png" width="240" height="100" alt="logo">
+
+                        <!-- Text Logo (Replaces the image) -->
+                        <div
+                            style="display: flex; align-items: center; gap: 10px; white-space: nowrap; margin-bottom: 10px;">
+                            <!-- Placeholder Icon (Leaf/Flower) -->
+                            <i class="fa-solid fa-leaf"
+                                style="color: #d76a85; font-size: 24px; transform: rotate(-15deg); flex-shrink: 0;"></i>
+
+                            <!-- Text -->
+                            <span
+                                style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 700; font-size: 22px; color: #d76a85; letter-spacing: 0.5px; white-space: nowrap;">
+                                Shanana Beauty Products
+                            </span>
+                        </div>
+
+                        <!-- Social Links -->
                         <div class="social-links mt-3">
                             <ul class="d-flex list-unstyled gap-2">
                                 <li>
@@ -1876,7 +2000,6 @@ use App\Http\Controllers\Helper;
                         </div>
                     </div>
                 </div>
-
                 <!-- About / Company -->
                 <div class="col-md-2 col-sm-6">
                     <div class="footer-menu">
@@ -2034,6 +2157,47 @@ use App\Http\Controllers\Helper;
                     });
             });
         });
+
+        // Add this inside your <script> tags at the bottom of the page, 
+        // or update your existing Swiper initialization.
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize Category Carousel
+            if (document.querySelector('.category-carousel')) {
+                const categorySwiper = new Swiper('.category-carousel', {
+                    slidesPerView: 'auto', // This is the key: automatically calculates width to fit
+                    spaceBetween: 20,      // Space between each category circle
+                    loop: false,           // Set to true if you want it to loop infinitely
+                    navigation: {
+                        nextEl: '.category-carousel-next',
+                        prevEl: '.category-carousel-prev',
+                    },
+                    breakpoints: {
+                        // When window width is >= 320px
+                        320: {
+                            slidesPerView: 2,
+                            spaceBetween: 15
+                        },
+                        // When window width is >= 576px
+                        576: {
+                            slidesPerView: 3,
+                            spaceBetween: 20
+                        },
+                        // When window width is >= 768px
+                        768: {
+                            slidesPerView: 4,
+                            spaceBetween: 25
+                        },
+                        // When window width is >= 992px
+                        992: {
+                            slidesPerView: 5, // Shows 5 categories on desktop, filling the width
+                            spaceBetween: 30
+                        }
+                    }
+                });
+            }
+        });
+        
     </script>
 
     <script>

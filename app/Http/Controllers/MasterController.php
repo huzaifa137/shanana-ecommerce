@@ -22,10 +22,10 @@ class MasterController extends Controller
         $products = Product::all();
         $categories = Category::all();
 
-        $bestSellingProducts = Product::where('labels->bestSelling', true)->take(3)->get();
-        $featuredProducts = Product::where('labels->featured', true)->take(3)->get();
-        $popularProducts = Product::where('labels->popular', true)->take(3)->get();
-        $newProducts = Product::where('labels->new', true)->take(3)->get();
+        $bestSellingProducts = Product::where('labels->bestSelling', true)->take(4)->get();
+        $featuredProducts = Product::where('labels->featured', true)->take(4)->get();
+        $popularProducts = Product::where('labels->popular', true)->take(4)->get();
+        $newProducts = Product::where('labels->new', true)->take(4)->get();
         $combos = Product::where('is_combo', true)->take(3)->get();
 
         $popupProducts = $featuredProducts->take(15);
@@ -46,7 +46,7 @@ class MasterController extends Controller
     {
 
         $offset = $request->input('offset', 0);
-        $limit = 3;
+        $limit = 4;
 
         $query = Product::query();
 

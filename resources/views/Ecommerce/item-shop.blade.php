@@ -83,16 +83,16 @@ use App\Http\Controllers\Helper;
                                     <h4>Categories</h4>
                                     <ul class="list-unstyled fruite-categorie">
                                         @foreach ($categories as $category)
-                                            <?php
+                                                                                <?php
                                             $countCategory = DB::table('products')->where('category', $category->id)->count();
-                                            ?>
-                                            <li>
-                                                <div class="d-flex justify-content-between fruite-name">
-                                                    <a href="{{ url('/item-categories/' . $category->id) }}"><i
-                                                            class="fas fa-apple-alt me-2"></i>{{ $category->name }}</a>
-                                                    <span>({{ $countCategory }})</span>
-                                                </div>
-                                            </li>
+                                                                                    ?>
+                                                                                <li>
+                                                                                    <div class="d-flex justify-content-between fruite-name">
+                                                                                        <a href="{{ url('/item-categories/' . $category->id) }}"><i
+                                                                                                class="fas fa-apple-alt me-2"></i>{{ $category->name }}</a>
+                                                                                        <span>({{ $countCategory }})</span>
+                                                                                    </div>
+                                                                                </li>
                                         @endforeach
                                     </ul>
                                 </div>
@@ -105,8 +105,7 @@ use App\Http\Controllers\Helper;
                                     <div class="d-flex align-items-start mb-4">
                                         <div class="me-3 flex-shrink-0">
                                             <img src="{{ asset('storage/' . $featuredProduct->featured_image_2) }}"
-                                                class="img-fluid rounded border"
-                                                alt="{{ $featuredProduct->product_name }}"
+                                                class="img-fluid rounded border" alt="{{ $featuredProduct->product_name }}"
                                                 style="width: 100px; height: 100px; object-fit: cover;">
                                         </div>
                                         <div class="flex-grow-1">
@@ -116,8 +115,7 @@ use App\Http\Controllers\Helper;
 
                                             <div class="d-flex mb-2">
                                                 @for ($i = 0; $i < 5; $i++)
-                                                    <i class="fa fa-star text-warning me-1"
-                                                        style="font-size: 14px;"></i>
+                                                    <i class="fa fa-star text-warning me-1" style="font-size: 14px;"></i>
                                                 @endfor
                                             </div>
 
@@ -360,7 +358,8 @@ use App\Http\Controllers\Helper;
 
                                             <div class="d-flex justify-content-between flex-lg-wrap">
                                                 <p class="text-primary fs-5 fw-bold mb-0">Ugx
-                                                    {{ $product->sale_price }}/=</p>
+                                                    {{ $product->sale_price }}/=
+                                                </p>
 
                                                 @if ($isInCart)
                                                     <button type="button"
@@ -369,8 +368,7 @@ use App\Http\Controllers\Helper;
                                                         <i class="fa fa-check me-2 text-success"></i> In Cart
                                                     </button>
                                                 @else
-                                                    <form method="POST"
-                                                        action="{{ route('shop.add.cart', $product->id) }}"
+                                                    <form method="POST" action="{{ route('shop.add.cart', $product->id) }}"
                                                         style="z-index: 3; position: relative;">
                                                         @csrf
                                                         <button type="submit"
