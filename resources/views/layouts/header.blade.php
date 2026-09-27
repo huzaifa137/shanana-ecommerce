@@ -233,7 +233,8 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="{{ route('customer.logout') }}">
+                                        <a class="dropdown-item" href="{{ route('customer.logout') }}"
+                                            onclick="return confirm('Are you sure you want to log out?');">
                                             <i class="fas fa-sign-out-alt me-2"></i> Logout
                                         </a>
                                     </li>

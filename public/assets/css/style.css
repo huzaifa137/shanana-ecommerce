@@ -160,7 +160,10 @@
 
 .dropdown .dropdown-menu a:hover {
     background: var(--bs-secondary);
-    color: var(--bs-primary);
+    /* Both --bs-primary and --bs-secondary are the same pink, so text
+       colored --bs-primary on a --bs-secondary background was invisible
+       on hover (e.g. the Profile/Dashboard/Logout dropdown). */
+    color: #fff;
 }
 
 .navbar .nav-item:hover .dropdown-menu {

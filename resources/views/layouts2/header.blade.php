@@ -129,7 +129,8 @@
                             <div class="mt-1">Profile</div>
                         </a>
 
-                        <a class="dropdown-item d-flex" href="{{ route('admin.logout') }}">
+                        <a class="dropdown-item d-flex" href="{{ route('admin.logout') }}"
+                            onclick="return confirm('Are you sure you want to log out?');">
                             <svg class="header-icon mr-3" x="1008" y="1248" viewBox="0 0 24 24" height="100%"
                                 width="100%" preserveAspectRatio="xMidYMid meet" focusable="false">
                                 <path d="M0 0h24v24H0V0zm0 0h24v24H0V0z" fill="none" />

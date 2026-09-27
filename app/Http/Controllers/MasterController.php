@@ -220,11 +220,7 @@ class MasterController extends Controller
             'passwordInput' => [
                 'required',
                 'string',
-                'min:8',
-                'regex:/[a-z]/',
-                'regex:/[A-Z]/',
-                'regex:/\d/',
-                'regex:/[\W_]/',
+                'min:4',
             ],
             'confirmpasswordInput' => 'required|same:passwordInput',
         ]);
@@ -336,7 +332,10 @@ class MasterController extends Controller
                     $request->session()->put('LoggedCustomer', $userId);
                 }
 
-                $url = '/';
+                // Admin accounts land on the admin dashboard, customers on
+                // theirs — the same rule storeUserInformation() already
+                // uses for a fresh registration.
+                $url = '/shanana/dashboard';
                 $url2 = session()->get('url.intended');
                 $url3 = '/customer/dashboard';
 
@@ -380,13 +379,8 @@ class MasterController extends Controller
             'firstName' => 'required|string|max:255',
             'lastName' => 'required|string|max:255',
             'email' => 'nullable|email',
-            'companyName' => 'required|string',
-            'address' => 'required|string',
-            'city' => 'required|string',
-            'country' => 'required|string',
-            'postcode' => 'required|string',
             'mobile' => 'required|string',
-            'password' => 'nullable|confirmed|min:8|regex:/[a-z]/|regex:/[A-Z]/|regex:/[0-9]/|regex:/[\W_]/',
+            'password' => 'nullable|confirmed|min:4',
         ]);
 
         $user = User::find(Session('LoggedCustomer'));
@@ -394,13 +388,7 @@ class MasterController extends Controller
         $user->first_name = $request->firstName;
         $user->last_name = $request->lastName;
         $user->email = $request->email;
-        $user->company_name = $request->companyName;
-        $user->address = $request->address;
-        $user->city = $request->city;
-        $user->country = $request->country;
-        $user->postcode = $request->postcode;
         $user->mobile = $request->mobile;
-        $user->default_shipping_address = $request->default_shipping_address;
 
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
@@ -501,13 +489,12 @@ class MasterController extends Controller
     {
         $request->validate(
             [
-                'password' => ['required', 'string', 'min:6', 'regex:/[A-Z]/', 'regex:/[a-z]/', 'regex:/[0-9]/', 'regex:/[@$!%*?&#]/'],
+                'password' => ['required', 'string', 'min:4'],
             ],
             [
                 'password.required' => 'The password field is required.',
                 'password.string' => 'The password must be a string.',
-                'password.min' => 'The password must be at least 6 characters.',
-                'password.regex' => 'The password must include at least one uppercase letter, one lowercase letter, one digit, and one special character.',
+                'password.min' => 'The password must be at least 4 characters.',
             ],
         );
 

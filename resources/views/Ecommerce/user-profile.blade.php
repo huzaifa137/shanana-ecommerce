@@ -48,31 +48,19 @@
                                     value="{{ old('email', $customer->email) }}">
                             </div>
 
-                            <div class="form-item">
-                                <label class="form-label my-3" for="companyName">Company Name</label>
-                                <input type="text" class="form-control" id="companyName" name="company_name"
-                                    value="{{ old('company_name', $customer->company_name) }}">
-                            </div>
-
-                            <div class="form-item">
-                                <label class="form-label my-3" for="address">Address</label>
-                                <input type="text" class="form-control" id="address" name="address"
-                                    placeholder="House Number Street Name"
-                                    value="{{ old('address', $customer->address) }}">
-                            </div>
-
-                            <div class="form-item">
-                                <label class="form-label my-3" for="city">Town/City</label>
-                                <input type="text" class="form-control" id="city" name="city"
-                                    value="{{ old('city', $customer->city) }}">
-                            </div>
-
-                            <div class="form-item">
-                                <label class="form-label my-3" for="country">Country</label>
-
-                                {{-- Define the countries array again (or pass it from the controller) --}}
-                                @php
-                                    $countries = [
+                            {{--
+                                Only the fields actually collected at
+                                registration (Ecommerce/user-register.blade.php)
+                                are editable here: first/last name, email,
+                                mobile, password. Company name, address,
+                                city, country, postcode and the default
+                                shipping-address checkbox were never asked
+                                for at signup, so they were removed —
+                                shipping details are still collected fresh
+                                at checkout (Ecommerce/item-checkout.blade.php).
+                            --}}
+                            @php
+                                $unusedCountries = [
                                         ['code' => 'af', 'name' => 'Afghanistan'],
                                         ['code' => 'al', 'name' => 'Albania'],
                                         ['code' => 'dz', 'name' => 'Algeria'],

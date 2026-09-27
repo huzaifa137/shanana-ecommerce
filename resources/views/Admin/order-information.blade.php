@@ -69,7 +69,10 @@
 
                         <h4 class="mt-4 mb-3 text-primary">Shipping Information</h4>
 
-                        @php $shipping = json_decode($order->shipping_info); @endphp
+                        {{-- shipping_info is cast to an array on the Order model,
+                             so it arrives already decoded — json_decode() here
+                             was being handed an array instead of a JSON string. --}}
+                        @php $shipping = (object) ($order->shipping_info ?? []); @endphp
 
                         <div class="card bg-light p-3 mb-4 rounded">
                             <div class="row">

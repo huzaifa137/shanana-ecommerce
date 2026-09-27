@@ -50,7 +50,10 @@ use App\Http\Controllers\Helper;
                 <div class="card shadow-sm h-100">
                     <div class="card-body">
                         <h5 class="card-title text-primary mb-3">Shipping Information</h5>
-                        @php $shipping = json_decode($order->shipping_info); @endphp
+                        {{-- shipping_info is cast to an array on the Order model,
+                             so it arrives already decoded — json_decode() here
+                             was being handed an array instead of a JSON string. --}}
+                        @php $shipping = (object) ($order->shipping_info ?? []); @endphp
                         <div class="row">
                             <div class="col-md-6">
                                 <ul class="list-unstyled mb-0">
