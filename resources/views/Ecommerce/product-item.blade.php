@@ -154,7 +154,7 @@ use App\Http\Controllers\Helper;
 
 
                                     <div class="row g-4">
-                                        <div class="col-6">
+                                        <div class="col-12">
                                             <div
                                                 class="row bg-light text-center align-items-center justify-content-center py-2">
                                                 <div class="col-6">

@@ -2209,25 +2209,52 @@ use App\Http\Controllers\Helper;
     <script src="/assets/js/cart-ajax.js"></script>
 
     <!-- Back to Top (this page has its own layout, so it doesn't inherit
-         the one from layouts/footer.blade.php like the other pages do). -->
-    <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top-home"
-        style="position:fixed; right:30px; bottom:30px; display:none; width:45px; height:45px;
-               align-items:center; justify-content:center; z-index:99;">
-        <i class="fa fa-arrow-up"></i>
-    </a>
-    <script>
-        (function() {
-            var btn = document.querySelector('.back-to-top-home');
-            window.addEventListener('scroll', function() {
-                btn.style.display = window.scrollY > 300 ? 'flex' : 'none';
-            });
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            });
-        })();
-    </script>
-</body>
+         the one from layouts/footer.blade.php like the other pages do).
+
+         Note: this page loads the vanilla Bootstrap 5 CDN build, whose
+         --bs-primary is blue, unlike the other pages which load the
+         site's own compiled /assets/css/bootstrap.min.css (pink primary,
+         black text/icon). So the pink/black colors are hardcoded inline
+         here rather than relying on the btn-primary class, to match. -->
+<!-- Back to Top -->
+<a href="#" class="back-to-top-home"
+    style="position:fixed; right:30px; bottom:30px; display:none; width:45px; height:45px;
+           align-items:center; justify-content:center; z-index:99;
+           background-color:#D94F7B; border:3px solid #D94F7B; border-radius:50%;
+           box-shadow:0 6px 16px rgba(217,79,123,.35);
+           transition:transform .2s ease, background-color .2s ease;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000"
+         stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 19V5M5 12l7-7 7 7"/>
+    </svg>
+</a>
+
+<style>
+    svg {
+    fill: #000;
+    color: #000;
+}
+</style>
+<script>
+    (function() {
+        var btn = document.querySelector('.back-to-top-home');
+        if (!btn) return;
+        window.addEventListener('scroll', function() {
+            btn.style.display = window.scrollY > 300 ? 'flex' : 'none';
+        });
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        btn.addEventListener('mouseenter', function() {
+            btn.style.transform = 'translateY(-3px)';
+            btn.style.backgroundColor = '#bd3d68';
+            btn.style.borderColor = '#bd3d68';
+        });
+        btn.addEventListener('mouseleave', function() {
+            btn.style.transform = 'translateY(0)';
+            btn.style.backgroundColor = '#D94F7B';
+            btn.style.borderColor = '#D94F7B';
+        });
+    })();
+</script>
