@@ -2,10 +2,14 @@
  * Shanana — global cart + navigation UX helpers.
  *
  * 1. Add-to-cart forms (route: shop/add-to-cart/{id}) are intercepted and
- *    submitted over AJAX. While the request is in flight the button just
- *    shows a spinner (no message yet). Once it resolves, the button/form
- *    is flipped in place to the "In Cart" state and a small SweetAlert2
- *    toast confirms it in the corner of the screen — no page reload.
+ *    submitted over AJAX. While the request is in flight the whole form is
+ *    disabled and the button shows a real pending state (spinner + "Adding…"
+ *    label) so the user has clear feedback that something happened. Once it
+ *    resolves, the button/form is flipped in place to the "In Cart" state
+ *    and a small SweetAlert2 toast confirms it in the corner of the screen —
+ *    no page reload. Every header cart badge (".js-cart-count"/".js-cart-badge")
+ *    on the current page is updated and revealed at the same time, so the
+ *    count is correct instantly, on every page, without a reload.
  *
  * 2. Any link that navigates to another page shows the site's existing
  *    #spinner overlay immediately on click, instead of the page looking
@@ -43,6 +47,12 @@
         function updateCartCount(count) {
             document.querySelectorAll(".js-cart-count").forEach(function (el) {
                 el.textContent = count;
+            });
+            // Badges are always present in the DOM (hidden via .d-none when the
+            // cart is empty) so they can be revealed here instantly — no reload
+            // needed to see the count appear for the first time.
+            document.querySelectorAll(".js-cart-badge").forEach(function (el) {
+                el.classList.toggle("d-none", !(count > 0));
             });
         }
 
@@ -89,10 +99,19 @@
 
             var button = form.querySelector('button[type="submit"], a.modern-add-btn');
             var originalHtml = button ? button.innerHTML : "";
+
+            // Disable everything in the form (quantity input included) so a
+            // second click can't fire a duplicate request while this one is
+            // still pending.
+            form.querySelectorAll("input, button").forEach(function (el) {
+                el.disabled = true;
+            });
+
             if (button) {
-                button.disabled = true;
-                // Just a loader for now — no wording, no toast yet.
-                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                button.classList.add("is-adding-to-cart");
+                button.innerHTML =
+                    '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="margin-right:6px;vertical-align:-2px;"></span>' +
+                    '<span class="js-adding-label">Adding…</span>';
             }
 
             fetch(form.getAttribute("action"), {
@@ -121,8 +140,11 @@
                     notify("success", data.message || "Added to cart!");
                 })
                 .catch(function (err) {
+                    form.querySelectorAll("input, button").forEach(function (el) {
+                        el.disabled = false;
+                    });
                     if (button) {
-                        button.disabled = false;
+                        button.classList.remove("is-adding-to-cart");
                         button.innerHTML = originalHtml;
                     }
                     form.dataset.submitting = "0";

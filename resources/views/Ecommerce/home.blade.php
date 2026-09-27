@@ -379,26 +379,43 @@ use App\Http\Controllers\Helper;
     <header>
         <div class="container-fluid">
             <div class="row py-3 border-bottom">
-                <div
-                    class="col-sm-4 col-lg-2 text-center text-sm-start d-flex gap-3 justify-content-center justify-content-md-start">
-                    <div class="d-flex align-items-center my-3 my-sm-0">
-                        <a href="{{ url('/') }}"
-                            style="text-decoration: none; display: flex; align-items: center; gap: 10px; white-space: nowrap;">
-                            <!-- Optional: Placeholder Icon (Leaf/Flower) to match the reference -->
-                            <i class="fa-solid fa-leaf"
-                                style="color: #e30048; font-size: 20px; transform: rotate(-15deg); flex-shrink: 0;"></i>
-                            <!-- Text Logo -->
-                            <span
-                                style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 700; font-size: 18px; color: #e30048; letter-spacing: 0.5px; white-space: nowrap;">
-                                Shanana Beauty Products
-                            </span>
-                        </a>
+                <div class="col-sm-4 col-lg-2 text-center text-sm-start">
+                    <div class="d-flex align-items-center gap-3 justify-content-center justify-content-md-start w-100">
+                        <div class="d-flex align-items-center my-3 my-sm-0">
+                            <a href="{{ url('/') }}"
+                                style="text-decoration: none; display: flex; align-items: center; gap: 10px; white-space: nowrap;">
+                                <!-- Optional: Placeholder Icon (Leaf/Flower) to match the reference -->
+                                <i class="fa-solid fa-leaf"
+                                    style="color: #e30048; font-size: 20px; transform: rotate(-15deg); flex-shrink: 0;"></i>
+                                <!-- Text Logo -->
+                                <span
+                                    style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 700; font-size: 18px; color: #e30048; letter-spacing: 0.5px; white-space: nowrap;">
+                                    Shanana Beauty Products
+                                </span>
+                            </a>
+                        </div>
+                        <!-- Desktop-only search trigger (opens the offcanvas search panel) -->
+                        <button id="searchToggleBtn" class="btn d-none d-lg-inline-flex p-0 me-4 my-auto" type="button"
+                            data-bs-toggle="offcanvas" data-bs-target="#offcanvasSearch"
+                            aria-controls="offcanvasSearch" aria-expanded="false"
+                            style="position: relative; z-index: 2; pointer-events: auto;">
+                            <i class="bi bi-search fs-4"></i>
+                        </button>
+                        <!-- Mobile-only hamburger toggle for the nav menu -->
+                        <button class="btn d-lg-none p-0 ms-auto my-auto sh-hamburger-btn" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#mobileMenuCollapse" aria-expanded="false"
+                            aria-controls="mobileMenuCollapse" aria-label="Toggle navigation menu">
+                            <svg width="26" height="26" viewBox="0 0 24 24" style="display:block; color:#30242a;">
+                                <use xlink:href="#menu"></use>
+                            </svg>
+                        </button>
                     </div>
-                    <button id="searchToggleBtn" class="btn p-0 me-4 my-auto" type="button" data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasSearch" aria-controls="offcanvasSearch" aria-expanded="false"
-                        style="position: relative; z-index: 2; pointer-events: auto;">
-                        <i class="bi bi-search fs-4"></i>
-                    </button>
+                    <!-- Mobile-only inline search bar, shown below the logo instead of the icon -->
+                    <div class="d-lg-none w-100 mt-2 sh-mobile-search-row">
+                        <input type="text" id="productSearchInputMobile" class="form-control form-control-sm shadow-sm"
+                            placeholder="Search products...">
+                        <div id="searchResultsMobile" class="list-group mt-1"></div>
+                    </div>
                 </div>
                 <div class="col-lg-8">
                     <link rel="stylesheet"
@@ -444,19 +461,27 @@ use App\Http\Controllers\Helper;
                         </div>
                     </div>
                     <script>
-                        document.getElementById('productSearchInput').addEventListener('input', function () {
-                            let query = this.value;
-                            if (query.length < 2) {
-                                document.getElementById('searchResults').innerHTML = '';
-                                return;
-                            }
-                            fetch(`/search-products?query=${encodeURIComponent(query)}`)
-                                .then(res => res.json())
-                                .then(data => {
-                                    let resultHTML = '';
-                                    if (data.length > 0) {
-                                        data.forEach(product => {
-                                            resultHTML += `
+                        // Live product search, shared between the desktop offcanvas
+                        // input (#productSearchInput) and the mobile inline input
+                        // (#productSearchInputMobile) — each writes into its own
+                        // results container.
+                        function wireProductSearch(inputId, resultsId) {
+                            var input = document.getElementById(inputId);
+                            if (!input) return;
+                            input.addEventListener('input', function () {
+                                let query = this.value;
+                                let results = document.getElementById(resultsId);
+                                if (query.length < 2) {
+                                    results.innerHTML = '';
+                                    return;
+                                }
+                                fetch(`/search-products?query=${encodeURIComponent(query)}`)
+                                    .then(res => res.json())
+                                    .then(data => {
+                                        let resultHTML = '';
+                                        if (data.length > 0) {
+                                            data.forEach(product => {
+                                                resultHTML += `
             <a href="/product-item/${product.id}" class="list-group-item list-group-item-action d-flex align-items-center gap-3">
                 <img src="/storage/${product.featured_image_1}" alt="${product.product_name}" width="50" height="50" style="object-fit: cover;">
                 <div>
@@ -465,13 +490,33 @@ use App\Http\Controllers\Helper;
                 </div>
             </a>
         `;
-                                        });
-                                    } else {
-                                        resultHTML = `<div class="list-group-item text-muted">No matching products found</div>`;
-                                    }
-                                    document.getElementById('searchResults').innerHTML = resultHTML;
-                                });
-                        });
+                                            });
+                                        } else {
+                                            resultHTML = `<div class="list-group-item text-muted">No matching products found</div>`;
+                                        }
+                                        results.innerHTML = resultHTML;
+                                    });
+                            });
+                        }
+                        wireProductSearch('productSearchInput', 'searchResults');
+                        wireProductSearch('productSearchInputMobile', 'searchResultsMobile');
+
+                        // Close the mobile nav menu after a link inside it is
+                        // tapped, so it doesn't stay open over the page content.
+                        (function () {
+                            var mobileMenu = document.getElementById('mobileMenuCollapse');
+                            if (!mobileMenu) return;
+                            mobileMenu.addEventListener('click', function (e) {
+                                if (!e.target.closest('a')) return;
+                                if (typeof window.bootstrap !== 'undefined' && window.bootstrap.Collapse) {
+                                    var instance = window.bootstrap.Collapse.getInstance(mobileMenu) ||
+                                        new window.bootstrap.Collapse(mobileMenu, { toggle: false });
+                                    instance.hide();
+                                } else {
+                                    mobileMenu.classList.remove('show');
+                                }
+                            });
+                        })();
                         // Search offcanvas toggle.
                         // Primary path: native Bootstrap `data-bs-toggle="offcanvas"` on the button
                         // (bootstrap.bundle.min.js binds this via a delegated click listener on
@@ -533,41 +578,32 @@ use App\Http\Controllers\Helper;
                             });
                         })();
                     </script>
-                    <ul
-                        class="navbar-nav list-unstyled d-flex flex-row gap-3 gap-lg-5 justify-content-center flex-wrap align-items-center mb-0 fw-bold text-uppercase text-dark">
-                        <li class="nav-item active">
-                            <a href="{{ url('/') }}" class="nav-link">Home</a>
-                        </li>
-                        <li class="nav-item active">
-                            <a href="{{ url('/item-shop') }}" class="nav-link">Shop</a>
-                        </li>
-                        @if (Session::has('LoggedCustomer'))
-                                                <?php
-                            $addedProducts = Session::get('cart', []);
-                            $cartCount = count($addedProducts);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ?>
-                                                <li class="nav-item active">
-                                                    @if ($cartCount > 0)
-                                                        <a href="{{ url('/item-cart') }}" class="nav-link position-relative d-inline-block">
-                                                            <span class="position-relative d-inline-flex align-items-center">
-                                                                Cart
-                                                                <span
-                                                                    class="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger animate__animated animate__bounce"
-                                                                    style="width: 20px; height: 20px; font-size: 12px; right: -6px; display: flex; justify-content: center; align-items: center;">
-                                                                    <span class="js-cart-count">{{ $cartCount }}</span>
-                                                                    <span class="visually-hidden">items in cart</span>
-                                                                </span>
-                                                            </span>
-                                                        </a>
-                                                    @else
-                                                        <a href="{{ url('/item-cart') }}" class="nav-link">Cart</a>
-                                                    @endif
-                                                </li>
-                        @else
+                    <div class="collapse d-lg-flex" id="mobileMenuCollapse">
+                        <ul
+                            class="navbar-nav list-unstyled d-flex flex-column flex-lg-row gap-3 gap-lg-5 justify-content-center flex-wrap align-items-center mb-0 fw-bold text-uppercase text-dark w-100">
                             <li class="nav-item active">
-                                <a href="{{ url('/item-cart') }}" class="nav-link">Cart</a>
+                                <a href="{{ url('/') }}" class="nav-link">Home</a>
                             </li>
-                        @endif
+                            <li class="nav-item active">
+                                <a href="{{ url('/item-shop') }}" class="nav-link">Shop</a>
+                            </li>
+                        <?php
+                        $addedProducts = Session::get('cart', []);
+                        $cartCount = count($addedProducts);
+                        ?>
+                        <li class="nav-item active">
+                            <a href="{{ url('/item-cart') }}" class="nav-link position-relative d-inline-block">
+                                <span class="position-relative d-inline-flex align-items-center">
+                                    Cart
+                                    <span
+                                        class="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger animate__animated animate__bounce js-cart-badge {{ $cartCount > 0 ? '' : 'd-none' }}"
+                                        style="width: 20px; height: 20px; font-size: 12px; right: -6px; display: flex; justify-content: center; align-items: center;">
+                                        <span class="js-cart-count">{{ $cartCount }}</span>
+                                        <span class="visually-hidden">items in cart</span>
+                                    </span>
+                                </span>
+                            </a>
+                        </li>
                         <li class="nav-item active">
                             <a href="{{ url('/contact-us') }}" class="nav-link">Contact Us</a>
                         </li>
@@ -584,6 +620,7 @@ use App\Http\Controllers\Helper;
                             </li>
                         @endif
                     </ul>
+                    </div>
                 </div>
                 <div
                     class="col-sm-8 col-lg-2 d-flex gap-5 align-items-center justify-content-center justify-content-sm-end">
@@ -618,14 +655,12 @@ use App\Http\Controllers\Helper;
                                     style="color:#30242a; fill:none; stroke:#30242a; stroke-width:1.5; display:block;">
                                     <use xlink:href="#shopping-bag"></use>
                                 </svg>
-                                @if ($cartCount > 0)
-                                    <span
-                                        class="position-absolute top-0 start-75 translate-middle badge rounded-pill bg-danger cart-badge"
-                                        style="font-size:0.7rem; padding:0.3em 0.5em;">
-                                        <span class="js-cart-count">{{ $cartCount }}</span>
-                                        <span class="visually-hidden">cart items</span>
-                                    </span>
-                                @endif
+                                <span
+                                    class="position-absolute top-0 start-75 translate-middle badge rounded-pill bg-danger cart-badge js-cart-badge {{ $cartCount > 0 ? '' : 'd-none' }}"
+                                    style="font-size:0.7rem; padding:0.3em 0.5em;">
+                                    <span class="js-cart-count">{{ $cartCount }}</span>
+                                    <span class="visually-hidden">cart items</span>
+                                </span>
                             </a>
                         </li>
                     </ul>
@@ -752,6 +787,70 @@ use App\Http\Controllers\Helper;
             .navbar-nav .nav-link {
                 font-size: .74rem;
             }
+        }
+
+        /* Mobile hamburger toggle */
+        .sh-hamburger-btn {
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background .25s ease;
+        }
+
+        .sh-hamburger-btn:hover {
+            background: var(--sh-pink-light);
+        }
+
+        .sh-hamburger-btn svg {
+            fill: currentColor;
+        }
+
+        /* Mobile nav menu (collapsed by default below lg, always open at lg+) */
+        @media (max-width: 991.98px) {
+            #mobileMenuCollapse {
+                width: 100%;
+                background: #fff;
+                border-top: 1px solid #f3dbe6;
+                box-shadow: 0 12px 24px rgba(70, 35, 48, .08);
+                padding: .75rem 0;
+                margin-top: .5rem;
+            }
+
+            #mobileMenuCollapse .navbar-nav.list-unstyled {
+                gap: .25rem !important;
+                width: 100%;
+            }
+
+            #mobileMenuCollapse .nav-item {
+                width: 100%;
+                text-align: center;
+            }
+
+            #mobileMenuCollapse .nav-link {
+                display: block;
+                padding: .6rem 0 !important;
+            }
+        }
+
+        /* Mobile-only inline search row, shown under the logo instead of
+           the icon-triggered offcanvas used on desktop */
+        .sh-mobile-search-row #searchResultsMobile {
+            max-height: 260px;
+            overflow-y: auto;
+            position: relative;
+            z-index: 20;
+        }
+
+        .sh-mobile-search-row #searchResultsMobile .list-group-item {
+            transition: background-color .2s ease;
+        }
+
+        .sh-mobile-search-row #searchResultsMobile .list-group-item:hover {
+            background-color: #f3dbe6;
+            cursor: pointer;
         }
     </style>
     <style>

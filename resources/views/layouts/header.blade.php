@@ -75,31 +75,22 @@
                         <a href="{{ url('/') }}" class="nav-item nav-link">Home</a>
                         <a href="{{ url('item-shop') }}" class="nav-item nav-link">Shop</a>
 
-                        @if (Session::has('LoggedCustomer'))
-                            <?php
-                            $addedProducts = Session::get('cart', []);
-                            $cartCount = count($addedProducts);
-                            ?>
-
-                            @if ($cartCount > 0)
-                                <a href="{{ url('item-cart') }}"
-                                    class="nav-item nav-link position-relative d-inline-block">
-                                    <span class="position-relative d-inline-flex align-items-center">
-                                        Cart
-                                        <span
-                                            class="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger animate__animated animate__bounce js-cart-count-wrap"
-                                            style="width: 20px; height: 20px; font-size: 12px; right: -6px; display: flex; justify-content: center; align-items: center;">
-                                            <span class="js-cart-count">{{ $cartCount }}</span>
-                                            <span class="visually-hidden">items in cart</span>
-                                        </span>
-                                    </span>
-                                </a>
-                            @else
-                                <a href="{{ url('item-cart') }}" class="nav-item nav-link">Cart</a>
-                            @endif
-                        @else
-                            <a href="{{ url('item-cart') }}" class="nav-item nav-link">Cart</a>
-                        @endif
+                        <?php
+                        $addedProducts = Session::get('cart', []);
+                        $cartCount = count($addedProducts);
+                        ?>
+                        <a href="{{ url('item-cart') }}"
+                            class="nav-item nav-link position-relative d-inline-block">
+                            <span class="position-relative d-inline-flex align-items-center">
+                                Cart
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger animate__animated animate__bounce js-cart-count-wrap js-cart-badge {{ $cartCount > 0 ? '' : 'd-none' }}"
+                                    style="width: 20px; height: 20px; font-size: 12px; right: -6px; display: flex; justify-content: center; align-items: center;">
+                                    <span class="js-cart-count">{{ $cartCount }}</span>
+                                    <span class="visually-hidden">items in cart</span>
+                                </span>
+                            </span>
+                        </a>
 
                         <a href="{{ route('order.track') }}" class="nav-item nav-link">Track Order</a>
                         <a href="{{ url('contact-us') }}" class="nav-item nav-link">Contact Us</a>
@@ -126,23 +117,18 @@
                         </button>
 
 
-                        @if (Session::has('LoggedCustomer'))
-                            <?php
-                            $addedProducts = Session::get('cart', []);
-                            $cartCount = count($addedProducts);
-                            ?>
-
-                            <a href="{{ url('item-cart') }}" class="position-relative me-4 my-auto">
-                                <i class="fa fa-shopping-bag fa-2x"></i>
-                                <span
-                                    class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1 js-cart-count"
-                                    style="top: -5px; left: 15px; height: 20px; min-width: 20px;">{{ $cartCount }}</span>
-                            </a>
-                        @else
-                            <a href="{{ url('item-cart') }}" class="position-relative me-4 my-auto">
-                                <i class="fa fa-shopping-bag fa-2x"></i>
-                            </a>
-                        @endif
+                        <?php
+                        $addedProducts = Session::get('cart', []);
+                        $cartCount = count($addedProducts);
+                        ?>
+                        <a href="{{ url('item-cart') }}" class="position-relative me-4 my-auto">
+                            <i class="fa fa-shopping-bag fa-2x"></i>
+                            <span
+                                class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1 js-cart-badge {{ $cartCount > 0 ? '' : 'd-none' }}"
+                                style="top: -5px; left: 15px; height: 20px; min-width: 20px;">
+                                <span class="js-cart-count text-white">{{ $cartCount }}</span>
+                            </span>
+                        </a>
 
 
                         <link rel="stylesheet"
