@@ -612,900 +612,997 @@ use App\Http\Controllers\Helper;
         </div>
     </header>
 
-    <!--<section-->
-    <!--    style="background-image: url('assets1/images/banner-12.png'); background-repeat: no-repeat; background-size: cover; background-position: center;"-->
-    <!--    class="stunning-section">-->
-    
-        <section>
-        <div class="container-lg py-5">
-            <div class="row align-items-center gx-5">
-
-                <div class="col-lg-6 mb-5 mb-lg-0 animate-fade-in-left">
-                    <div class="glass-panel info-panel p-5 rounded-5 shadow-lg">
-                        <h3 class="text-white mb-4 fw-bold text-center"><span style="color:#ff69b4;">Why Choose Us?</span></h3>
-                        <div class="row gy-4">
-                            <div class="col-12 col-md-4">
-                                <div class="info-card shadow-lg text-center p-4 rounded-4">
-                                    <div class="info-icon">
-                                        <svg width="48" height="48">
-                                            <use xlink:href="#fresh"></use>
-                                        </svg>
-                                    </div>
-                                    <h5 class="mb-2">Freshly Made</h5>
-                                    <p>Handcrafted in small batches ensuring quality & freshness.</p>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-4">
-                                <div class="info-card shadow-lg text-center p-4 rounded-4">
-                                    <div class="info-icon">
-                                        <svg width="48" height="48">
-                                            <use xlink:href="#organic"></use>
-                                        </svg>
-                                    </div>
-                                    <h5 class="mb-2">100% Organic</h5>
-                                    <p>Natural ingredients, safe for every skin type.</p>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-4">
-                                <div class="info-card shadow-lg text-center p-4 rounded-4">
-                                    <div class="info-icon">
-                                        <svg width="48" height="48">
-                                            <use xlink:href="#delivery"></use>
-                                        </svg>
-                                    </div>
-                                    <h5 class="mb-2">Fast Shipping</h5>
-                                    <p>Quick delivery, right to your doorstep.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-6 animate-fade-in-right">
-                    <div
-                        class="glass-panel hero-panel p-5 rounded-5 shadow-lg d-flex flex-column justify-content-center text-white">
-                        <h1 class="display-1 fw-extrabold mb-3">
-                            <span class="highlight-pink" style="-webkit-text-stroke:2px white;">Shanana Beauty Products
-                            </span>
-                        </h1>
-                        <p class="fs-4 mb-4 text-dark" ;">Beauty and bedroom must-haves, all in one place.</p>
-
-                        <div class="d-flex flex-wrap gap-4 mb-5">
-                            <a href="{{ route('item.shop') }}"
-                                class="btn btn-pink btn-lg rounded-pill px-5 py-3 shadow">Start
-                                Shopping</a>
-                            <a href="javascript:void();"
-                                class="btn btn-outline-light btn-lg rounded-pill px-5 py-3 shadow"><span style="color:#ff69b4;"> Join
-                                Now</span></a>
-                        </div>
-
-                        <div class="stats d-flex justify-content-between text-center text-white">
-                            <div>
-                                <h3 class="fw-bold mb-1">200+</h3>
-                                <small class="text-uppercase letter-spacing"><span style="color:#ff69b4;">Product Varieties</span></small>
-                            </div>
-                            <div>
-                                <h3 class="fw-bold mb-1">20k+</h3>
-                                <small class="text-uppercase letter-spacing"><span style="color:#ff69b4;">Happy Customers</span></small>
-                            </div>
-                            <div>
-                                <h3 class="fw-bold mb-1">1+</h3>
-                                <small class="text-uppercase letter-spacing"><span style="color:#ff69b4;">Store Locations</span></small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <style>
-            .stunning-section {
-                min-height: 100vh;
-                display: flex;
-                align-items: center;
-            }
-
-            .glass-panel {
-                background: rgba(255, 255, 255, 0.1);
-                border: 1px solid rgba(255, 255, 255, 0.25);
-                backdrop-filter: blur(20px);
-                box-shadow: 0 8px 32px 0 rgba(255, 105, 180, 0.2);
-                transition: box-shadow 0.3s ease;
-            }
-
-            .glass-panel:hover {
-                box-shadow: 0 12px 40px 0 rgba(255, 105, 180, 0.5);
-            }
-
-            .hero-panel .highlight-pink {
-                color: #ff69b4;
-                text-shadow: 0 0 10px #ff69b4;
-            }
-
-            .hero-panel p {
-                color: #fefefecc;
-            }
-
-            .btn-pink {
-                background: linear-gradient(135deg, #ff69b4, #ff85c1);
-                border: none;
-                color: #fff;
-                font-weight: 700;
-                box-shadow: 0 6px 15px rgba(255, 105, 180, 0.5);
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
-            }
-
-            .btn-pink:hover {
-                transform: scale(1.1);
-                box-shadow: 0 10px 25px rgba(255, 105, 180, 0.75);
-            }
-
-            .btn-outline-light {
-                border: 2px solid #fff;
-                color: #fff;
-                background: transparent;
-                font-weight: 700;
-                box-shadow: 0 6px 15px rgba(255, 255, 255, 0.3);
-                transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
-            }
-
-            .btn-outline-light:hover {
-                background-color: #fff;
-                color: #ff69b4;
-                transform: scale(1.1);
-                box-shadow: 0 10px 25px rgba(255, 105, 180, 0.6);
-            }
-
-            .stats>div {
-                flex: 1;
-            }
-
-            .stats h3 {
-                font-size: 2.5rem;
-                margin-bottom: 0.25rem;
-            }
-
-            .letter-spacing {
-                letter-spacing: 0.1em;
-                font-weight: 600;
-                font-size: 0.85rem;
-            }
-
-
-            .info-card {
-                background: linear-gradient(135deg, #ff85c1, #ff5ca4);
-                color: #fff;
-                border-radius: 20px;
-                transition: transform 0.4s ease, box-shadow 0.4s ease;
-                cursor: pointer;
-                height: 100%;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                padding: 2rem;
-            }
-
-            .info-card:hover {
-                transform: translateY(-10px) scale(1.05);
-                box-shadow: 0 16px 40px rgba(255, 105, 180, 0.6);
-            }
-
-            .info-icon {
-                width: 70px;
-                height: 70px;
-                background: #fff;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin: 0 auto 1rem;
-                fill: #ff69b4;
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
-            }
-
-            .info-card:hover .info-icon {
-                box-shadow: 0 0 20px #ff69b4;
-                transform: scale(1.2);
-            }
-
-            .info-card h5 {
-                font-weight: 700;
-                font-size: 1.3rem;
-                margin-bottom: 0.5rem;
-                text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
-            }
-
-            .info-card p {
-                font-size: 1rem;
-                line-height: 1.4;
-                color: #fefefecc;
-                text-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
-            }
-
-
-            .animate-fade-in-left {
-                animation: fadeInLeft 1.2s ease-out forwards;
-                opacity: 0;
-            }
-
-            .animate-fade-in-right {
-                animation: fadeInRight 1.2s ease-out forwards;
-                opacity: 0;
-            }
-
-            @keyframes fadeInLeft {
-                0% {
-                    transform: translateX(-50px);
-                    opacity: 0;
-                }
-
-                100% {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-            }
-
-            @keyframes fadeInRight {
-                0% {
-                    transform: translateX(50px);
-                    opacity: 0;
-                }
-
-                100% {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-            }
-
-
-            @media (max-width: 992px) {
-                .stats {
-                    flex-direction: column;
-                    gap: 1.5rem;
-                }
-
-                .stats>div {
-                    flex: none;
-                }
-            }
-
-            .info-icon {
-                width: 64px;
-                height: 64px;
-                background-color: #ff69b4;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin: 0 auto 1rem;
-            }
-
-            .info-icon svg {
-                fill: #fff;
-            }
-        </style>
-    </section>
-
-    <section class="pb-5" style="overflow-x: hidden;">
-
-        <div class="container-lg">
-
-            @if (session('success'))
-                <div class="alert alert-success mt-3">{{ session('success') }}</div>
-            @endif
-            <div class="row">
-                <div class="col-12">
-                    <div class="section-header d-flex flex-wrap justify-content-between my-4">
-                        <h2 class="section-title mb-0">Shop by Category</h2>
-                        <div class="d-flex align-items-center gap-3">
-                            <a href="javascript:void();" class="btn btn-pink rounded-pill px-4 py-2 shadow">View
-                                All</a>
-                            <div class="swiper-buttons d-flex gap-2">
-                                <button
-                                    class="swiper-prev category-carousel-prev btn btn-pink rounded-circle">❮</button>
-                                <button
-                                    class="swiper-next category-carousel-next btn btn-pink rounded-circle">❯</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="">
-
-            <div class="row category-section py-5" style="background: linear-gradient(to right, #f9d2e6, #fad0c4);">
-                <div class="col-md-12">
-                    <div class="category-carousel swiper">
-                        <div class="swiper-wrapper">
-
-                            @foreach ($categories as $category)
-                                <a href="{{ url('/item-categories/' . $category->id) }}"
-                                    class="nav-link swiper-slide text-center category-card">
-                                    <div class="category-thumb-wrapper">
-                                        <img src="{{ asset('storage/' . $category->featured_image) }}"
-                                            class="rounded-circle" alt="{{ $category->name }}">
-                                    </div>
-                                    <h4 class="fs-6 mt-3 fw-semibold text-white category-title">{{ $category->name }}
-                                    </h4>
-                                </a>
-                            @endforeach
-
-
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <style>
-        .section-header.bg-white {
-            background-color: #fff !important;
-            border-radius: 12px;
-            padding: 1.5rem 2rem;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+:root {
+    --sh-pink: #d94f7b;
+    --sh-pink-dark: #bd3d68;
+    --sh-pink-light: #fbe4eb;
+    --sh-rose: #f8dce5;
+    --sh-cream: #fcecef;
+    --sh-text: #30242a;
+}
+
+        .sh-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            font-size: .78rem;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--sh-pink-dark);
+            background: var(--sh-pink-light);
+            padding: .45rem 1rem;
+            border-radius: 50px;
+            margin-bottom: 1.25rem;
         }
 
-        .section-header.bg-white .section-title {
-            color: #333 !important;
+        .sh-hero {
+            background: linear-gradient(180deg, var(--sh-cream) 0%, #fff 100%);
+            padding: 3.5rem 0 2rem;
+            overflow: hidden;
         }
 
-        .section-header.bg-white .btn-outline-dark {
-            border-color: #ccc;
-            color: #555;
+        .sh-hero h1 {
+            font-weight: 800;
+            line-height: 1.1;
+            color: var(--sh-text);
         }
 
-        .section-header.bg-white .btn-outline-dark:hover {
-            background-color: #ff69b4;
-            border-color: #ff69b4;
+        .sh-hero h1 span {
+            color: var(--sh-pink);
+        }
+
+        .sh-hero p.lead {
+            color: #6b5560;
+            max-width: 460px;
+        }
+
+        .sh-btn-primary {
+            background: var(--sh-pink);
+            border: none;
+            color: #fff;
+            font-weight: 700;
+            padding: .85rem 2rem;
+            border-radius: 50px;
+            box-shadow: 0 10px 20px rgba(255, 92, 164, .35);
+            transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+        }
+
+        .sh-btn-primary:hover {
+            background: var(--sh-pink-dark);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 14px 26px rgba(255, 92, 164, .45);
+        }
+
+        .sh-btn-outline {
+            border: 2px solid var(--sh-pink);
+            color: var(--sh-pink-dark);
+            font-weight: 700;
+            padding: .8rem 1.9rem;
+            border-radius: 50px;
+            background: #fff;
+            transition: all .25s ease;
+        }
+
+        .sh-btn-outline:hover {
+            background: var(--sh-pink);
             color: #fff;
         }
 
-        .section-header.bg-white {
-            border-radius: 0;
-            /* remove corners on sides */
-            padding-top: 1.5rem;
-            padding-bottom: 1.5rem;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+        /* ---- Hero image card: fixed-ratio box via padding-top so it can never
+             collapse/overflow regardless of browser aspect-ratio support ---- */
+        .sh-hero-figure-wrap {
+            max-width: 480px;
+            margin-left: auto;
+            margin-right: 0;
         }
 
-        .section-header.bg-white {
-            border-radius: 12px 12px 0 0;
+        .sh-hero-figure {
+            position: relative;
+            width: 100%;
+            padding-top: 118%;
+            /* ~ 5:6 portrait card, matches the reference layout */
+            border-radius: 2rem;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(232, 71, 143, .25);
         }
 
-        .category-section {
-            background: linear-gradient(135deg, #ffb6d9 0%, #ffcfe0 100%);
-            padding-top: 5rem;
-            padding-bottom: 5rem;
+        .sh-hero-figure img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 68% 15%;
+            display: block;
         }
 
-        .category-card {
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        .sh-hero-badge {
+            position: absolute;
+            z-index: 2;
+            top: -18px;
+            right: -18px;
+            background: #fff;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            text-decoration: none;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, .15);
+            border: 3px solid var(--sh-pink-light);
         }
 
-        .category-card:hover {
-            transform: translateY(-8px) scale(1.03);
-            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.4);
+        .sh-hero-badge strong {
+            color: var(--sh-pink);
+            font-size: 1.4rem;
+            line-height: 1;
         }
 
-        .category-thumb-wrapper {
-            padding: 6px;
-            background: linear-gradient(145deg, #ff69b4, #ff85c1);
+        .sh-hero-badge span {
+            font-size: .65rem;
+            color: #7a6570;
+            font-weight: 600;
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+
+        .sh-trust-strip {
+            border-top: 1px solid #f3dbe6;
+            border-bottom: 1px solid #f3dbe6;
+            background: #fff;
+        }
+
+        .sh-trust-item {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            padding: 1.1rem 0;
+        }
+
+        .sh-trust-item .sh-icon-circle {
+            width: 46px;
+            height: 46px;
+            min-width: 46px;
             border-radius: 50%;
-            display: inline-block;
-            transition: box-shadow 0.3s ease;
+            background: var(--sh-pink-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .category-thumb-wrapper img {
-            width: 120px;
-            height: 120px;
+        .sh-icon-circle svg {
+            fill: var(--sh-pink-dark);
+        }
+
+        .sh-trust-item small {
+            font-weight: 700;
+            color: var(--sh-text);
+            display: block;
+            line-height: 1.2;
+        }
+
+        .sh-section-title {
+            font-weight: 800;
+            color: var(--sh-text);
+        }
+
+        .sh-section-eyebrow {
+            color: var(--sh-pink-dark);
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            font-size: .78rem;
+        }
+
+        .sh-view-all {
+            font-weight: 700;
+            color: var(--sh-pink-dark);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+        }
+
+        .sh-view-all:hover {
+            color: var(--sh-pink);
+        }
+
+        .sh-category-strip {
+            background: linear-gradient(135deg, var(--sh-rose) 0%, #ffd9e6 100%);
+            border-radius: 1.75rem;
+            padding: 2.25rem 1.5rem;
+        }
+
+        .sh-category-card {
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+
+        .sh-category-thumb {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            margin: 0 auto;
+            overflow: hidden;
+            background: #fff;
+            padding: 6px;
+            box-shadow: 0 8px 18px rgba(232, 71, 143, .18);
+            transition: transform .3s ease, box-shadow .3s ease;
+        }
+
+        .sh-category-thumb img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
             border-radius: 50%;
-            border: 4px solid #fff;
         }
 
-        .category-thumb-wrapper:hover {
-            box-shadow: 0 0 20px rgba(255, 105, 180, 0.7);
+        .sh-category-card:hover .sh-category-thumb {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 26px rgba(232, 71, 143, .3);
         }
 
-        .category-title {
-            color: #fff;
-            text-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
-            font-size: 1rem;
-        }
-
-        .swiper-buttons .btn {
-            width: 44px;
-            height: 44px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            line-height: 1;
-            text-align: center;
-            padding: 0;
-            background-color: transparent;
-            border: 2px solid #fff;
-            color: #fff;
-            transition: all 0.3s ease;
-        }
-
-        .swiper-buttons .btn:hover {
-            background-color: #fff;
-            color: #ff69b4;
-            transform: scale(1.1);
-        }
-
-        @media (max-width: 768px) {
-            .section-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-            }
-
-            .category-title {
-                font-size: 0.9rem;
-            }
-
-            .category-thumb-wrapper img {
-                width: 90px;
-                height: 90px;
-            }
-        }
-
-        .category-section {
-            background: linear-gradient(to right, #f9d2e6, #fad0c4);
-            width: 100%;
-            padding: 3rem 0;
-        }
-
-
-        .pb-5 {
-            padding-bottom: 3rem !important;
-        }
-
-        .section-header {
-            margin-bottom: 2.5rem !important;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 1rem;
-        }
-
-        .section-title {
-            font-size: 2.2rem;
+        .sh-category-card h4 {
+            margin-top: .85rem;
+            font-size: .92rem;
             font-weight: 700;
-            color: #333;
+            color: var(--sh-text);
+        }
+
+        .sh-swiper-nav {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: #fff;
+            color: var(--sh-pink-dark);
+            font-weight: 700;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, .1);
+        }
+
+        .sh-swiper-nav:hover {
+            background: var(--sh-pink);
+            color: #fff;
+        }
+
+        .sh-products-band {
+            background: #fff;
+        }
+
+        .sh-products-band.alt {
+            background: var(--sh-cream);
+        }
+
+        /* Re-skin the shared product card partial to match the new palette */
+        .sh-products-band .product-item {
+            border: 1px solid #f6e2ea;
+            border-radius: 1.1rem !important;
+            transition: transform .25s ease, box-shadow .25s ease;
+        }
+
+        .sh-products-band .product-item:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 28px rgba(232, 71, 143, .18) !important;
+        }
+
+        .sh-products-band .product-item .btn-primary {
+            background-color: var(--sh-pink);
+            border-color: var(--sh-pink);
+        }
+
+        .sh-products-band .product-item .btn-primary:hover {
+            background-color: var(--sh-pink-dark);
+            border-color: var(--sh-pink-dark);
+        }
+
+        .sh-why {
+            background: linear-gradient(135deg, #fff, var(--sh-rose));
+            border-radius: 2rem;
+        }
+
+        .sh-why-stat h3 {
+            font-weight: 800;
+            color: var(--sh-pink-dark);
             margin-bottom: 0;
         }
 
-        .btn-primary {
-            background-color: #ff69b4;
-            border-color: #ff69b4;
-            color: #fff;
-            padding: 0.75rem 1.5rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
+        .sh-why-stat small {
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            font-weight: 700;
+            color: #7a6570;
         }
 
-        .btn-primary:hover {
-            background-color: #e04b99;
-            border-color: #e04b99;
-            color: #fff;
-            transform: translateY(-2px);
-        }
-
-        .product-grid {
-            gap: 1.5rem 1.5rem;
-        }
-
-        .product-item {
-            background-color: #fff;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            padding: 1rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        .sh-why-list li {
             display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 100%;
-        }
-
-        .product-item:hover {
-            border-color: #ff69b4;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            transform: translateY(-5px);
-        }
-
-        .product-item figure {
+            align-items: flex-start;
+            gap: .75rem;
             margin-bottom: 1rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            border-radius: 50%;
-            border: 3px solid #fce4ec;
-            width: 180px;
-            height: 180px;
-            margin-left: auto;
-            margin-right: auto;
-            padding: 10px;
-            box-sizing: border-box;
         }
 
-        .product-item figure img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 50%;
-            object-fit: cover;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.3s ease;
+        .sh-why-list .sh-icon-circle {
+            background: #fff;
         }
 
-        .product-item figure img:hover {
-            transform: scale(1.05);
+        @media (max-width: 991px) {
+            .sh-hero-figure-wrap {
+                margin: 0 auto;
+            }
         }
 
-        .product-item h3 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-            color: #555;
-            flex-grow: 1;
-        }
+        /* =========================================================
+   SHANANA PREMIUM HERO
+   ========================================================= */
 
-        .product-item .rating svg {
-            fill: #ffc107;
-            margin-right: 2px;
-        }
+:root {
+    --sh-pink: #d94f7b;
+    --sh-pink-dark: #bd3d68;
+    --sh-pink-light: #fbe4eb;
+    --sh-rose: #f8dce5;
+    --sh-hero-bg: #fcecef;
+    --sh-text: #30242a;
+}
 
-        .product-item .rating span {
-            font-size: 0.9rem;
-            color: #777;
-        }
 
-        .product-item del {
-            color: #999;
-            font-size: 0.9rem;
-        }
+/* HERO */
+.sh-hero {
+    position: relative;
+    min-height: 620px;
+    padding: 0;
+    overflow: hidden;
 
-        .product-item .text-dark.fw-semibold {
-            color: #333 !important;
-            font-size: 1.2rem;
-            font-weight: 700 !important;
-        }
+    /* Premium soft skincare pink */
+    background:
+        linear-gradient(
+            90deg,
+            #fcecef 0%,
+            #fcecef 38%,
+            rgba(252, 236, 239, .96) 50%,
+            rgba(252, 236, 239, .25) 70%,
+            rgba(252, 236, 239, 0) 100%
+        );
+}
 
-        .product-item .badge {
-            background-color: #ff69b4;
-            color: #fff;
-            padding: 0.3em 0.6em;
-            font-size: 0.75rem;
-            border-radius: 4px;
-        }
 
-        .product-item .button-area {
-            margin-top: 1rem;
-            padding: 1rem 0;
-        }
+/* Make the Bootstrap container fill the hero */
+.sh-hero > .container-lg {
+    position: relative;
+    min-height: 620px;
+    z-index: 3;
+}
 
-        .product-item .input-number {
-            text-align: center;
-            border-radius: 4px;
-            height: 45px;
-        }
 
-        .product-item .btn-cart {
-            background-color: #ff69b4;
-            border-color: #ff69b4;
-            color: #fff;
-            font-size: 0.9rem;
-            padding: 0.75rem 1rem;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            transition: all 0.3s ease;
-        }
+/* Hero row */
+.sh-hero > .container-lg > .row {
+    min-height: 620px;
+    position: relative;
+}
 
-        .product-item .btn-cart:hover {
-            background-color: #e04b99;
-            border-color: #e04b99;
-            transform: translateY(-2px);
-        }
 
-        .product-item .btn-outline-dark {
-            border-color: #ccc;
-            color: #777;
-            transition: all 0.3s ease;
-            width: 100%;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+/* Text area */
+.sh-hero .col-lg-6:first-child {
+    position: relative;
+    z-index: 5;
 
-        .product-item .btn-outline-dark:hover {
-            background-color: #ff69b4;
-            border-color: #ff69b4;
-            color: #fff;
-        }
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
-        .product-item .stretched-link {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}
 
-        .product-item form,
-        .product-item .btn,
-        .product-item input,
-        .product-item .col-3,
-        .product-item .col-7,
-        .product-item .col-2 {
-            position: relative;
-            z-index: 2;
-        }
+
+/* Eyebrow */
+.sh-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+
+    width: fit-content;
+
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+
+    color: var(--sh-pink-dark);
+    background: rgba(255,255,255,.65);
+
+    padding: .45rem .9rem;
+    border-radius: 50px;
+
+    margin-bottom: 1.25rem;
+
+    border: 1px solid rgba(217,79,123,.12);
+}
+
+
+/* Main heading */
+.sh-hero h1 {
+    max-width: 620px;
+
+    margin-bottom: 1.25rem;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: clamp(3rem, 5vw, 5.2rem);
+    font-weight: 500;
+    line-height: .98;
+
+    letter-spacing: -.035em;
+
+    color: var(--sh-text);
+}
+
+
+.sh-hero h1 span {
+    color: var(--sh-pink);
+}
+
+
+/* Description */
+.sh-hero p.lead {
+    max-width: 480px;
+
+    margin-bottom: 2rem;
+
+    color: #6d5a62;
+
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+
+/* Buttons */
+.sh-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--sh-pink);
+    border: 1px solid var(--sh-pink);
+
+    color: #fff;
+
+    font-weight: 700;
+
+    padding: .85rem 1.8rem;
+
+    border-radius: 50px;
+
+    box-shadow: 0 12px 28px rgba(189,61,104,.20);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        background .25s ease;
+}
+
+
+.sh-btn-primary:hover {
+    background: var(--sh-pink-dark);
+    border-color: var(--sh-pink-dark);
+
+    color: #fff;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 16px 32px rgba(189,61,104,.28);
+}
+
+
+.sh-btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(189,61,104,.35);
+
+    color: var(--sh-pink-dark);
+
+    font-weight: 700;
+
+    padding: .85rem 1.8rem;
+
+    border-radius: 50px;
+
+    background: rgba(255,255,255,.65);
+
+    transition: all .25s ease;
+}
+
+
+.sh-btn-outline:hover {
+    background: var(--sh-pink);
+    border-color: var(--sh-pink);
+
+    color: #fff;
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   HERO IMAGE
+   ========================================================= */
+
+.sh-hero .col-lg-6:last-child {
+    position: static;
+}
+
+
+/* Remove the old image-card appearance */
+.sh-hero-figure-wrap {
+    position: absolute;
+
+    top: 0;
+    right: -10vw;
+
+    width: 68vw;
+    max-width: none;
+
+    height: 100%;
+
+    margin: 0;
+
+    z-index: 1;
+
+    pointer-events: none;
+}
+
+
+.sh-hero-figure {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    padding: 0;
+
+    border-radius: 0;
+
+    overflow: visible;
+
+    box-shadow: none;
+}
+
+
+/* Main hero image */
+.sh-hero-figure img {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    object-position: center center;
+
+    display: block;
+
+    /* Fade image naturally into the pink background */
+    -webkit-mask-image:
+        linear-gradient(
+            to right,
+            transparent 0%,
+            rgba(0,0,0,.15) 8%,
+            rgba(0,0,0,.75) 20%,
+            #000 32%,
+            #000 100%
+        );
+
+    mask-image:
+        linear-gradient(
+            to right,
+            transparent 0%,
+            rgba(0,0,0,.15) 8%,
+            rgba(0,0,0,.75) 20%,
+            #000 32%,
+            #000 100%
+        );
+}
+
+
+/* Remove the old floating card */
+.sh-hero-badge {
+    top: 12%;
+    right: 10%;
+
+    width: 115px;
+    height: 115px;
+
+    background: rgba(255,255,255,.90);
+
+    border: 1px solid rgba(255,255,255,.8);
+
+    box-shadow: 0 15px 35px rgba(70,30,45,.12);
+
+    backdrop-filter: blur(8px);
+}
+
+
+.sh-hero-badge strong {
+    color: var(--sh-pink);
+
+    font-size: 1.45rem;
+}
+
+
+.sh-hero-badge span {
+    color: #6d5a62;
+}
+
+
+/* =========================================================
+   TRUST ITEMS
+   ========================================================= */
+
+.sh-hero .sh-trust-item {
+    color: #5d4c54;
+}
+
+
+.sh-hero .sh-icon-circle {
+    width: 38px;
+    height: 38px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    color: var(--sh-pink);
+
+    background: rgba(255,255,255,.72);
+
+    border: 1px solid rgba(217,79,123,.12);
+
+    border-radius: 50%;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 991px) {
+
+    .sh-hero {
+        min-height: auto;
+
+        background:
+            linear-gradient(
+                180deg,
+                #fcecef 0%,
+                #fcecef 65%,
+                #fff 100%
+            );
+    }
+
+
+    .sh-hero > .container-lg,
+    .sh-hero > .container-lg > .row {
+        min-height: auto;
+    }
+
+
+    .sh-hero .col-lg-6:first-child {
+        padding-top: 4rem;
+        padding-bottom: 2rem;
+    }
+
+
+    .sh-hero h1 {
+        font-size: clamp(2.8rem, 10vw, 4rem);
+    }
+
+
+    .sh-hero-figure-wrap {
+        position: relative;
+
+        top: auto;
+        right: auto;
+
+        width: calc(100% + 3rem);
+
+        height: 430px;
+
+        margin-left: -1.5rem;
+    }
+
+
+    .sh-hero-figure img {
+        -webkit-mask-image:
+            linear-gradient(
+                to bottom,
+                transparent 0%,
+                rgba(0,0,0,.65) 10%,
+                #000 25%,
+                #000 100%
+            );
+
+        mask-image:
+            linear-gradient(
+                to bottom,
+                transparent 0%,
+                rgba(0,0,0,.65) 10%,
+                #000 25%,
+                #000 100%
+            );
+
+        object-position: center top;
+    }
+
+
+    .sh-hero-badge {
+        top: 8%;
+        right: 8%;
+
+        width: 95px;
+        height: 95px;
+    }
+}
+
+
+@media (max-width: 575px) {
+
+    .sh-hero .col-lg-6:first-child {
+        padding-top: 3rem;
+    }
+
+
+    .sh-hero h1 {
+        font-size: 2.7rem;
+    }
+
+
+    .sh-hero p.lead {
+        font-size: .95rem;
+    }
+
+
+    .sh-hero-figure-wrap {
+        height: 360px;
+    }
+}
     </style>
 
-
-    <section class="pb-5" style="overflow-x: hidden;">
-
+    <!-- HERO -->
+    <section class="sh-hero">
         <div class="container-lg">
-            <div class="row">
-                <div class="col-12">
-                    @if (session('success'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            {{ session('success') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <div class="row align-items-center gy-5">
+                <div class="col-lg-6">
+                    <span class="sh-eyebrow">
+                        <svg width="14" height="14"><use xlink:href="#fresh"></use></svg>
+                        Beauty & Bedroom Essentials
+                    </span>
+                    <h1 class="display-4 mb-3">Reveal Your <span>Natural Glow</span></h1>
+                    <p class="lead fs-5 mb-4">
+                        Shanana brings you skincare, beauty and bedroom must-haves that are gentle,
+                        effective and made to make you feel confident every day.
+                    </p>
+
+                    <div class="d-flex flex-wrap gap-3 mb-5">
+                        <a href="{{ route('item.shop') }}" class="sh-btn-primary">
+                            Shop Now <svg width="16" height="16" style="fill:#fff; margin-left:4px;"><use xlink:href="#arrow-right"></use></svg>
+                        </a>
+                        <a href="{{ url('/contact-us') }}" class="sh-btn-outline">Talk to Us</a>
+                    </div>
+
+                    <div class="row row-cols-2 row-cols-md-4 g-3">
+                        <div class="col">
+                            <div class="sh-trust-item">
+                                <span class="sh-icon-circle"><svg width="20" height="20"><use xlink:href="#organic"></use></svg></span>
+                                <small>100% Genuine</small>
+                            </div>
                         </div>
-                    @endif
-                    <div class="section-header d-flex flex-wrap justify-content-between my-4">
-                        <h2 class="section-title mb-0">Best Selling Products</h2>
-                        <a href="{{ url('/product-options/1') }}"
-                            class="btn btn-pink rounded-pill px-4 py-2 shadow">View All</a>
+                        <div class="col">
+                            <div class="sh-trust-item">
+                                <span class="sh-icon-circle"><svg width="20" height="20"><use xlink:href="#delivery"></use></svg></span>
+                                <small>Fast Delivery</small>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="sh-trust-item">
+                                <span class="sh-icon-circle"><svg width="20" height="20"><use xlink:href="#secure"></use></svg></span>
+                                <small>Secure Checkout</small>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="sh-trust-item">
+                                <span class="sh-icon-circle"><svg width="20" height="20"><use xlink:href="#package"></use></svg></span>
+                                <small>Easy Returns</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="sh-hero-figure-wrap">
+                        <div class="sh-hero-figure">
+                            <img src="/assets1/images/banner-12.png" alt="Shanana Beauty">
+                            <div class="sh-hero-badge">
+                                <strong>20%</strong>
+                                <span>Off First<br>Order</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <div class="category-section py-5" style="background: linear-gradient(to right, #f9d2e6, #fad0c4);">
-            <div class="container-lg">
+    @if (session('success'))
+        <div class="container-lg mt-4">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    @endif
 
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 g-4"
-                    id="bestSelling-container">
-                    @include('Ecommerce.partials.product_cards', ['products' => $bestSellingProducts])
+    <!-- SHOP BY CATEGORY -->
+    <section class="py-5" style="overflow-x:hidden;">
+        <div class="container-lg">
+            <div class="d-flex flex-wrap justify-content-between align-items-end mb-4">
+                <div>
+                    <div class="sh-section-eyebrow mb-1">Browse</div>
+                    <h2 class="sh-section-title mb-0">Shop by Category</h2>
                 </div>
+                <div class="d-flex align-items-center gap-2">
+                    <button class="sh-swiper-nav category-carousel-prev">&#10094;</button>
+                    <button class="sh-swiper-nav category-carousel-next">&#10095;</button>
+                </div>
+            </div>
 
+            <div class="sh-category-strip">
+                <div class="category-carousel swiper">
+                    <div class="swiper-wrapper">
+                        @forelse ($categories as $category)
+                            <a href="{{ url('/item-categories/' . $category->id) }}"
+                                class="swiper-slide sh-category-card" style="max-width: 150px;">
+                                <div class="sh-category-thumb">
+                                    <img src="{{ asset('storage/' . $category->featured_image) }}"
+                                        alt="{{ $category->name }}">
+                                </div>
+                                <h4>{{ $category->name }}</h4>
+                            </a>
+                        @empty
+                            <div class="swiper-slide text-center py-4">
+                                <p class="mb-0">Categories coming soon.</p>
+                            </div>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BEST SELLING PRODUCTS -->
+    <section class="sh-products-band py-5" style="overflow-x:hidden;">
+        <div class="container-lg">
+            <div class="d-flex flex-wrap justify-content-between align-items-end mb-4">
+                <div>
+                    <div class="sh-section-eyebrow mb-1">Best Sellers</div>
+                    <h2 class="sh-section-title mb-0">Loved by Our Customers</h2>
+                </div>
+                <a href="{{ url('/product-options/1') }}" class="sh-view-all">View All
+                    <svg width="14" height="14" style="fill:currentColor;"><use xlink:href="#arrow-right"></use></svg>
+                </a>
+            </div>
+
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xxl-5 g-4"
+                id="bestSelling-container">
+                @include('Ecommerce.partials.product_cards', ['products' => $bestSellingProducts])
+            </div>
+
+            @if ($bestSellingProducts->count())
                 <div class="text-center mt-4">
-                    <button class="btn btn-outline-primary load-more-btn" data-type="bestSelling" data-offset="3"
+                    <button class="btn sh-btn-outline load-more-btn" data-type="bestSelling" data-offset="3"
                         data-target="bestSelling-container">
-                        Load More Best Selling Products
+                        Load More
                     </button>
                 </div>
-
-            </div>
+            @endif
         </div>
-
     </section>
 
-
-    </div>
-    </div>
-
-    </section>
-
-    <section class="py-5" style="background-color: #fce4ec;">
+    <!-- FEATURED PRODUCTS -->
+    <section id="featured-products" class="sh-products-band alt py-5" style="overflow-x:hidden;">
         <div class="container-lg">
-            <div class="row g-4">
-
-                @foreach ($combos as $item)
-                    <div class="col-md-6">
-                        <div class="p-4 shadow-sm h-100 d-flex flex-column align-items-center text-center"
-                            style="background-color: rgba(255, 255, 255, 0.95); border-radius: 1rem;">
-
-                            <figure class="mb-4">
-                                <a href="{{ url('/product-item/' . $item->id) }}" title="Product Title">
-                                    <img src="{{ asset('storage/' . $item->featured_image_1) }}" alt="Product Thumbnail"
-                                        style="max-width: 180px; height: auto;" class="img-fluid">
-                                </a>
-                            </figure>
-
-                            <div class="content-wrapper">
-                                <h3 class="fw-bold mb-2" style="color: #e91e63; font-size: 2rem;">Combo on SALE</h3>
-                                <p class="mb-3" style="color: #d81b60; font-size: 1.1rem;">Discounts up to 30%</p>
-                                <a href="{{ url('/product-item/' . $item->id) }}"
-                                    class="btn btn-pink rounded-pill px-4 py-2 shadow-sm">Shop Now</a>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-
-            </div>
-        </div>
-    </section>
-
-    <section id="featured-products" class="pb-5" style="overflow-x: hidden;">
-        <div class="container-lg">
-            <div class="row">
-                <div class="col-12">
-                    <div class="section-header d-flex flex-wrap justify-content-between my-4">
-                        <h2 class="section-title mb-0">Featured products</h2>
-                        <a href="{{ url('/product-options/2') }}"
-                            class="btn btn-pink rounded-pill px-4 py-2 shadow">View All</a>
-                    </div>
+            <div class="d-flex flex-wrap justify-content-between align-items-end mb-4">
+                <div>
+                    <div class="sh-section-eyebrow mb-1">Curated For You</div>
+                    <h2 class="sh-section-title mb-0">Featured Products</h2>
                 </div>
+                <a href="{{ url('/product-options/2') }}" class="sh-view-all">View All
+                    <svg width="14" height="14" style="fill:currentColor;"><use xlink:href="#arrow-right"></use></svg>
+                </a>
             </div>
-        </div>
 
-        <div class="category-section py-5" style="background: linear-gradient(to right, #f9d2e6, #fad0c4);">
-            <div class="container-lg">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xxl-5 g-4"
+                id="featured-container">
+                @include('Ecommerce.partials.product_cards', ['products' => $featuredProducts])
+            </div>
 
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 g-4"
-                    id="featured-container">
-                    @include('Ecommerce.partials.product_cards', ['products' => $featuredProducts])
-                </div>
-
+            @if ($featuredProducts->count())
                 <div class="text-center mt-4">
-                    <button class="btn btn-outline-primary load-more-btn" data-type="featured" data-offset="3"
+                    <button class="btn sh-btn-outline load-more-btn" data-type="featured" data-offset="3"
                         data-target="featured-container">
-                        Load More Featured products
+                        Load More
                     </button>
                 </div>
-
-            </div>
-        </div>
-
-
-    </section>
-
-    <section>
-        <div class="container-lg">
-
-            <div class="bg-secondary text-light py-5 my-5"
-                style="background: url('assets1/images/banner-newsletter.jpg') no-repeat; background-size: cover;">
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-md-5 p-3">
-                            <div class="section-header">
-                                <h2 class="section-title display-5 text-light">Get 25% Discount on your first purchase
-                                </h2>
-                            </div>
-                            <p>Just Sign Up & Register it now to become member.</p>
-                        </div>
-                        <div class="col-md-5 p-3">
-                            <form method="POST" action="{{ route('newsletter.subscribe') }}">
-                                @csrf
-                                <div class="mb-3">
-                                    <label for="name" class="form-label d-none">Name</label>
-                                    <input type="text" class="form-control form-control-md rounded-0" name="name"
-                                        id="name" placeholder="Name">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label d-none">Email</label>
-                                    <input type="email" class="form-control form-control-md rounded-0" name="email"
-                                        id="email" placeholder="Email Address">
-                                </div>
-                                <div class="d-grid gap-2">
-                                    <button type="submit" class="btn btn-dark btn-md rounded-0">Submit</button>
-                                </div>
-                            </form>
-
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
-
+            @endif
         </div>
     </section>
 
-    <section id="popular-products" class="pb-5" style="overflow-x: hidden;">
-
+    <!-- POPULAR PRODUCTS -->
+    <section id="popular-products" class="sh-products-band py-5" style="overflow-x:hidden;">
         <div class="container-lg">
-            <div class="row">
-                <div class="col-12">
-                    <div class="section-header d-flex flex-wrap justify-content-between my-4">
-                        <h2 class="section-title mb-0">Most popular products</h2>
-                        <a href="{{ url('/product-options/3') }}"
-                            class="btn btn-pink rounded-pill px-4 py-2 shadow">View All</a>
-                    </div>
+            <div class="d-flex flex-wrap justify-content-between align-items-end mb-4">
+                <div>
+                    <div class="sh-section-eyebrow mb-1">Trending</div>
+                    <h2 class="sh-section-title mb-0">Most Popular Products</h2>
                 </div>
+                <a href="{{ url('/product-options/3') }}" class="sh-view-all">View All
+                    <svg width="14" height="14" style="fill:currentColor;"><use xlink:href="#arrow-right"></use></svg>
+                </a>
             </div>
-        </div>
 
-        <div class="category-section py-5" style="background: linear-gradient(to right, #f9d2e6, #fad0c4);">
-            <div class="container-lg">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xxl-5 g-4"
+                id="popular-container">
+                @include('Ecommerce.partials.product_cards', ['products' => $popularProducts])
+            </div>
 
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 g-4"
-                    id="popular-container">
-                    @include('Ecommerce.partials.product_cards', ['products' => $popularProducts])
-                </div>
-
+            @if ($popularProducts->count())
                 <div class="text-center mt-4">
-                    <button class="btn btn-outline-primary load-more-btn" data-type="popular" data-offset="3"
+                    <button class="btn sh-btn-outline load-more-btn" data-type="popular" data-offset="3"
                         data-target="popular-container">
-                            Load More Most popular Products
+                        Load More
                     </button>
                 </div>
-
-            </div>
+            @endif
         </div>
-
     </section>
 
-
-    <section id="latest-products" class="pb-5" style="overflow-x: hidden;">
-
+    <!-- JUST ARRIVED -->
+    <section id="latest-products" class="sh-products-band alt py-5" style="overflow-x:hidden;">
         <div class="container-lg">
-            <div class="row">
-                <div class="col-12">
-                    <div class="section-header d-flex flex-wrap justify-content-between my-4">
-                        <h2 class="section-title mb-0">Just Arrived</h2>
-                        <a href="{{ url('/product-options/4') }}"
-                            class="btn btn-pink rounded-pill px-4 py-2 shadow">View All</a>
-                    </div>
+            <div class="d-flex flex-wrap justify-content-between align-items-end mb-4">
+                <div>
+                    <div class="sh-section-eyebrow mb-1">New In</div>
+                    <h2 class="sh-section-title mb-0">Just Arrived</h2>
                 </div>
+                <a href="{{ url('/product-options/4') }}" class="sh-view-all">View All
+                    <svg width="14" height="14" style="fill:currentColor;"><use xlink:href="#arrow-right"></use></svg>
+                </a>
             </div>
-        </div>
 
-        <div class="category-section py-5" style="background: linear-gradient(to right, #f9d2e6, #fad0c4);">
-            <div class="container-lg">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xxl-5 g-4"
+                id="new-container">
+                @include('Ecommerce.partials.product_cards', ['products' => $newProducts])
+            </div>
 
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 g-4"
-                    id="new-container">
-                    @include('Ecommerce.partials.product_cards', ['products' => $newProducts])
-                </div>
-
+            @if ($newProducts->count())
                 <div class="text-center mt-4">
-                    <button class="btn btn-outline-primary load-more-btn" data-type="new" data-offset="3"
+                    <button class="btn sh-btn-outline load-more-btn" data-type="new" data-offset="3"
                         data-target="new-container">
-                        Load More Just Arrived Products
+                        Load More
                     </button>
                 </div>
-
-
-            </div>
-        </div>
-
-    </section>
-
-    <section class="pb-4 my-4">
-        <div class="container-lg">
-
-            <div class="pt-5 rounded-5" style="background-color: #f9d2e6">
-                <div class="container">
-                    <div class="row justify-content-center align-items-center">
-                        <div class="col-md-4">
-                            <h2 class="mt-5 text-white">Download Shanana App</h2>
-                            <p class="text-white">Online Orders made easy, fast and reliable</p>
-                            <div class="d-flex gap-2 flex-wrap mb-5">
-                                <a href="#" title="App store"><img src="/assets1/images/img-app-store.png"
-                                        alt="app-store"></a>
-                                <a href="#" title="Google Play"><img src="/assets1/images/img-google-play.png"
-                                        alt="google-play"></a>
-                            </div>
-                        </div>
-                        <div class="col-md-5">
-                            <img src="/assets1/images/banner-onlineapp.png" alt="phone" class="img-fluid">
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @endif
         </div>
     </section>
-
-
     @php
         $randomNames = [
             'Alice',
@@ -1687,85 +1784,48 @@ use App\Http\Controllers\Helper;
             if (interval) clearInterval(interval);
         });
     </script>
-
-    <section class="py-4">
+    <section class="py-5" style="background: var(--sh-cream, #fff7f9);">
         <div class="container-lg">
-            <h2 class="my-4">People are also looking for</h2>
-            @foreach ($categories as $category)
-                <a href="{{ url('item-categories/' . $category->id) }}"
-                    class="btn btn-warning me-2 mb-2">{{ $category->name }}</a>
-            @endforeach
-        </div>
+            <div class="text-center mb-5">
+                <div class="sh-section-eyebrow mb-1">Testimonials</div>
+                <h2 class="sh-section-title">What Our Customers Say</h2>
+            </div>
 
-    </section>
+            <div class="row g-4">
+                @php
+                    $shananaTestimonials = [
+                        ['name' => 'Sarah K.', 'meta' => 'Kampala, verified buyer', 'quote' => 'I\'ve been using the serum for a month and my skin looks brighter and feels so soft. Love it!'],
+                        ['name' => 'Grace N.', 'meta' => 'Entebbe, verified buyer', 'quote' => 'The moisturizer is a game changer. My skin stays hydrated and smooth all day long.'],
+                        ['name' => 'Aisha M.', 'meta' => 'Mukono, verified buyer', 'quote' => 'Lightweight, non-greasy and makes my skin glow. It is now part of my daily routine.'],
+                        ['name' => 'Farida S.', 'meta' => 'Jinja, verified buyer', 'quote' => 'Delivery was fast and the packaging felt premium. Will definitely be shopping again.'],
+                    ];
+                @endphp
 
-    <section class="py-5" style="background: linear-gradient(to right, #f9d2e6, #fad0c4);">
-        <div class="container-lg">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
-                <!-- Card 1 -->
-                <div class="col">
-                    <div class="p-4 bg-white rounded-3 shadow-sm h-100 text-center">
-                        <div class="mb-3 text-pink">
-                            <svg width="40" height="40">
-                                <use xlink:href="#package"></use>
-                            </svg>
+                @foreach ($shananaTestimonials as $t)
+                    <div class="col-md-6 col-lg-3">
+                        <div class="h-100 p-4 bg-white rounded-4 shadow-sm">
+                            <div class="mb-2">
+                                @for ($i = 0; $i < 5; $i++)
+                                    <svg width="16" height="16" class="text-warning"><use xlink:href="#star-full"></use></svg>
+                                @endfor
+                            </div>
+                            <p class="text-secondary mb-4">&ldquo;{{ $t['quote'] }}&rdquo;</p>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold text-white"
+                                    style="width:40px; height:40px; background: var(--sh-pink);">
+                                    {{ strtoupper(substr($t['name'], 0, 1)) }}
+                                </div>
+                                <div>
+                                    <div class="fw-semibold" style="color: var(--sh-text);">{{ $t['name'] }}</div>
+                                    <small class="text-secondary">{{ $t['meta'] }}</small>
+                                </div>
+                            </div>
                         </div>
-                        <h5 class="fw-semibold mb-2">Fast Delivery</h5>
-                        <p class="text-secondary fs-7 mb-0">
-                            Your orders are packed carefully and shipped fast so your beauty care arrives right on time.
-                        </p>
                     </div>
-                </div>
-
-                <!-- Card 2 -->
-                <div class="col">
-                    <div class="p-4 bg-white rounded-3 shadow-sm h-100 text-center">
-                        <div class="mb-3 text-pink">
-                            <svg width="40" height="40">
-                                <use xlink:href="#secure"></use>
-                            </svg>
-                        </div>
-                        <h5 class="fw-semibold mb-2">Secure Payment</h5>
-                        <p class="text-secondary fs-7 mb-0">
-                            All transactions are encrypted to ensure your personal details remain safe and private.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="col">
-                    <div class="p-4 bg-white rounded-3 shadow-sm h-100 text-center">
-                        <div class="mb-3 text-pink">
-                            <svg width="40" height="40">
-                                <use xlink:href="#savings"></use>
-                            </svg>
-                        </div>
-                        <h5 class="fw-semibold mb-2">Top Products</h5>
-                        <p class="text-secondary fs-7 mb-0">
-                            We carefully select the best beauty essentials trusted by customers and skincare experts.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Card 4 -->
-                <div class="col">
-                    <div class="p-4 bg-white rounded-3 shadow-sm h-100 text-center">
-                        <div class="mb-3 text-pink">
-                            <svg width="40" height="40">
-                                <use xlink:href="#offers"></use>
-                            </svg>
-                        </div>
-                        <h5 class="fw-semibold mb-2">Daily Deals</h5>
-                        <p class="text-secondary fs-7 mb-0">
-                            Shop limited-time beauty offers and save more while treating your skin to something new.
-                        </p>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
-
-
 
     <footer class="py-5">
         <div class="container-lg">
@@ -1988,5 +2048,3 @@ use App\Http\Controllers\Helper;
     <script src="/assets1/js/plugins.js"></script>
     <script src="/assets1/js/script.js"></script>
 </body>
-
-</html>
