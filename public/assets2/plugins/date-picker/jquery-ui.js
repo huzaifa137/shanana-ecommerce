@@ -1982,7 +1982,7 @@ colors = jQuery.Color.names = {
 	aqua: "#00ffff",
 	black: "#000000",
 	blue: "#0000ff",
-	fuchsia: "#ff00ff",
+	fuchsia: "#D94F7B",
 	gray: "#808080",
 	green: "#008000",
 	lime: "#00ff00",

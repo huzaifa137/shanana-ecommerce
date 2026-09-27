@@ -43,14 +43,13 @@
                         </div>
                         <div class="form-item">
                             <label class="form-label my-3" for="address">Address</label>
-                            <input type="text" class="form-control" placeholder="House Number Street Name"
-                                id="address">
+                            <input type="text" class="form-control" placeholder="House Number Street Name" id="address">
                         </div>
                         <div class="form-item">
                             <label class="form-label my-3" for="city">Town/City</label>
                             <input type="text" class="form-control" id="city">
                         </div>
-                        
+
                         @php
                             $countries = [
                                 ['code' => 'af', 'name' => 'Afghanistan'],
@@ -257,8 +256,7 @@
                             <label class="form-label my-3" for="country">Country</label>
                             <select name="country" id="country" class="form-select form-control">
                                 @foreach ($countries as $country)
-                                    <option value="{{ $country['name'] }}"
-                                        {{ $selectedCountry === $country['name'] ? 'selected' : '' }}>
+                                    <option value="{{ $country['name'] }}" {{ $selectedCountry === $country['name'] ? 'selected' : '' }}>
                                         {{ $country['name'] }}
                                     </option>
                                 @endforeach
@@ -320,23 +318,11 @@
                     <div class="col-lg-12">
                         <div class="position-relative">
                             <img src="assets/img/banner-fruits.jpg" class="img-fluid w-100 rounded" alt="">
-                            <div class="position-absolute"
-                                style="top: 50%; right: 10px; transform: translateY(-50%);">
-                                <h3 class="text-secondary fw-bold">Fresh <br> Fruits <br> Banner</h3>
+                            <div class="position-absolute" style="top: 50%; right: 10px; transform: translateY(-50%);">
+                                <h3 class="text-white fw-bold">Shanana <br> Beauty <br> Products</h3>
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-lg-12">
-                        <div class="position-relative">
-                            <img src="assets/img/best-product-7.jpg" class="img-fluid w-100 rounded" alt="">
-                            <div class="position-absolute"
-                                style="top: 50%; right: 10px; transform: translateY(-50%);">
-                                <h3 class="text-white fw-bold">Fresh <br> Fruits <br> Banner</h3>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
 
@@ -354,14 +340,14 @@
     const togglePasswordConfirm = document.getElementById('togglePasswordConfirm');
     const passwordInput = document.getElementById('passwordInput');
 
-    togglePassword.addEventListener('click', function() {
+    togglePassword.addEventListener('click', function () {
         const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
         passwordInput.setAttribute('type', type);
         this.classList.toggle('fa-eye');
         this.classList.toggle('fa-eye-slash');
     });
 
-    togglePasswordConfirm.addEventListener('click', function() {
+    togglePasswordConfirm.addEventListener('click', function () {
         const type = confirmpasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
         confirmpasswordInput.setAttribute('type', type);
         this.classList.toggle('fa-eye');
@@ -370,8 +356,8 @@
 </script>
 
 <script>
-    $(document).ready(function() {
-        $('button[type="submit"]').on('click', function(e) {
+    $(document).ready(function () {
+        $('button[type="submit"]').on('click', function (e) {
             e.preventDefault();
 
             const submitBtn = $('#submitBtn');
@@ -382,49 +368,49 @@
             let missingFields = [];
 
             let requiredFields = [{
-                    id: 'firstName',
-                    name: 'First Name'
-                },
-                {
-                    id: 'lastName',
-                    name: 'Last Name'
-                },
-                {
-                    id: 'email',
-                    name: 'Email'
-                },
-                {
-                    id: 'companyName',
-                    name: 'Company Name'
-                },
-                {
-                    id: 'address',
-                    name: 'Address'
-                },
-                {
-                    id: 'city',
-                    name: 'Town/City'
-                },
-                {
-                    id: 'country',
-                    name: 'Country'
-                },
-                {
-                    id: 'postcode',
-                    name: 'Postcode/Zip'
-                },
-                {
-                    id: 'mobile',
-                    name: 'Mobile'
-                },
-                {
-                    id: 'passwordInput',
-                    name: 'Password'
-                },
-                {
-                    id: 'confirmpasswordInput',
-                    name: 'Confirm Password'
-                }
+                id: 'firstName',
+                name: 'First Name'
+            },
+            {
+                id: 'lastName',
+                name: 'Last Name'
+            },
+            {
+                id: 'email',
+                name: 'Email'
+            },
+            {
+                id: 'companyName',
+                name: 'Company Name'
+            },
+            {
+                id: 'address',
+                name: 'Address'
+            },
+            {
+                id: 'city',
+                name: 'Town/City'
+            },
+            {
+                id: 'country',
+                name: 'Country'
+            },
+            {
+                id: 'postcode',
+                name: 'Postcode/Zip'
+            },
+            {
+                id: 'mobile',
+                name: 'Mobile'
+            },
+            {
+                id: 'passwordInput',
+                name: 'Password'
+            },
+            {
+                id: 'confirmpasswordInput',
+                name: 'Confirm Password'
+            }
             ];
 
             $('.form-control').removeClass('is-invalid');
@@ -524,7 +510,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                success: function(data) {
+                success: function (data) {
                     Swal.fire({
                         icon: 'success',
                         title: 'Success!',
@@ -559,7 +545,7 @@
                 //     });
                 //     console.error(xhr);
                 // }
-                error: function(data) {
+                error: function (data) {
                     $('body').html(data.responseText);
                 }
             });

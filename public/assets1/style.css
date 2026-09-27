@@ -21,6 +21,27 @@ a:active,
 a:focus {
   text-decoration: none;
 }
+
+/* SVG icons using <use> or inline SVG */
+svg {
+    fill: #FFF;
+    color: #FFF;
+}
+
+/* Font Awesome icons (fa-solid, fa-regular, fa-brands) */
+i.fa-solid,
+i.fa-regular,
+i.fa-brands,
+i.fas,
+i.far,
+i.fab,
+.fa,
+.fas,
+.far,
+.fab {
+    color: #FFF;
+}
+
 body {
   --heading-font        : "Inter", sans-serif;
   --bs-link-color: #333;
@@ -38,7 +59,7 @@ body {
   --bs-body-line-height: 2;
   --bs-body-color: #747474;
 
-  --bs-primary: #FF00FF;
+  --bs-primary: #D94F7B;
   --bs-primary-rgb: 107, 178, 82;
   
   --bs-secondary: #364127;

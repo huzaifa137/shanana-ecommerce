@@ -120,11 +120,11 @@
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            background: rgba(255, 255, 255, .88);
+            background: #d94f7b;
             border: 1px solid rgba(255, 255, 255, .9);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            color: #5d4850;
+            color: #FFF;
             box-shadow: 0 6px 18px rgba(50, 25, 35, .08);
             transition: transform .3s ease, background .3s ease, color .3s ease, box-shadow .3s ease;
         }
