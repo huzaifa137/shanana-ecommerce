@@ -31,20 +31,15 @@ class OrderController extends Controller
         }
 
         $validated = $request->validate([
-            'first_name'  => ['required', 'string', 'max:255'],
-            'last_name'   => ['required', 'string', 'max:255'],
-            'email'       => ['required', 'email', 'max:255'],
-            'phone'       => ['required', 'string', 'max:30'],
-            'address'     => ['required', 'string', 'max:255'],
-            'city'        => ['required', 'string', 'max:255'],
-            'country'     => ['required', 'string', 'max:255'],
-            'postcode'    => ['nullable', 'string', 'max:30'],
-            'company_name'=> ['nullable', 'string', 'max:255'],
-            'order_notes' => ['nullable', 'string', 'max:1000'],
+            'full_name' => ['required', 'string', 'max:255'],
+            'email'     => ['required', 'email', 'max:255'],
+            'phone'     => ['required', 'string', 'max:30'],
+            'address'   => ['required', 'string', 'max:255'],
+            'city'      => ['required', 'string', 'max:255'],
         ]);
 
         $customerId = session('LoggedCustomer'); // null for a guest
-        $fullName   = trim($validated['first_name'] . ' ' . $validated['last_name']);
+        $fullName   = $validated['full_name'];
 
         DB::beginTransaction();
 
@@ -65,15 +60,12 @@ class OrderController extends Controller
                 'status'         => 'pending',
                 'payment_method' => 'Flutterwave',
                 'shipping_info'  => [
-                    'name'         => $fullName,
-                    'phone'        => $validated['phone'],
-                    'email'        => $validated['email'],
-                    'address'      => $validated['address'],
-                    'city'         => $validated['city'],
-                    'country'      => $validated['country'],
-                    'postcode'     => $validated['postcode'] ?? '',
-                    'company_name' => $validated['company_name'] ?? '',
-                    'note'         => $validated['order_notes'] ?? '',
+                    'name'    => $fullName,
+                    'phone'   => $validated['phone'],
+                    'email'   => $validated['email'],
+                    'address' => $validated['address'],
+                    'city'    => $validated['city'],
+                    'country' => 'Uganda',
                 ],
             ]);
 

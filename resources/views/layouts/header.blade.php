@@ -101,6 +101,7 @@
                             <a href="{{ url('item-cart') }}" class="nav-item nav-link">Cart</a>
                         @endif
 
+                        <a href="{{ route('order.track') }}" class="nav-item nav-link">Track Order</a>
                         <a href="{{ url('contact-us') }}" class="nav-item nav-link">Contact Us</a>
 
                         @if (!Session::has('LoggedCustomer') && !Session::has('LoggedAdmin'))

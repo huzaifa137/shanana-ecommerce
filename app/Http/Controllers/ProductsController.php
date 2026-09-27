@@ -420,6 +420,20 @@ class ProductsController extends Controller
 
         Session::put('cart', $cart);
 
+        $cartCount = collect($cart)->sum('quantity');
+
+        // The "Add to cart" buttons submit via AJAX so the button/page can
+        // update in place instead of a full reload; keep the old redirect
+        // as a fallback for a non-JS request.
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'success'    => true,
+                'message'    => 'Product added to cart.',
+                'cart_count' => $cartCount,
+                'product_id' => $product->id,
+            ]);
+        }
+
         return redirect()->back()->with('success', 'Product added to cart successfully!');
     }
 

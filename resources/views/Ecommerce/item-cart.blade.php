@@ -281,22 +281,20 @@
                     let shipping = parseFloat(response.rate);
                     $('.shipping-amount').text(`${response.currency} ${shipping}`);
 
-                    // const subtotal = {{ $subtotal }};
                     const subtotal = {{ $subtotal ?? 0 }};
 
                     const total = subtotal + shipping;
                     $('.total-amount').html(`${response.currency} ${total.toLocaleString()}`);
                 } else {
-                    $('.shipping-amount').text('Shipping Rates Not Found (0) ');
+                    $('.shipping-amount').text('Shipping calculated at checkout');
                     console.error(response.message);
                 }
             },
-            // error: function(err) {
-            //     console.error(err);
-            //     $('.shipping-amount').text('Error');
-            // }
-            error: function(data) {
-                $('body').html(data.responseText);
+            // Shipping is a nice-to-have estimate on this page — never let a
+            // failed/unconfigured shipping-rate lookup break the cart itself.
+            error: function(jqXHR) {
+                $('.shipping-amount').text('Shipping calculated at checkout');
+                console.error('Shipping rate lookup failed:', jqXHR.responseJSON?.message || jqXHR.statusText);
             }
         });
     });

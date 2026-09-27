@@ -210,11 +210,6 @@ class MasterController extends Controller
         $validator = Validator::make($request->all(), [
             'firstName' => 'required|string|max:255',
             'lastName' => 'required|string|max:255',
-            'companyName' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-            'city' => 'required|string|max:255',
-            'country' => 'required|string|max:255',
-            'postcode' => 'required|string|max:20',
             'mobile' => 'required|string|max:20',
             'email' => [
                 'required',
@@ -244,14 +239,8 @@ class MasterController extends Controller
             'first_name' => $request->input('firstName'),
             'last_name' => $request->input('lastName'),
             'email' => $request->input('email'),
-            'company_name' => $request->input('companyName'),
-            'address' => $request->input('address'),
-            'city' => $request->input('city'),
-            'country' => $request->input('country'),
-            'postcode' => $request->input('postcode'),
             'mobile' => $request->input('mobile'),
             'password' => Hash::make($password),
-            'default_shipping_address' => $request->isDefaultAddress,
         ]);
 
         $user = DB::table('users')->where('email', $request->email)->first();
@@ -262,11 +251,6 @@ class MasterController extends Controller
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
             'email' => $user->email,
-            'company' => $user->company_name,
-            'address' => $user->address,
-            'city' => $user->city,
-            'country' => $user->country,
-            'postcode' => $user->postcode,
             'mobile' => $user->mobile,
             'password' => trim($request->passwordInput),
             'title' => 'Shanana Beauty Products - User Account has been created successfully.',

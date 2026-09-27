@@ -24,6 +24,16 @@
             </div>
         @endif
 
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <form action="{{ route('order.place') }}" method="POST">
             @csrf
             <div class="row g-5">
@@ -90,60 +100,33 @@
                 <div class="col-md-12 col-lg-12 col-xl-12">
                     <h1>Shipping Information</h1>
 
-                    <div class="row">
-                        <div class="col-md-12 col-lg-6">
-                            <div class="form-item w-100">
-                                <label class="form-label my-3">First Name<sup>*</sup></label>
-                                <input type="text" class="form-control" value="{{ $user->first_name }}" readonly>
-                            </div>
-                        </div>
-                        <div class="col-md-12 col-lg-6">
-                            <div class="form-item w-100">
-                                <label class="form-label my-3">Last Name<sup>*</sup></label>
-                                <input type="text" class="form-control" value="{{ $user->last_name }}" readonly>
-                            </div>
-                        </div>
-                    </div>
                     <div class="form-item">
-                        <label class="form-label my-3">Company Name<sup>*</sup></label>
-                        <input type="text" class="form-control" value="{{ $user->company_name }}" readonly>
-                    </div>
-                    <div class="form-item">
-                        <label class="form-label my-3">Address <sup>*</sup></label>
-                        <input type="text" class="form-control" value="{{ $user->address }}" readonly>
-                    </div>
-                    <div class="form-item">
-                        <label class="form-label my-3">Town/City<sup>*</sup></label>
-                        <input type="text" class="form-control" value="{{ $user->city }}" readonly>
-                    </div>
-                    <div class="form-item">
-                        <label class="form-label my-3">Country<sup>*</sup></label>
-                        <input type="text" class="form-control" value="{{ $user->country }}" readonly>
-                    </div>
-                    <div class="form-item">
-                        <label class="form-label my-3">Postcode/Zip<sup>*</sup></label>
-                        <input type="text" class="form-control" value="{{ $user->postcode }}" readonly>
-                    </div>
-                    <div class="form-item">
-                        <label class="form-label my-3">Mobile<sup>*</sup></label>
-                        <input type="tel" class="form-control" value="{{ $user->mobile }}" readonly>
+                        <label class="form-label my-3">Full Name<sup>*</sup></label>
+                        <input type="text" name="full_name" class="form-control"
+                            value="{{ old('full_name', $user ? trim($user->first_name . ' ' . $user->last_name) : '') }}"
+                            required>
                     </div>
                     <div class="form-item">
                         <label class="form-label my-3">Email Address<sup>*</sup></label>
-                        <input type="email" class="form-control" value="{{ $user->email }}" readonly>
+                        <input type="email" name="email" class="form-control"
+                            value="{{ old('email', $user->email ?? '') }}" required>
                     </div>
-
-                    <hr>
-                    <div class="form-check my-3">
-                        <input class="form-check-input" type="checkbox" id="Address-1" name="Address"
-                            value="Address" {{ $user->default_shipping_address == 1 ? 'checked' : '' }}>
-                        <label class="form-check-label" for="Address-1">Ship to a different address?</label>
-                    </div>
-
                     <div class="form-item">
-                        <textarea name="order_notes" class="form-control" spellcheck="false" cols="30" rows="5"
-                            placeholder="Order Notes (Optional)"></textarea>
+                        <label class="form-label my-3">Mobile<sup>*</sup></label>
+                        <input type="tel" name="phone" class="form-control"
+                            value="{{ old('phone', $user->mobile ?? '') }}" required>
                     </div>
+                    <div class="form-item">
+                        <label class="form-label my-3">Address <sup>*</sup></label>
+                        <input type="text" name="address" class="form-control"
+                            value="{{ old('address', $user->address ?? '') }}" required>
+                    </div>
+                    <div class="form-item">
+                        <label class="form-label my-3">Town/City<sup>*</sup></label>
+                        <input type="text" name="city" class="form-control"
+                            value="{{ old('city', $user->city ?? '') }}" required>
+                    </div>
+
                 </div>
 
                 <div class="col-md-12 col-lg-12 col-xl-12">
