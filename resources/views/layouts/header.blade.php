@@ -87,9 +87,9 @@
                                     <span class="position-relative d-inline-flex align-items-center">
                                         Cart
                                         <span
-                                            class="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger animate__animated animate__bounce"
+                                            class="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger animate__animated animate__bounce js-cart-count-wrap"
                                             style="width: 20px; height: 20px; font-size: 12px; right: -6px; display: flex; justify-content: center; align-items: center;">
-                                            {{ $cartCount }}
+                                            <span class="js-cart-count">{{ $cartCount }}</span>
                                             <span class="visually-hidden">items in cart</span>
                                         </span>
                                     </span>
@@ -135,7 +135,7 @@
                             <a href="{{ url('item-cart') }}" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x"></i>
                                 <span
-                                    class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
+                                    class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1 js-cart-count"
                                     style="top: -5px; left: 15px; height: 20px; min-width: 20px;">{{ $cartCount }}</span>
                             </a>
                         @else

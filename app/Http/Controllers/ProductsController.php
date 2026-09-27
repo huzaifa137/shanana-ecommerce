@@ -420,7 +420,10 @@ class ProductsController extends Controller
 
         Session::put('cart', $cart);
 
-        $cartCount = collect($cart)->sum('quantity');
+        // The header badge counts distinct products in the cart (see
+        // layouts/header.blade.php), not total quantity, so mirror that
+        // here to keep the badge accurate after an AJAX add.
+        $cartCount = count($cart);
 
         // The "Add to cart" buttons submit via AJAX so the button/page can
         // update in place instead of a full reload; keep the old redirect

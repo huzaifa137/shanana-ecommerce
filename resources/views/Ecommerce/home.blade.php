@@ -554,7 +554,7 @@ use App\Http\Controllers\Helper;
                                                                 <span
                                                                     class="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger animate__animated animate__bounce"
                                                                     style="width: 20px; height: 20px; font-size: 12px; right: -6px; display: flex; justify-content: center; align-items: center;">
-                                                                    {{ $cartCount }}
+                                                                    <span class="js-cart-count">{{ $cartCount }}</span>
                                                                     <span class="visually-hidden">items in cart</span>
                                                                 </span>
                                                             </span>
@@ -622,7 +622,7 @@ use App\Http\Controllers\Helper;
                                     <span
                                         class="position-absolute top-0 start-75 translate-middle badge rounded-pill bg-danger cart-badge"
                                         style="font-size:0.7rem; padding:0.3em 0.5em;">
-                                        {{ $cartCount }}
+                                        <span class="js-cart-count">{{ $cartCount }}</span>
                                         <span class="visually-hidden">cart items</span>
                                     </span>
                                 @endif
@@ -2100,4 +2100,9 @@ use App\Http\Controllers\Helper;
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/assets1/js/plugins.js"></script>
     <script src="/assets1/js/script.js"></script>
+
+    <!-- Add-to-cart AJAX + toast feedback (this page has its own layout,
+         so it doesn't get these from layouts/footer.blade.php). -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/assets/js/cart-ajax.js"></script>
 </body>

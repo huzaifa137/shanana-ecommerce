@@ -113,6 +113,11 @@
 
 <!-- Template Javascript -->
 <script src="/assets/js/main.js"></script>
+
+<!-- Toasts used for add-to-cart feedback, loaded globally so every page
+     that renders an "Add to cart" button has it available. -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/assets/js/cart-ajax.js"></script>
 </body>
 
 </html>
