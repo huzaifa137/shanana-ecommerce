@@ -16,6 +16,10 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
 
+        $middleware->validateCsrfTokens(except: [
+            'marzpay/callback',
+        ]);
+
         $middleware->alias([
             'AdminAuth'    => AdminAuth::class,
             'CustomerAuth' => CustomerAuth::class,

@@ -5,6 +5,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\User;
 use App\Notifications\NewOrderNotification;
+use App\Services\MarzPayService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -22,7 +23,7 @@ class OrderController extends Controller
      * unique order number, so the order can still be looked up and
      * tracked later purely from what the customer submitted.
      */
-    public function placeOrder(Request $request)
+    public function placeOrder(Request $request, MarzPayService $marz)
     {
         $cart = session()->get('cart', []); // or Cart::where('user_id', auth()->id())->get();
 
@@ -30,12 +31,23 @@ class OrderController extends Controller
             return redirect()->back()->with('error', 'Your cart is empty.');
         }
 
+        // Numbers must be in international format (+256...). Tidy spaces
+        // and dashes first so "+256 772-123 456" is accepted.
+        $request->merge([
+            'phone'         => $marz->cleanPhone($request->input('phone')),
+            'payment_phone' => $marz->cleanPhone($request->input('payment_phone')),
+        ]);
+
         $validated = $request->validate([
             'full_name' => ['required', 'string', 'max:255'],
             'email'     => ['nullable', 'email', 'max:255'],
-            'phone'     => ['required', 'string', 'max:30'],
+            'phone'     => ['required', 'string', 'regex:' . MarzPayService::PHONE_REGEX],
             'address'   => ['required', 'string', 'max:255'],
             'city'      => ['required', 'string', 'max:255'],
+            'payment_phone' => ['required', 'string', 'regex:' . MarzPayService::PHONE_REGEX],
+        ], [
+            'phone.regex'         => 'Enter your mobile number with the country code, e.g. +256772123456.',
+            'payment_phone.regex' => 'Enter your mobile money number with the country code, e.g. +256772123456.',
         ]);
 
         $customerId = session('LoggedCustomer'); // null for a guest
@@ -58,7 +70,8 @@ class OrderController extends Controller
                 'guest_phone'    => $validated['phone'],
                 'total_amount'   => $total,
                 'status'         => 'pending',
-                'payment_method' => 'Flutterwave',
+                'payment_method' => 'Mobile Money (Marz Pay)',
+                'payment_status' => 'unpaid',
                 'shipping_info'  => [
                     'name'    => $fullName,
                     'phone'   => $validated['phone'],
@@ -81,42 +94,25 @@ class OrderController extends Controller
 
             DB::commit();
 
-            // Clear cart
+            // Clear cart (the order now exists; paying is tracked on the order)
             session()->forget('cart'); // or delete Cart::where(...)
-
-            // Notifications are best-effort: a mail/queue hiccup here
-            // should never undo an already-committed order.
-            try {
-                if ($customerId) {
-                    $user = User::find($customerId);
-                    $user?->notify(new NewOrderNotification($order));
-                } else {
-                    // Guest has no account; route notification to their email
-                    // when they provided one, otherwise skip the mail notification.
-                    if (!empty($order->guest_email)) {
-                        Notification::route('mail', $order->guest_email)
-                            ->notify(new NewOrderNotification($order));
-                    }
-                }
-
-                $admins = User::where('user_role', '!=', '1')->get(); // Adjust based on your role system
-                foreach ($admins as $admin) {
-                    $admin->notify(new NewOrderNotification($order));
-                }
-            } catch (\Exception $notifyException) {
-                report($notifyException);
-            }
-
-            return redirect()->back()->with(
-                'success',
-                "Order placed successfully! Your order number is {$order->order_number}. " .
-                'Keep it (with the phone number you used) to track your order.'
-            );
-
         } catch (\Exception $e) {
             DB::rollback();
             return redirect()->back()->with('error', 'Order failed: ' . $e->getMessage());
         }
+
+        // The order only counts as done once it is paid: send the mobile
+        // money prompt to the customer's phone, then show the payment page
+        // (which waits for approval). Customer + admin emails go out when
+        // the payment is confirmed — see MarzPayService::markSuccessful().
+        try {
+            $marz->startPayment($order, $validated['payment_phone']);
+        } catch (\Throwable $e) {
+            // The order is saved; the payment page offers "Pay Now" to retry.
+            report($e);
+        }
+
+        return redirect($order->paymentUrl());
     }
 
     /**
@@ -161,12 +157,23 @@ class OrderController extends Controller
      */
     protected function findTrackableOrder(string $orderNumber, string $phone)
     {
+        // Match however the number was typed/stored: as entered, +256...
+        // or the local 0... form (older orders were saved without a code).
+        $marz     = app(MarzPayService::class);
+        $intl     = $marz->normalizePhone($phone);
+        $variants = array_values(array_unique(array_filter([
+            trim($phone),
+            $marz->cleanPhone($phone),
+            $intl,
+            str_starts_with($intl, '+256') ? '0' . substr($intl, 4) : null,
+        ])));
+
         return Order::with('items.product')
             ->where('order_number', $orderNumber)
-            ->where(function ($query) use ($phone) {
-                $query->where('guest_phone', $phone)
-                    ->orWhereHas('user', function ($userQuery) use ($phone) {
-                        $userQuery->where('mobile', $phone);
+            ->where(function ($query) use ($variants) {
+                $query->whereIn('guest_phone', $variants)
+                    ->orWhereHas('user', function ($userQuery) use ($variants) {
+                        $userQuery->whereIn('mobile', $variants);
                     });
             })
             ->first();
@@ -202,6 +209,10 @@ class OrderController extends Controller
 
     public function updateStatus(Request $request, Order $order)
     {
+        $request->validate([
+            'status' => 'required|in:pending,processing,shipped,delivered,canceled',
+        ]);
+
         $order->update(['status' => $request->status]);
         return back()->with('success', 'Order status updated!');
     }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 
 class Order extends Model
@@ -15,12 +16,83 @@ class Order extends Model
 
     protected $fillable = [
         'order_number', 'user_id', 'guest_name', 'guest_email', 'guest_phone',
-        'total_amount', 'status', 'payment_method', 'shipping_info',
+        'total_amount', 'status', 'payment_method', 'payment_status', 'paid_at', 'shipping_info',
     ];
 
     protected $casts = [
         'shipping_info' => 'array',
+        'paid_at'       => 'datetime',
     ];
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    public function isPaid(): bool
+    {
+        return $this->payment_status === 'paid';
+    }
+
+    /**
+     * Signed (tamper-proof) link to the payment page. Works for guests and
+     * customers alike, so no login is needed to pay or retry.
+     */
+    public function paymentUrl(): string
+    {
+        return URL::temporarySignedRoute(
+            'order.payment',
+            now()->addDay(),
+            ['orderNumber' => $this->order_number]
+        );
+    }
+
+    /**
+     * Whether the customer should be offered "Pay now" / "Retry payment".
+     */
+    public function canRetryPayment(): bool
+    {
+        if ($this->status === 'canceled' || $this->isPaid()) {
+            return false;
+        }
+
+        $latest = $this->payments()->latest('id')->first();
+
+        return ! $latest
+            || $latest->status === 'failed'
+            || ($latest->isPending() && $latest->created_at->lt(now()->subMinutes(3)));
+    }
+
+    /**
+     * True when this order is waiting on (or needs) a payment.
+     */
+    public function needsPayment(): bool
+    {
+        return in_array($this->payment_status, ['unpaid', 'pending', 'failed'], true)
+            && $this->status !== 'canceled';
+    }
+
+    public function getPaymentLabelAttribute(): string
+    {
+        return match ($this->payment_status) {
+            'paid'    => 'Paid',
+            'pending' => 'Awaiting payment',
+            'failed'  => 'Payment failed',
+            'unpaid'  => 'Unpaid',
+            default   => '—',
+        };
+    }
+
+    public function getPaymentBadgeAttribute(): string
+    {
+        return match ($this->payment_status) {
+            'paid'    => 'bg-success',
+            'pending' => 'bg-warning text-dark',
+            'failed'  => 'bg-danger',
+            'unpaid'  => 'bg-secondary',
+            default   => 'bg-light text-dark',
+        };
+    }
 
     public function user()
     {

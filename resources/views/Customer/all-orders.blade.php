@@ -30,7 +30,7 @@ use App\Http\Controllers\Helper;
 
 <div class="container-fluid py-5">
     <div class="container bg-light">
-        <h2 class="mb-4 text-primary text-center pt-4">Order #{{ $order->id }} Details</h2>
+        <h2 class="mb-4 text-primary text-center pt-4">Order {{ $order->order_number ?? '#' . $order->id }} Details</h2>
         <hr class="mb-4">
 
         <div class="row mb-4">
@@ -38,11 +38,21 @@ use App\Http\Controllers\Helper;
                 <div class="card shadow-sm h-100">
                     <div class="card-body">
                         <h5 class="card-title text-success mb-3">Order Summary</h5>
+                        <p class="card-text mb-2"><strong>Order Number:</strong> <span
+                                class="fw-bold">{{ $order->order_number ?? 'N/A' }}</span></p>
                         <p class="card-text mb-2"><strong>Status:</strong> <span
                                 class="badge bg-info text-dark">{{ ucfirst($order->status) }}</span></p>
                         <p class="card-text mb-2"><strong>Total:</strong> <span
                                 class="text-success fw-bold">{{ number_format($order->total_amount) }} UGX</span></p>
-                        <p class="card-text"><strong>Payment Method:</strong> {{ $order->payment_method }}</p>
+                        <p class="card-text mb-2"><strong>Payment Method:</strong> {{ $order->payment_method }}</p>
+                        <p class="card-text mb-2"><strong>Payment Status:</strong>
+                            <span class="badge {{ $order->payment_badge }}">{{ $order->payment_label }}</span>
+                        </p>
+                        @if ($order->needsPayment())
+                            <a href="{{ $order->paymentUrl() }}" class="btn btn-sm btn-success text-white">
+                                <i class="fas fa-mobile-alt me-1"></i> Pay Now
+                            </a>
+                        @endif
                     </div>
                 </div>
             </div>

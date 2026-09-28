@@ -40,10 +40,10 @@
                             <div class="input-group input-group-sm">
                                 <select name="status" id="orderStatus"
                                     class="form-select form-control custom-select-width">
-                                    @foreach (['pending', 'shipped', 'delivered', 'cancelled'] as $status)
+                                    @foreach (['pending', 'processing', 'shipped', 'delivered', 'canceled'] as $status)
                                         <option value="{{ $status }}"
                                             {{ $order->status === $status ? 'selected' : '' }}>
-                                            {{ ucfirst($status) }}
+                                            {{ $status === 'canceled' ? 'Cancelled' : ucfirst($status) }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -59,13 +59,64 @@
                                 <p class="mb-2"><strong>Total Amount:</strong> <span
                                         class="text-success fw-bold">{{ number_format($order->total_amount) }}
                                         UGX</span></p>
-                                <p class="mb-0"><strong>Payment Method:</strong> {{ $order->payment_method }}</p>
+                                <p class="mb-2"><strong>Payment Method:</strong> {{ $order->payment_method }}</p>
+                                <p class="mb-0"><strong>Payment Status:</strong>
+                                    <span class="badge {{ $order->payment_badge }}">{{ $order->payment_label }}</span>
+                                    @if ($order->paid_at)
+                                        <span class="text-muted small ms-1">{{ $order->paid_at->format('M d, Y H:i A') }}</span>
+                                    @endif
+                                </p>
                             </div>
                             <div class="col-md-6 text-md-end">
                                 <p class="text-muted mb-0">Order placed on:
                                     {{ $order->created_at->format('M d, Y H:i A') }}
                                 </p>
                             </div>
+                        </div>
+
+                        <h4 class="mt-4 mb-3 text-primary">Payments</h4>
+                        <div class="table-responsive mb-4">
+                            <table class="table table-bordered table-sm align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Mobile Money No.</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                        <th>Reference</th>
+                                        <th>Note</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($order->payments()->latest('id')->get() as $payment)
+                                        <tr>
+                                            <td class="text-nowrap">{{ ($payment->paid_at ?? $payment->created_at)->format('M d, Y H:i') }}</td>
+                                            <td>{{ $payment->phone }}</td>
+                                            <td>{{ number_format($payment->amount) }} UGX</td>
+                                            <td>
+                                                <span class="badge {{ $payment->status === 'successful' ? 'bg-success' : ($payment->status === 'failed' ? 'bg-danger' : 'bg-warning text-dark') }}">
+                                                    {{ ucfirst($payment->status) }}
+                                                </span>
+                                            </td>
+                                            <td class="small text-break">{{ $payment->reference }}</td>
+                                            <td class="small">
+                                                {{ $payment->failure_reason ?? '—' }}
+                                                @if ($payment->status === 'failed' && data_get($payment->provider_response, 'message'))
+                                                    <div class="text-muted">Provider: {{ data_get($payment->provider_response, 'message') }}
+                                                        @if (data_get($payment->provider_response, 'error_code'))
+                                                            ({{ data_get($payment->provider_response, 'error_code') }})
+                                                        @endif
+                                                    </div>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="6" class="text-center text-muted">No payment attempts yet.</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
                         </div>
 
                         <h4 class="mt-4 mb-3 text-primary">Shipping Information</h4>

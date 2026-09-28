@@ -36,12 +36,19 @@ use App\Http\Controllers\Helper;
             @forelse($orders as $order)
                 <div class="card mb-3">
                     <div class="card-header d-flex justify-content-between">
-                        <span><strong>Order #{{ $order->id }}</strong></span>
+                        <span><strong>Order {{ $order->order_number ?? '#' . $order->id }}</strong></span>
                         <span class="badge bg-info">{{ ucfirst($order->status) }}</span>
                     </div>
                     <div class="card-body">
                         <p><strong>Total:</strong> {{ number_format($order->total_amount) }} UGX</p>
-                        <p><strong>Payment:</strong> {{ $order->payment_method }}</p>
+                        <p><strong>Payment:</strong> {{ $order->payment_method }}
+                            <span class="badge {{ $order->payment_badge }} ms-1">{{ $order->payment_label }}</span>
+                        </p>
+                        @if ($order->needsPayment())
+                            <a href="{{ $order->paymentUrl() }}" class="btn btn-sm btn-success text-white me-1">
+                                <i class="fas fa-mobile-alt me-1"></i> Pay Now
+                            </a>
+                        @endif
                         <a href="{{ route('customer.order.view', $order->id) }}"
                             class="btn btn-sm btn-primary text-white">
                             <i class="fas fa-eye me-1"></i> View Details

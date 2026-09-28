@@ -40,7 +40,7 @@
                     <div class="form-item mb-4">
                         <label class="form-label">Phone Number<sup>*</sup></label>
                         <input type="tel" name="phone" class="form-control"
-                            value="{{ old('phone', request('phone')) }}" placeholder="e.g. 0712345678" required>
+                            value="{{ old('phone', request('phone')) }}" placeholder="e.g. +256712345678" required>
                     </div>
                     <button type="submit" class="btn btn-primary rounded-pill px-4 text-white">Track Order</button>
                 </form>
@@ -58,6 +58,12 @@
 
                         <p class="mb-1"><strong>Name:</strong> {{ $order->customer_name }}</p>
                         <p class="mb-1"><strong>Phone:</strong> {{ $order->customer_phone }}</p>
+                        <p class="mb-1"><strong>Payment:</strong>
+                            <span class="badge {{ $order->payment_badge }}">{{ $order->payment_label }}</span>
+                            @if ($order->needsPayment())
+                                <a href="{{ $order->paymentUrl() }}" class="ms-2">Pay now</a>
+                            @endif
+                        </p>
                         <p class="mb-3"><strong>Placed:</strong> {{ $order->created_at->format('d M Y, H:i') }}</p>
 
                         <div class="table-responsive">

@@ -74,7 +74,10 @@
                                             <input type="text" class="form-control" value="{{ ucfirst($order->status) }}"
                                                 disabled>
                                         </td>
-                                        <td>{{ $order->payment_method }}</td>
+                                        <td>
+                                            <div>{{ $order->payment_method }}</div>
+                                            <span class="badge {{ $order->payment_badge }}">{{ $order->payment_label }}</span>
+                                        </td>
                                         <td>
                                             <a href="{{ route('admin.orders.show', $order->id) }}"
                                                 class="btn btn-sm btn-info text-white">

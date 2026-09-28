@@ -113,8 +113,21 @@
                     </div>
                     <div class="form-item">
                         <label class="form-label my-3">Mobile<sup>*</sup></label>
-                        <input type="tel" name="phone" class="form-control"
-                            value="{{ old('phone', $user->mobile ?? '') }}" required>
+                        @php $marzSvc = app(\App\Services\MarzPayService::class); @endphp
+                        <input type="tel" name="phone" class="form-control intl-phone"
+                            value="{{ old('phone', $marzSvc->normalizePhone($user->mobile ?? '')) }}"
+                            placeholder="+256772123456" pattern="\+[0-9]{9,15}"
+                            title="Include the country code, e.g. +256772123456" required>
+                        <small class="text-muted">Start with the country code, e.g. +256 for Uganda.</small>
+                    </div>
+                    <div class="form-item">
+                        <label class="form-label my-3">Mobile Money Number (MTN / Airtel)<sup>*</sup></label>
+                        <input type="tel" name="payment_phone" class="form-control intl-phone"
+                            value="{{ old('payment_phone', old('phone', $marzSvc->normalizePhone($user->mobile ?? ''))) }}"
+                            placeholder="+256772123456" pattern="\+[0-9]{9,15}"
+                            title="Include the country code, e.g. +256772123456" required>
+                        <small class="text-muted">A payment prompt for the full order amount will be sent to this
+                            number. Your order is confirmed once you approve it.</small>
                     </div>
                     <div class="form-item">
                         <label class="form-label my-3">Address <sup>*</sup></label>
@@ -178,7 +191,7 @@
                     <div class="text-center mt-5">
                         <button type="submit" id="placeOrderBtn"
                             class="btn btn-primary btn-lg d-flex text-white align-items-center justify-content-center gap-2">
-                            <i class="fas fa-shopping-cart"></i> Place Order
+                            <i class="fas fa-shopping-cart"></i> Place Order &amp; Pay
                         </button>
                     </div>
 
@@ -220,6 +233,15 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
+    // Keep phone fields in international format: always start with "+" and digits only.
+    document.querySelectorAll('.intl-phone').forEach(function(input) {
+        if (!input.value) input.value = '+256';
+        input.addEventListener('input', function() {
+            let digits = input.value.replace(/\D/g, '');
+            input.value = '+' + digits;
+        });
+    });
+
     document.querySelector('form').addEventListener('submit', function(e) {
         const button = document.getElementById('placeOrderBtn');
         button.disabled = true;

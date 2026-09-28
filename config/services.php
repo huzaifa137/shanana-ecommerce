@@ -35,6 +35,13 @@ return [
         ],
     ],
 
+    'marzpay'  => [
+        'key'      => env('MARZPAY_API_KEY'),
+        'secret'   => env('MARZPAY_API_SECRET'),
+        'base_url' => env('MARZPAY_BASE_URL', 'https://wallet.wearemarz.com/api/v1'),
+        'country'  => env('MARZPAY_COUNTRY', 'UG'),
+    ],
+
     'shippo'   => [
         'key' => env('SHIPPO_API_KEY'),
     ],

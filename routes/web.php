@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductsController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
@@ -101,6 +102,18 @@ Route::controller(OrderController::class)->group(function () {
         });
     });
 
+});
+
+// Mobile-money payment (Marz Pay). The pages use signed links so a guest can
+// pay/retry without an account; the callback is Marz Pay's webhook.
+Route::controller(PaymentController::class)->group(function () {
+    Route::middleware('signed')->group(function () {
+        Route::get('/pay/{orderNumber}', 'show')->name('order.payment');
+        Route::get('/pay/{orderNumber}/status', 'status')->name('order.payment.status');
+        Route::post('/pay/{orderNumber}/retry', 'retry')->name('order.payment.retry');
+    });
+
+    Route::post('/marzpay/callback', 'callback')->name('marzpay.callback');
 });
 
 Route::controller(AdminController::class)->group(function () {
