@@ -71,7 +71,9 @@ class MarzPayService
         ], fn ($v) => $v !== null && $v !== '');
 
         try {
-            $response = $this->client()->asJson()->post($this->url('/collect-money'), $payload);
+            // Same encoding as the proven alhilal-online-academy integration (form fields;
+            // the official SDK uses multipart, which is equivalent for these scalar fields).
+            $response = $this->client()->asForm()->post($this->url('/collect-money'), $payload);
             $json     = $response->json() ?? [];
         } catch (ConnectionException $e) {
             report($e);
@@ -86,21 +88,42 @@ class MarzPayService
         }
 
         if ($response->failed() || strtolower((string) data_get($json, 'status')) === 'error') {
-            Log::warning('marzpay.collect_failed', ['http' => $response->status(), 'body' => $json]);
+            Log::warning('marzpay.collect_failed', [
+                'http'    => $response->status(),
+                'country' => $payload['country'] ?? null,
+                'phone'   => $payment->phone,
+                'body'    => $json,
+            ]);
+
+            $code    = strtoupper((string) data_get($json, 'error_code'));
+            $message = (string) data_get($json, 'message');
+
+            // The API key's Marz Pay account has no MTN/Airtel *collection* service
+            // switched on for this country. Nothing the customer or this code can fix:
+            // it is enabled in the Marz Pay dashboard.
+            $serviceNotEnabled = in_array($code, ['SERVICE_NOT_SUBSCRIBED', 'SERVICE_NOT_AVAILABLE', 'NO_SERVICES_AVAILABLE'], true)
+                || preg_match('/no collection services|not available for|not subscribed|service.{0,20}(disabled|inactive|not enabled)/i', $message);
+
+            if ($serviceNotEnabled) {
+                Log::error(
+                    'marzpay.collection_service_not_enabled: this API key has no active MTN/Airtel collection service for '
+                    . ($payload['country'] ?? '?') . '. Enable Collections in the Marz Pay dashboard, or use the key of the '
+                    . 'account that has it. Run: php artisan marzpay:check'
+                );
+            }
 
             // Credential / account problems are ours to fix, not the customer's:
-            // never show them provider internals.
-            $authProblem = in_array($response->status(), [401, 403], true)
-                || in_array((string) data_get($json, 'error_code'), [
-                    'UNAUTHORIZED', 'FORBIDDEN', 'SERVICE_NOT_SUBSCRIBED', 'SERVICE_NOT_AVAILABLE', 'ACCOUNT_FROZEN',
-                ], true)
-                || preg_match('/credential|unauthori[sz]ed|api key|subscri|forbidden|no collection services|not available for/i', (string) data_get($json, 'message'));
+            // never show them provider internals (admins see them on the order page).
+            $authProblem = $serviceNotEnabled
+                || in_array($response->status(), [401, 403], true)
+                || in_array($code, ['UNAUTHORIZED', 'FORBIDDEN', 'ACCOUNT_FROZEN'], true)
+                || preg_match('/credential|unauthori[sz]ed|api key|forbidden/i', $message);
 
             $this->markFailed(
                 $payment,
                 $authProblem
                     ? self::UNAVAILABLE
-                    : (string) (data_get($json, 'message') ?: 'The payment provider rejected the request.'),
+                    : (string) ($message ?: 'The payment provider rejected the request.'),
                 $json
             );
 

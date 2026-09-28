@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\Payment;
 use App\Services\MarzPayService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class PaymentController extends Controller
@@ -69,7 +70,19 @@ class PaymentController extends Controller
             'payment_phone.regex' => 'Enter your mobile money number with the country code, e.g. +256772123456.',
         ]);
 
-        $marz->startPayment($order, $data['payment_phone']);
+        // Second line of defence behind the disabled button: only one prompt can be
+        // started per order at a time (double click, two tabs, refresh + resubmit).
+        $lock = 'marzpay:retry:' . $order->id;
+
+        if (! Cache::add($lock, 1, 30)) {
+            return redirect($order->paymentUrl());
+        }
+
+        try {
+            $marz->startPayment($order, $data['payment_phone']);
+        } finally {
+            Cache::forget($lock);
+        }
 
         return redirect($order->paymentUrl());
     }
